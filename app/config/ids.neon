@@ -1,0 +1,29 @@
+services:
+    ids.charSet: SeStep\EntityIds\CharSet()
+    ids.4generator:
+        class: SeStep\EntityIds\Generator\TypeMapIdGenerator
+        arguments:
+            checkSum: SeStep\EntityIds\Type\CheckSum(@ids.charSet, [2])
+            length: 4
+            typeMap:
+                2: App\Model\Entity\User
+                7: CP\TreasureHunt\Model\Entity\Challenge
+                12: CP\TreasureHunt\Model\Entity\Action
+        autowired: false
+    ids.6generator:
+        class: SeStep\EntityIds\Generator\TypeMapIdGenerator
+        arguments:
+            checkSum: SeStep\EntityIds\Type\CheckSum(@ids.charSet, [3])
+            length: 6
+            typeMap:
+                1: CP\TreasureHunt\Model\Entity\ActionCondition
+                3: CP\TreasureHunt\Model\Entity\Notebook
+                9: CP\TreasureHunt\Model\Entity\NotebookPage
+        autowired: false
+
+    idsExtension.idGenerator:
+        class: SeStep\EntityIds\Generator\LengthDiscriminatingComposedIdGenerator
+        arguments:
+            generators:
+                - @ids.4generator
+                - @ids.6generator

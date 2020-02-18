@@ -1,0 +1,4 @@
+{var $pageNumber = $page->pageNumber}
+<div n:class="notebook, $pageNumber % 2 ? page-odd : page-even">
+    {control page-$pageNumber}
+</div>

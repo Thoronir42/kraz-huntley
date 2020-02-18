@@ -1,0 +1,33 @@
+.notebook {
+  &.page-odd {
+    background: url("/img/diary_left.png");
+  }
+
+  &.page-even {
+    background: url("/img/diary_right.png");
+  }
+
+  height: 100vh;
+  width: 100vw;
+
+  padding: 24px;
+}
+
+.challenge {
+  display: flex;
+  flex-direction: column;
+
+  .navigation {
+    display: flex;
+    flex-direction: row;
+
+    .task {
+      display: flex;
+      flex-direction: column;
+
+      .challenge-sequence {
+        font-size: 0.85em;
+      }
+    }
+  }
+}

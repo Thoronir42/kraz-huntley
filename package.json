@@ -1,0 +1,18 @@
+{
+  "name": "kraz-huntley",
+  "version": "0.0.1",
+  "author": "Stepan Sevcik <Thoronir42@Gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.2",
+    "readable-stream": "^3.5.0"
+  },
+  "dependencies": {
+    "materialize-css": "^1.0.0-rc.2"
+  }
+}

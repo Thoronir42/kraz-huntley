@@ -1,0 +1,7 @@
+services:
+    notebookRepository: CP\TreasureHunt\Model\Repository\NotebookRepository
+    notebookPageRepository: CP\TreasureHunt\Model\Repository\NotebookPageRepository
+
+    notebookService: CP\TreasureHunt\Model\Service\NotebookService
+
+    registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory

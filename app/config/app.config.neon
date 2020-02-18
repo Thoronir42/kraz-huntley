@@ -1,0 +1,61 @@
+parameters:
+
+application:
+    mapping:
+        TreasureHunt: CP\TreasureHunt\Presenters\*Presenter
+
+services:
+    authenticator: App\Security\UserManager
+    router: @routerFactory::create
+    routerFactory:
+        class: App\Router\RouterFactory
+        arguments:
+            appRouters:
+                - CP\TreasureHunt\TreasureHuntRouterFactory::create()
+
+    leanMapper.mapper:
+            class: SeStep\ModularLeanMapper\ModularMapper
+            arguments:
+                mapper: App\LeanMapper\UnderscoreMapper()
+                modules:
+                    app__: SeStep\ModularLeanMapper\MapperModule::create('App\Model')
+                    th__: CP\TreasureHunt\Model\TreasureHuntMapperModule()
+    transactionManager: App\LeanMapper\TransactionManager
+
+    app.userRepository: App\Model\Repository\UserRepository
+
+extensions:
+    leanMapper: App\LeanMapper\LeanMapperExtension
+    console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+    dbCli: DatabaseCli\DatabaseCliExtension
+    repositories: App\LeanMapper\RepositoryExtension
+    idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
+    appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension
+
+leanMapper:
+    db:
+        host: %db.host%
+        user: %db.user%
+        password: %db.pass%
+        database: %db.database%
+
+repositories:
+    idGenerator: idsExtensions.idGenerator
+
+dbCli:
+    initCmd:
+        files:
+            - %appDir%/database/init.sql
+            - %modulesDir%/TreasureHunt/Model/database/init.sql
+    wipeCmd:
+        schemaName: 'huntley'
+
+idsExtension:
+    registerCommands: true
+
+console:
+    version: v0.1
+    lazy: false
+
+includes:
+    - ids.neon
