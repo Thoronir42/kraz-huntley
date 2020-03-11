@@ -22,7 +22,8 @@
         "sestep/entity-ids": "^0.9",
         "nette/security": "^3.0",
         "nette/forms": "^3.0",
-        "contributte/console": "0.7.1"
+        "contributte/console": "0.7.1",
+        "ublaboo/datagrid": "^6.2"
     },
     "autoload": {
         "psr-4": {

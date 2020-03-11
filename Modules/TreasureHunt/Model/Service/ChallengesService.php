@@ -1,39 +1,33 @@
 <?php declare(strict_types=1);
 
-namespace Services;
+namespace CP\TreasureHunt\Model\Service;
+
+use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Repository\ChallengeRepository;
+use Ublaboo\DataGrid\DataSource\IDataSource;
 
 class ChallengesService
 {
-    /** @var string */
-    private $challengesDir;
+    /** @var ChallengeRepository */
+    private $challengeRepository;
 
-    /** @var array */
-    private $treasureHunt;
-
-    public function __construct(string $challengesDir)
+    public function __construct(ChallengeRepository $challengeRepository)
     {
-        if ($challengesDir[-1] != DIRECTORY_SEPARATOR) {
-            $challengesDir .= DIRECTORY_SEPARATOR;
-        }
-        if (!is_dir($challengesDir)) {
-            throw new \InvalidArgumentException("Challenge directory '$challengesDir' not found");
-        }
-
-        $this->challengesDir = $challengesDir;
-        $treasureHuntJson = file_get_contents("$challengesDir/treasure-hunt.json");
-        $this->treasureHunt = json_decode($treasureHuntJson, true);
-
-        dump($this);exit;
+        $this->challengeRepository = $challengeRepository;
     }
 
-    public function getChallenge(string $name): ?array
+    public function getChallenge(string $id): ?Challenge
     {
-        $filename = $this->challengesDir . "challenges/$name.json";
-        if (!file_exists($filename)) {
-            return null;
-        }
+        return $this->challengeRepository->findOneBy(['id' => $id]);
+    }
 
-        $challenge = json_decode(file_get_contents($filename), true);
+    public function getChallengesDataSource(): IDataSource
+    {
+        return $this->challengeRepository->getEntityDataSource();
+    }
 
+    public function save(Challenge $challenge)
+    {
+        $this->challengeRepository->persist($challenge);
     }
 }

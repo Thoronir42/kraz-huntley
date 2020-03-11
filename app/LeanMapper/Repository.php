@@ -7,7 +7,7 @@ use Dibi\UniqueConstraintViolationException;
 use LeanMapper\Entity;
 use SeStep\EntityIds\IdGenerator;
 
-class Repository extends \LeanMapper\Repository
+class Repository extends \LeanMapper\Repository implements IQueryable
 {
     private const MAX_ID_ATTEMPTS = 10;
 
@@ -73,10 +73,10 @@ class Repository extends \LeanMapper\Repository
         return null;
     }
 
-    protected function select(string $tableAlias = 't'): Fluent
+    protected function select(?string $tableAlias = 't'): Fluent
     {
-        $select = "$tableAlias.*";
-        return $this->connection->select('*')->from($this->getTable() . " AS $tableAlias");
+        $select = $tableAlias ? "$tableAlias.*" : '*';
+        return $this->connection->select($select)->from($this->getTable() . ($tableAlias ? " AS $tableAlias" : ''));
     }
 
     /**
@@ -95,7 +95,6 @@ class Repository extends \LeanMapper\Repository
         $this->events->registerCallback($this->events::EVENT_BEFORE_CREATE, [$this, 'assignId']);
         $this->events->registerCallback($this->events::EVENT_BEFORE_UPDATE, [$this, 'validateAssignedId']);
     }
-
 
 
     public function assignId(Entity $entity)
@@ -139,5 +138,40 @@ class Repository extends \LeanMapper\Repository
     protected function getEntityClass(): ?string
     {
         return $this->mapper->getEntityClass($this->getTable());
+    }
+
+    public function getDataSource(string $alias = null): Fluent
+    {
+        return $this->select($alias);
+    }
+
+    public function getEntityDataSource(array $conditions = null): LeanMapperDataSource
+    {
+        $entityClass = $this->mapper->getEntityClass($this->getTable());
+
+        $fluent = $this->connection->command();
+        $fluent
+            ->select('t.*')
+            ->from($this->getTable() . ' AS t');
+
+        if ($conditions) {
+            $this->applyCriteria($fluent, $conditions);
+        }
+
+        return new LeanMapperDataSource($fluent, $this, $this->mapper, $entityClass);
+    }
+
+    public function makeEntity($row)
+    {
+        if (!$row) {
+            return null;
+        }
+
+        return $this->createEntity($row);
+    }
+
+    public function makeEntities(array $rows): array
+    {
+        return $this->createEntities($rows);
     }
 }
