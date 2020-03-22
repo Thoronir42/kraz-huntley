@@ -15,7 +15,11 @@ use LeanMapper\Entity;
  */
 class Action extends Entity
 {
-    const TYPE_REVEAL_CHALLENGE = 'reveal_challenge';
-    const TYPE_RETURN_TO_CHALLENGE = 'return_to_challenge';
+    const TYPE_ACTIVATE_CHALLENGE = 'activate_challenge';
     const TYPE_REVEAL_NARRATIVE = 'reveal_narrative';
+
+    protected function initDefaults()
+    {
+        $this->sequence = 0;
+    }
 }

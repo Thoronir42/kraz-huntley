@@ -38,6 +38,14 @@ class TreasureHuntRouterFactory
             'presenter' => 'Challenges',
             'action' => 'detail',
         ]);
+        $router[] = new Route('/manage/challenges/<challengeId>/addAction', [
+            'presenter' => 'ChallengeAction',
+            'action' => 'add',
+        ]);
+        $router[] = new Route('/manage/challenges/<challengeId>/actions/<actionId>', [
+            'presenter' => 'ChallengeAction',
+            'action' => 'detail',
+        ]);
 
         return $router;
     }

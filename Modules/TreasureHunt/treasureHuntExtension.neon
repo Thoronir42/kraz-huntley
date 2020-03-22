@@ -2,6 +2,7 @@ services:
     notebookRepository: CP\TreasureHunt\Model\Repository\NotebookRepository
     notebookPageRepository: CP\TreasureHunt\Model\Repository\NotebookPageRepository
     challengeRepository: CP\TreasureHunt\Model\Repository\ChallengeRepository
+    actionRepository: CP\TreasureHunt\Model\Repository\ActionRepository
 
     notebookService: CP\TreasureHunt\Model\Service\NotebookService
     challengesService: CP\TreasureHunt\Model\Service\ChallengesService
@@ -9,3 +10,4 @@ services:
     registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory
     challengesGridFactory: CP\TreasureHunt\Components\ChallengesGridFactory
     challengeFormFactory: CP\TreasureHunt\Components\ChallengeFormFactory
+    actionGridFactory: CP\TreasureHunt\Components\ActionGridFactory

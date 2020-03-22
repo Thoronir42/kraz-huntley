@@ -2,6 +2,7 @@
 
 namespace CP\TreasureHunt\Presenters;
 
+use CP\TreasureHunt\Components\ActionGridFactory;
 use CP\TreasureHunt\Components\ChallengeFormFactory;
 use CP\TreasureHunt\Components\ChallengesGridFactory;
 use CP\TreasureHunt\Model\Entity\Challenge;
@@ -20,6 +21,9 @@ class ChallengesPresenter extends Presenter
     /** @var ChallengeFormFactory @inject */
     public $challengeFormFactory;
 
+    /** @var ActionGridFactory @inject */
+    public $actionGridFactory;
+
     public function actionCreateNew()
     {
         $this->setView('edit');
@@ -37,7 +41,7 @@ class ChallengesPresenter extends Presenter
     public function actionDetail(string $id)
     {
         $this->setView('edit');
-        $challenge = $this->challengesService->getChallenge($id);
+        $this->template->challenge = $challenge = $this->challengesService->getChallenge($id);
         if (!$challenge) {
             throw new BadRequestException("Challenge $id does not exist");
         }
@@ -52,6 +56,14 @@ class ChallengesPresenter extends Presenter
 
             $this->redirect('this');
         };
+
+        $actionGrid = $this->actionGridFactory->create();
+        $actionGrid->setDataSource($this->challengesService->getActionsDataSource($challenge));
+
+        $actionGrid->addAction('edit', 'Upravit', 'ChallengeAction:detail', ['actionId' => 'id'])
+            ->addParameters(['challengeId' => $challenge->id]);
+
+        $this['actionGrid'] = $actionGrid;
     }
 
     public function renderIndex()

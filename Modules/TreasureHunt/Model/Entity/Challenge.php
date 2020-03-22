@@ -12,6 +12,8 @@ use LeanMapper\Entity;
  * @property string $description
  * @property string $keyType m:enum(Challenge::TYPE_*)
  *
+ * @property Action[] $actions m:belongsToMany(challenge_id)
+ *
  */
 class Challenge extends Entity
 {
