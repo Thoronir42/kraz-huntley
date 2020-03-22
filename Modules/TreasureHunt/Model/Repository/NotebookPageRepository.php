@@ -16,21 +16,11 @@ class NotebookPageRepository extends Repository
     private function createPage(Notebook $notebook, string $type): NotebookPage {
         $page = new NotebookPage();
         $page->notebook = $notebook;
-        $page->pageNumber = $this->getMaxPage($notebook) + 1;
+        $page->pageNumber = $this->getNextInSequence('pageNumber', ['notebook' => $notebook], NotebookPage::class);
         $page->type = $type;
 
         $this->persist($page);
 
         return $page;
-    }
-
-    private function getMaxPage(Notebook $notebook): int
-    {
-        $query = $this->connection->select('IFNULL(MAX(page_number), 0)')
-            ->from($this->getTable());
-
-        $this->filter->apply($query, ['notebook' => $notebook], $this->getEntityClass());
-
-        return (int)$query->fetchSingle();
     }
 }

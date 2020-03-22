@@ -155,7 +155,7 @@ class Repository extends \LeanMapper\Repository implements IQueryable
             ->from($this->getTable() . ' AS t');
 
         if ($conditions) {
-            $this->applyCriteria($fluent, $conditions);
+            $this->filter->apply($fluent, $conditions, $entityClass);
         }
 
         return new LeanMapperDataSource($fluent, $this, $this->mapper, $entityClass);
@@ -173,5 +173,15 @@ class Repository extends \LeanMapper\Repository implements IQueryable
     public function makeEntities(array $rows): array
     {
         return $this->createEntities($rows);
+    }
+
+    protected function getNextInSequence(string $field, array $conditions, string $entityClass)
+    {
+        $column = $this->mapper->getColumn($entityClass, $field);
+
+        $query = $this->connection->select('IFNULL(MAX(%n), 0)', $column)->from($this->getTable());
+        $this->filter->apply($query, $conditions, $entityClass);
+
+        return $query->fetchSingle() + 1;
     }
 }
