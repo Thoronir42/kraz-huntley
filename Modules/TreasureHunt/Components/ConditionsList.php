@@ -2,18 +2,18 @@
 
 namespace CP\TreasureHunt\Components;
 
-use CP\TreasureHunt\Model\Entity\ActionCondition;
+use CP\TreasureHunt\Model\Entity\Condition;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Html;
 
 class ConditionsList extends UI\Component
 {
-    /** @var ActionCondition[] */
+    /** @var Condition[] */
     private $conditions;
 
     /**
-     * @param ActionCondition[] $conditions
+     * @param Condition[] $conditions
      */
     public function __construct(array $conditions)
     {
@@ -44,11 +44,11 @@ class ConditionsList extends UI\Component
         return $conditionsDiv;
     }
 
-    private function getConditionElement(ActionCondition $condition)
+    private function getConditionElement(Condition $condition)
     {
         switch ($condition->type) {
-            case ActionCondition::TYPE_KEY_MATCHES:
-                $text = Html::el('span', ActionCondition::getTypes()[$condition->type] . ' ');
+            case Condition::TYPE_KEY_MATCHES:
+                $text = Html::el('span', Condition::getTypes()[$condition->type] . ' ');
                 $value = Html::el('span', $condition->params);
                 $value->class[] = 'value';
 

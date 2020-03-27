@@ -21,16 +21,26 @@ CREATE TABLE th__action
         (challenge_id) REFERENCES th__challenge (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE th__action_condition
+CREATE TABLE th__condition
 (
-    id        varchar(6)  NOT NULL,
-    action_id varchar(8)  NOT NULL,
-    type      varchar(24) NOT NULL,
-    params    text        NOT NULL,
+    id     varchar(6)  NOT NULL,
+    type   varchar(24) NOT NULL,
+    params text        NOT NULL,
 
-    CONSTRAINT `th__action_condition_pk` PRIMARY KEY (id),
-    CONSTRAINT `th__action_condition_to_action_fk` FOREIGN KEY
-        (action_id) REFERENCES th__action (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `th__condition_pk` PRIMARY KEY (id)
+);
+
+CREATE TABLE th__action_has_condition
+(
+    action_id    varchar(6) NOT NULL,
+    condition_id varchar(6) NOT NULL,
+
+    CONSTRAINT `th__action_has_condition_pk` PRIMARY KEY (action_id, condition_id),
+    CONSTRAINT `th__action_has_condition_action_fk` FOREIGN KEY
+        (action_id) REFERENCES th__action (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `th__action_has_condition_condition_fk` FOREIGN KEY
+        (condition_id) REFERENCES th__condition (id) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 CREATE TABLE th__notebook

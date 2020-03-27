@@ -16,7 +16,7 @@ services:
             checkSum: SeStep\EntityIds\Type\CheckSum(@ids.charSet, [3])
             length: 6
             typeMap:
-                1: CP\TreasureHunt\Model\Entity\ActionCondition
+                1: CP\TreasureHunt\Model\Entity\Condition
                 3: CP\TreasureHunt\Model\Entity\Notebook
                 9: CP\TreasureHunt\Model\Entity\NotebookPage
         autowired: false

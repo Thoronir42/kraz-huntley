@@ -3,7 +3,7 @@ services:
     notebookPageRepository: CP\TreasureHunt\Model\Repository\NotebookPageRepository
     challengeRepository: CP\TreasureHunt\Model\Repository\ChallengeRepository
     actionRepository: CP\TreasureHunt\Model\Repository\ActionRepository
-    actionConditionRepository: CP\TreasureHunt\Model\Repository\ActionConditionRepository
+    conditionRepository: CP\TreasureHunt\Model\Repository\ConditionRepository
 
     notebookService: CP\TreasureHunt\Model\Service\NotebookService
     challengesService: CP\TreasureHunt\Model\Service\ChallengesService

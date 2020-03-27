@@ -13,7 +13,7 @@ use LeanMapper\Entity;
  * @property string $type
  * @property string $params
  *
- * @property ActionCondition[] $conditions m:belongsToMany(action_id)
+ * @property Condition[] $conditions m:hasMany(action_id:th__action_has_condition:condition_id)
  */
 class Action extends Entity
 {

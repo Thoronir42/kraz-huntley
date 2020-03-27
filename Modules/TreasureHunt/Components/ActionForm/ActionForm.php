@@ -4,7 +4,7 @@ namespace CP\TreasureHunt\Components\ActionForm;
 
 use Contributte\FormMultiplier\Multiplier;
 use CP\TreasureHunt\Model\Entity\Action;
-use CP\TreasureHunt\Model\Entity\ActionCondition;
+use CP\TreasureHunt\Model\Entity\Condition;
 use Nette\Application\UI;
 use Nette\Application\UI\Form;
 use Nette\Forms\Container;
@@ -61,7 +61,7 @@ class ActionForm extends UI\Component
 
         $form->addGroup('Podmínky');
         $form['conditions'] = $conditions = new Multiplier(function (Container $container) {
-            $container->addSelect('type', 'Podmínka', ActionCondition::getTypes());
+            $container->addSelect('type', 'Podmínka', Condition::getTypes());
             $container->addText('params', 'Parametry podmínky');
             $container->addHidden('id');
         }, 1, 5);
