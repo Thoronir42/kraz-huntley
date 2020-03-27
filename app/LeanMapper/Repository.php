@@ -184,4 +184,11 @@ class Repository extends \LeanMapper\Repository implements IQueryable
 
         return $query->fetchSingle() + 1;
     }
+
+    public function persistMany(array $entities)
+    {
+        foreach ($entities as $entity) {
+            $this->persist($entity);
+        }
+    }
 }

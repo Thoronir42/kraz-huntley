@@ -12,6 +12,8 @@ use LeanMapper\Entity;
  * @property int $sequence
  * @property string $type
  * @property string $params
+ *
+ * @property ActionCondition[] $conditions m:belongsToMany(action_id)
  */
 class Action extends Entity
 {

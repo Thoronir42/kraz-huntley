@@ -2,6 +2,7 @@
 
 namespace CP\TreasureHunt\Presenters;
 
+use CP\TreasureHunt\Components\ActionForm\ActionForm;
 use CP\TreasureHunt\Model\Entity\Action;
 use CP\TreasureHunt\Model\Service\ChallengesService;
 use Nette\Application\BadRequestException;
@@ -23,16 +24,13 @@ class ChallengeActionPresenter extends Presenter
 
         $this->setView('detail');
 
-        /** @var Form $form */
+        /** @var ActionForm $form */
         $form = $this['actionForm'];
 
-        $form->onSuccess[] = function (Form $form, $values) use ($challenge) {
-            $action = new Action();
+        $form->onSave[] = function (Form $form, Action $action, $conditions) use ($challenge) {
             $action->challenge = $challenge;
-            $action->type = $values['type'];
-            $action->params = $values['params'];
 
-            $this->challengeService->saveAction($action);
+            $this->challengeService->saveAction($action, $conditions);
             $this->redirect('Challenges:detail', ['id' => $challenge->id]);
         };
     }
@@ -44,13 +42,13 @@ class ChallengeActionPresenter extends Presenter
             throw new BadRequestException();
         }
 
-        /** @var Form $var */
-        $var = $this['actionForm'];
+        /** @var ActionForm $form */
+        $form = $this['actionForm'];
 
-        $var->setDefaults($action->getData());
-        $var->onSuccess[] = function($form, $values) use ($action, $challengeId) {
-            $action->assign($values);
-            $this->challengeService->saveAction($action);
+
+        $form->setAction($action);
+        $form->onSave[] = function(Form $form, Action $action, $conditions) use ($challengeId) {
+            $this->challengeService->saveAction($action, $conditions);
 
             $this->redirect('Challenges:detail', ['id' => $challengeId]);
         };
@@ -58,15 +56,7 @@ class ChallengeActionPresenter extends Presenter
 
     public function createComponentActionForm()
     {
-        $form = new Form();
-        $form->addSelect('type', 'Typ akce', [
-            Action::TYPE_ACTIVATE_CHALLENGE => 'Aktivovat výzvu',
-            Action::TYPE_REVEAL_NARRATIVE => 'Zobrazit průpravu',
-        ]);
-        $form->addText('params', 'Parametry akce');
-        $form->addSubmit('save', 'Vytvořit');
-
-        return $form;
+        return new ActionForm();
     }
 
 }

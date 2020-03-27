@@ -15,4 +15,11 @@ use LeanMapper\Entity;
 class ActionCondition extends Entity
 {
     const TYPE_KEY_MATCHES = 'key_matches';
+
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_KEY_MATCHES => 'Odpověď je',
+        ];
+    }
 }

@@ -14,11 +14,15 @@ class ActionGridFactory
 
         $grid->addColumnNumber('sequence', '#');
 
-        $grid->addColumnText('type', 'Typ')
-            ->setEditableInputTypeSelect([
-                Action::TYPE_ACTIVATE_CHALLENGE => 'Aktivovat výzvu',
-                Action::TYPE_REVEAL_NARRATIVE => 'Odhalit doprovodný text',
-            ]);
+        $grid->addColumnText('type', 'Akce')
+            ->setRenderer(function (Action $action) {
+                return (new ActionView($action))->getHtml();
+            });
+
+        $grid->addColumnText('conditions', 'Podmínky')
+            ->setRenderer(function (Action $action) {
+                return (new ConditionsList($action->conditions))->getHtml();
+            });
         $grid->setDefaultSort('sequence');
 
         return $grid;

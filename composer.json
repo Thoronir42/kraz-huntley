@@ -8,6 +8,7 @@
             "email": "Thoronir42@Gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "php": "^7.1",
         "ext-json": "*",
@@ -23,7 +24,8 @@
         "nette/security": "^3.0",
         "nette/forms": "^3.0",
         "contributte/console": "0.7.1",
-        "ublaboo/datagrid": "^6.2"
+        "ublaboo/datagrid": "^6.2",
+        "contributte/forms-multiplier": "^3.1@dev"
     },
     "autoload": {
         "psr-4": {
