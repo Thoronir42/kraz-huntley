@@ -28,6 +28,7 @@ extensions:
     leanMapper: App\LeanMapper\LeanMapperExtension
     console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
     dbCli: DatabaseCli\DatabaseCliExtension
+    typeful: SeStep\Typeful\DI\TypefulExtension
     repositories: App\LeanMapper\RepositoryExtension
     idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
     appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension
