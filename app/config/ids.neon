@@ -19,6 +19,7 @@ services:
                 1: CP\TreasureHunt\Model\Entity\Condition
                 3: CP\TreasureHunt\Model\Entity\Notebook
                 9: CP\TreasureHunt\Model\Entity\NotebookPage
+                17: CP\TreasureHunt\Model\Entity\Narrative
         autowired: false
 
     idsExtension.idGenerator:

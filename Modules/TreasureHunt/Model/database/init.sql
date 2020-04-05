@@ -43,6 +43,19 @@ CREATE TABLE th__action_has_condition
 
 );
 
+CREATE TABLE th__narrative
+(
+    id           varchar(6)  NOT NULL,
+    title        varchar(72) NOT NULL,
+    content      text        NOT NULL,
+    condition_id varchar(6)  NULL,
+
+    CONSTRAINT `th__narrative_pk` PRIMARY KEY (id),
+    CONSTRAINT `th__narrative_condition_fk` FOREIGN KEY
+        (condition_id) REFERENCES th__condition (id) ON DELETE SET NULL ON UPDATE CASCADE
+
+);
+
 CREATE TABLE th__notebook
 (
     id              varchar(6)   NOT NULL,
@@ -61,6 +74,7 @@ CREATE TABLE th__notebook_page
     notebook_id varchar(6)   NOT NULL,
     page_number INT UNSIGNED NOT NULL,
     type        VARCHAR(24)  NOT NULL,
+    params      TEXT         NOT NULL,
 
     CONSTRAINT `th__notebook_page_pk` PRIMARY KEY (id),
     CONSTRAINT `th_notebook_page_to_notebook_fk` FOREIGN KEY
