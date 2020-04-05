@@ -4,43 +4,11 @@ CREATE TABLE th__challenge
     title       varchar(72) NOT NULL,
     description text        NOT NULL,
     key_type    varchar(24) NOT NULL,
+    script_id   varchar(4)  NULL,
 
-    CONSTRAINT `th__challenge_pk` PRIMARY KEY (id)
-);
-CREATE TABLE th__action
-(
-    id           varchar(4)  NOT NULL,
-    challenge_id varchar(4)  NOT NULL,
-    sequence     int         NOT NULL,
-    type         varchar(24) NOT NULL,
-    params       text        NOT NULL,
-
-    CONSTRAINT `th__action_pk` PRIMARY KEY (id),
-    CONSTRAINT `th__action_sequence_unique` UNIQUE (id, sequence),
-    CONSTRAINT `th__action_to_challenge_fk` FOREIGN KEY
-        (challenge_id) REFERENCES th__challenge (id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE th__condition
-(
-    id     varchar(6)  NOT NULL,
-    type   varchar(24) NOT NULL,
-    params text        NOT NULL,
-
-    CONSTRAINT `th__condition_pk` PRIMARY KEY (id)
-);
-
-CREATE TABLE th__action_has_condition
-(
-    action_id    varchar(6) NOT NULL,
-    condition_id varchar(6) NOT NULL,
-
-    CONSTRAINT `th__action_has_condition_pk` PRIMARY KEY (action_id, condition_id),
-    CONSTRAINT `th__action_has_condition_action_fk` FOREIGN KEY
-        (action_id) REFERENCES th__action (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `th__action_has_condition_condition_fk` FOREIGN KEY
-        (condition_id) REFERENCES th__condition (id) ON DELETE CASCADE ON UPDATE CASCADE
-
+    CONSTRAINT `th__challenge_pk` PRIMARY KEY (id),
+    CONSTRAINT `th__challenge_script_fk` FOREIGN KEY
+        (script_id) REFERENCES exe__script (id)
 );
 
 CREATE TABLE th__narrative
@@ -52,7 +20,7 @@ CREATE TABLE th__narrative
 
     CONSTRAINT `th__narrative_pk` PRIMARY KEY (id),
     CONSTRAINT `th__narrative_condition_fk` FOREIGN KEY
-        (condition_id) REFERENCES th__condition (id) ON DELETE SET NULL ON UPDATE CASCADE
+        (condition_id) REFERENCES exe__condition (id) ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 

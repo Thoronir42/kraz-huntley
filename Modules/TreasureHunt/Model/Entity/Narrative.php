@@ -3,6 +3,7 @@
 namespace CP\TreasureHunt\Model\Entity;
 
 use LeanMapper\Entity;
+use SeStep\Executives\Model\Entity\Condition;
 
 /**
  * @property string $id

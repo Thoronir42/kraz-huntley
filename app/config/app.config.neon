@@ -19,6 +19,7 @@ services:
                 mapper: App\LeanMapper\UnderscoreMapper()
                 modules:
                     app__: SeStep\ModularLeanMapper\MapperModule::create('App\Model')
+                    exe__: SeStep\ModularLeanMapper\MapperModule::create('SeStep\Executives\Model')
                     th__: CP\TreasureHunt\Model\TreasureHuntMapperModule()
     transactionManager: App\LeanMapper\TransactionManager
 
@@ -32,6 +33,7 @@ extensions:
     repositories: App\LeanMapper\RepositoryExtension
     idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
     appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension
+    executives: SeStep\Executives\DI\ExecutivesExtension
 
 leanMapper:
     db:
@@ -47,6 +49,7 @@ dbCli:
     initCmd:
         files:
             - %appDir%/database/init.sql
+            - %modulesDir%/Executives/database/init.sql
             - %modulesDir%/TreasureHunt/Model/database/init.sql
     wipeCmd:
         schemaName: 'huntley'

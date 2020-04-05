@@ -1,0 +1,14 @@
+services:
+    # Repositories
+    scriptRepository: SeStep\Executives\Model\Repository\ScriptRepository
+    actionRepository: SeStep\Executives\Model\Repository\ActionRepository
+    conditionRepository: SeStep\Executives\Model\Repository\ConditionRepository
+
+    # Services
+    actionsService: SeStep\Executives\Model\Service\ActionsService
+
+    # Components
+    actionFormFactory: SeStep\Executives\Components\ActionForm\ActionFormFactory
+    actionsGridFactory: SeStep\Executives\Components\ActionGridFactory
+
+

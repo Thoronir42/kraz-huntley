@@ -3,6 +3,7 @@
 namespace CP\TreasureHunt\Model\Entity;
 
 use LeanMapper\Entity;
+use SeStep\Executives\Model\Entity\Script;
 
 /**
  * Class Challenge
@@ -12,7 +13,7 @@ use LeanMapper\Entity;
  * @property string $description
  * @property string $keyType m:enum(Challenge::TYPE_*)
  *
- * @property Action[] $actions m:belongsToMany(challenge_id)
+ * @property null|Script $submitScript m:hasOne(script_id)
  *
  */
 class Challenge extends Entity

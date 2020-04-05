@@ -1,25 +1,33 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Components\ActionForm;
+namespace SeStep\Executives\Components\ActionForm;
 
 use Contributte\FormMultiplier\Multiplier;
-use CP\TreasureHunt\Model\Entity\Action;
-use CP\TreasureHunt\Model\Entity\Condition;
+use SeStep\Executives\Model\Entity\Action;
+use SeStep\Executives\Model\Entity\Condition;
 use Nette\Application\UI;
 use Nette\Application\UI\Form;
 use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
-use Nette\Utils\ArrayHash;
+use SeStep\Executives\Model\Service\ActionsService;
 
+/**
+ * Class ActionForm
+ *
+ * @method onSave(Form $form, Action $action, Condition[] $conditions)
+ */
 class ActionForm extends UI\Component
 {
+    public $onSave = [];
+
     /** @var Action */
     private $action;
 
-    public $onSave = [];
+    private $actionsService;
 
-    public function __construct(Action $action = null)
+    public function __construct(ActionsService $actionsService, Action $action = null)
     {
+        $this->actionsService = $actionsService;
         $this->setAction($action);
     }
 
@@ -53,15 +61,12 @@ class ActionForm extends UI\Component
     {
         $form = new Form();
         $form->addGroup('Akce');
-        $form->addSelect('type', 'Typ akce', [
-            Action::TYPE_ACTIVATE_CHALLENGE => 'Aktivovat výzvu',
-            Action::TYPE_REVEAL_NARRATIVE => 'Zobrazit průpravu',
-        ]);
+        $form->addSelect('type', 'Typ akce', $this->actionsService->getActionTypes());
         $form->addText('params', 'Parametry akce');
 
         $form->addGroup('Podmínky');
         $form['conditions'] = $conditions = new Multiplier(function (Container $container) {
-            $container->addSelect('type', 'Podmínka', Condition::getTypes());
+            $container->addSelect('type', 'Podmínka', $this->actionsService->getConditionTypes());
             $container->addText('params', 'Parametry podmínky');
             $container->addHidden('id');
         }, 1, 5);
@@ -72,7 +77,7 @@ class ActionForm extends UI\Component
         $form->addGroup();
         $form->addSubmit('save');
 
-        $form->onSuccess[] = function ($form) {
+        $form->onSuccess[] = function (Form $form) {
             $values = $form->getValues();
             $conditions = (array)$values['conditions'];
             unset($values['conditions']);

@@ -4,9 +4,6 @@ services:
     challengeRepository: CP\TreasureHunt\Model\Repository\ChallengeRepository
     narrativeRepository: CP\TreasureHunt\Model\Repository\NarrativeRepository
 
-    actionRepository: CP\TreasureHunt\Model\Repository\ActionRepository
-    conditionRepository: CP\TreasureHunt\Model\Repository\ConditionRepository
-
     notebookService: CP\TreasureHunt\Model\Service\NotebookService
     challengesService: CP\TreasureHunt\Model\Service\ChallengesService
     narrativeService: CP\TreasureHunt\Model\Service\NarrativesService
@@ -14,9 +11,14 @@ services:
     registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory
     challengesGridFactory: CP\TreasureHunt\Components\ChallengesGridFactory
     challengeFormFactory: CP\TreasureHunt\Components\ChallengeFormFactory
-    actionGridFactory: CP\TreasureHunt\Components\ActionGridFactory
+
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
     narrativeFormFactory: CP\TreasureHunt\Components\NarrativeFormFactory
+
+    executiveModule:
+        class: CP\TreasureHunt\Executives\TreasureHuntExecutivesModule
+        tags:
+            executiveModule: th
 
 typeful:
     entities:

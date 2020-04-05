@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Components;
+namespace SeStep\Executives\Components;
 
-use CP\TreasureHunt\Model\Entity\Condition;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Html;
+use SeStep\Executives\Model\Entity\Condition;
 
 class ConditionsList extends UI\Component
 {
@@ -47,8 +47,8 @@ class ConditionsList extends UI\Component
     private function getConditionElement(Condition $condition)
     {
         switch ($condition->type) {
-            case Condition::TYPE_KEY_MATCHES:
-                $text = Html::el('span', Condition::getTypes()[$condition->type] . ' ');
+            case 'th.answerEquals':
+                $text = Html::el('span', $condition->type . ' ');
                 $value = Html::el('span', $condition->params);
                 $value->class[] = 'value';
 

@@ -2,7 +2,6 @@
 
 namespace CP\TreasureHunt\Presenters;
 
-use CP\TreasureHunt\Components\ActionGridFactory;
 use CP\TreasureHunt\Components\ChallengeFormFactory;
 use CP\TreasureHunt\Components\ChallengesGridFactory;
 use CP\TreasureHunt\Model\Entity\Challenge;
@@ -10,11 +9,15 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use CP\TreasureHunt\Model\Service\ChallengesService;
+use SeStep\Executives\Components\ActionGridFactory;
+use SeStep\Executives\Model\Service\ActionsService;
 
 class ChallengesPresenter extends Presenter
 {
     /** @var ChallengesService @inject */
     public $challengesService;
+    /** @var ActionsService @inject */
+    public $actionsService;
 
     /** @var ChallengesGridFactory @inject */
     public $challengesGridFactory;
@@ -58,7 +61,7 @@ class ChallengesPresenter extends Presenter
         };
 
         $actionGrid = $this->actionGridFactory->create();
-        $actionGrid->setDataSource($this->challengesService->getActionsDataSource($challenge));
+        $actionGrid->setDataSource($this->actionsService->getActionsDataSource($challenge->submitScript));
 
         $actionGrid->addAction('edit', 'Upravit', 'ChallengeAction:detail', ['actionId' => 'id'])
             ->addParameters(['challengeId' => $challenge->id]);

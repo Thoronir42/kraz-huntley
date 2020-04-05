@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Model\Repository;
+namespace SeStep\Executives\Model\Repository;
 
 use App\LeanMapper\Repository;
-use CP\TreasureHunt\Model\Entity\Action;
+use SeStep\Executives\Model\Entity\Action;
 
 class ActionRepository extends Repository
 {
@@ -13,7 +13,8 @@ class ActionRepository extends Repository
             ->getEntityProperty('conditions')
             ->getRelationship();
 
-        $sourcePrimary = $action->{$this->mapper->getPrimaryKey($this->mapper->getTable(get_class($action)))};
+        $sourcePrimaryColumn = $this->mapper->getPrimaryKey($this->mapper->getTable(get_class($action)));
+        $sourcePrimary = $action->$sourcePrimaryColumn;
         $targetPrimaryColumn = $this->mapper->getPrimaryKey($relationship->getTargetTable());
 
         $targetIdsQuery = $this->connection->select($relationship->getColumnReferencingTargetTable())
@@ -35,7 +36,7 @@ class ActionRepository extends Repository
     private function ensureActionSequenceValid(Action $action)
     {
         if (!$action->sequence) {
-            $action->sequence = $this->getNextInSequence('sequence', ['challenge' => $action->challenge], Action::class);
+            $action->sequence = $this->getNextInSequence('sequence', ['script' => $action->script], Action::class);
         }
     }
 }

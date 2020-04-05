@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Components;
+namespace SeStep\Executives\Components;
 
-use CP\TreasureHunt\Model\Entity\Action;
+use SeStep\Executives\Model\Entity\Action;
 use Ublaboo\DataGrid\DataGrid;
 
 class ActionGridFactory

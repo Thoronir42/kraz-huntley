@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Components;
+namespace SeStep\Executives\Components;
 
-use CP\TreasureHunt\Model\Entity\Action;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Html;
+use SeStep\Executives\Model\Entity\Action;
 
 class ActionView extends UI\Component
 {
@@ -20,8 +20,8 @@ class ActionView extends UI\Component
     public function getHtml()
     {
         switch ($this->action->type) {
-            case Action::TYPE_ACTIVATE_CHALLENGE:
-                $text = Html::el('span', 'Aktivovat výzvu ');
+            case 'th.activateChallenge':
+                $text = Html::el('span', $this->action->type);
                 $value = Html::el('span', $this->action->params);
                 $value->class[] = 'value';
                 $el = Html::el('div');
@@ -30,8 +30,8 @@ class ActionView extends UI\Component
 
                 return $el;
 
-            case Action::TYPE_REVEAL_NARRATIVE:
-                $text = Html::el('span', 'Zobrazit průpravu ');
+            case 'th.revealNarrative':
+                $text = Html::el('span', $this->action->type);
                 $value = Html::el('span', $this->action->params);
                 $value->class[] = 'value';
                 $el = Html::el('div');
