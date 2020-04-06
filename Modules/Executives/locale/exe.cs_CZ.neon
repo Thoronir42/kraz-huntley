@@ -1,0 +1,16 @@
+action: Akce
+actionType: Typ akce
+actionParams: Parametry akce
+actionSequence: '#'
+
+actionConditions: Podmínky akce
+
+condition: Podmínka
+conditionParams: Parametry podmínky
+
+actionForm:
+    addCondition: Přidat podmínku
+    removeCondition: Odebrat podmínku
+
+    submitCreate: Vytvořit
+    submitUpdate: Upravit

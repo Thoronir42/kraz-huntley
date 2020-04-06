@@ -62,11 +62,12 @@ class ActionsService
             $types = [];
             foreach ($this->modules as $moduleName => $module) {
                 foreach ($module->getActionTypes() as $type) {
-                    $types[] = "$moduleName.$type";
+                    $action = "$moduleName.$type";
+                    $types[$action] = $this->getActionLocalisationPlaceholder($action);
                 }
             }
 
-            return array_combine($types, $types);
+            return $types;
         });
     }
 
@@ -76,11 +77,12 @@ class ActionsService
             $types = [];
             foreach ($this->modules as $moduleName => $module) {
                 foreach ($module->getConditionTypes() as $type) {
-                    $types[] = "$moduleName.$type";
+                    $condition = "$moduleName.$type";
+                    $types[$condition] = $this->getConditionLocalisationPlaceholder($condition);
                 }
             }
 
-            return array_combine($types, $types);
+            return $types;
         });
     }
 
@@ -154,6 +156,24 @@ class ActionsService
         $this->scriptRepository->persist($script);
 
         return $script;
+    }
+
+    public function getActionLocalisationPlaceholder(string $name)
+    {
+        return $this->getLocalisationPlaceholder($name, 'action');
+    }
+
+    public function getConditionLocalisationPlaceholder(string $name)
+    {
+        return $this->getLocalisationPlaceholder($name, 'condition');
+    }
+
+    public function getLocalisationPlaceholder(string $name, string $type)
+    {
+        $pos = mb_strrpos($name, '.');
+        return mb_substr($name, 0, $pos)
+            . ".executives.$type"
+            . mb_substr($name, $pos);
     }
 
 }

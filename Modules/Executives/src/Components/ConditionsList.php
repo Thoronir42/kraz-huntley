@@ -2,22 +2,32 @@
 
 namespace SeStep\Executives\Components;
 
+use Contributte\Translation\Translator;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Html;
 use SeStep\Executives\Model\Entity\Condition;
+use SeStep\Executives\Model\Service\ActionsService;
 
 class ConditionsList extends UI\Component
 {
     /** @var Condition[] */
     private $conditions;
+    /** @var Translator */
+    private $translator;
+    /** @var ActionsService */
+    private $actionsService;
 
     /**
      * @param Condition[] $conditions
+     * @param Translator $translator
+     * @param ActionsService $actionsService
      */
-    public function __construct(array $conditions)
+    public function __construct(array $conditions, Translator $translator, ActionsService $actionsService)
     {
         $this->conditions = $conditions;
+        $this->translator = $translator;
+        $this->actionsService = $actionsService;
     }
 
     public function render()
@@ -46,18 +56,14 @@ class ConditionsList extends UI\Component
 
     private function getConditionElement(Condition $condition)
     {
-        switch ($condition->type) {
-            case 'th.answerEquals':
-                $text = Html::el('span', $condition->type . ' ');
-                $value = Html::el('span', $condition->params);
-                $value->class[] = 'value';
+        $typePlaceholder = $this->actionsService->getConditionLocalisationPlaceholder($condition->type);
+        $text = Html::el('span', $this->translator->translate($typePlaceholder) . ' ');
+        $value = Html::el('span', $condition->params);
+        $value->class[] = 'value';
 
-                $el = Html::el('div');
-                $el->addHtml($text);
-                $el->addHtml($value);
-                return $el;
-        }
-
-        throw new InvalidArgumentException("Condition type $condition->type not recognized");
+        $el = Html::el('div');
+        $el[] = $text;
+        $el[] = $value;
+        return $el;
     }
 }

@@ -63,7 +63,7 @@ class ChallengesPresenter extends Presenter
         $actionGrid = $this->actionGridFactory->create();
         $actionGrid->setDataSource($this->actionsService->getActionsDataSource($challenge->submitScript));
 
-        $actionGrid->addAction('edit', 'Upravit', 'ChallengeAction:detail', ['actionId' => 'id'])
+        $actionGrid->addAction('edit', 'edit', 'ChallengeAction:detail', ['actionId' => 'id'])
             ->addParameters(['challengeId' => $challenge->id]);
 
         $this['actionGrid'] = $actionGrid;

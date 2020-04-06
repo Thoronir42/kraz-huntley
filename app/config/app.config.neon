@@ -27,6 +27,7 @@ services:
 
 extensions:
     leanMapper: App\LeanMapper\LeanMapperExtension
+    translation: Contributte\Translation\DI\TranslationExtension
     console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
     dbCli: DatabaseCli\DatabaseCliExtension
     typeful: SeStep\Typeful\DI\TypefulExtension
@@ -41,6 +42,15 @@ leanMapper:
         user: %db.user%
         password: %db.pass%
         database: %db.database%
+
+translation:
+    locales:
+        whitelist: [cs]
+        default: cs
+    dirs:
+        - %appDir%/locale
+        - %modulesDir%/Executives/locale
+        - %modulesDir%/TreasureHunt/locale
 
 repositories:
     idGenerator: idsExtensions.idGenerator

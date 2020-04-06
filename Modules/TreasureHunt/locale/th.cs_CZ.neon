@@ -1,0 +1,9 @@
+challenge:
+    onSubmitActions: Akce po odpovědi
+
+executives:
+    action:
+        activateChallenge: 'Aktivovat výzvu'
+        revealNarrative: 'Odhalid průpravu'
+    condition:
+        answerEquals: 'Odpověď je'

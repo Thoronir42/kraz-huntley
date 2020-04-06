@@ -3,6 +3,7 @@
 namespace SeStep\Executives\Components\ActionForm;
 
 use Contributte\FormMultiplier\Multiplier;
+use Contributte\Translation\Translator;
 use SeStep\Executives\Model\Entity\Action;
 use SeStep\Executives\Model\Entity\Condition;
 use Nette\Application\UI;
@@ -23,11 +24,15 @@ class ActionForm extends UI\Component
     /** @var Action */
     private $action;
 
+    /** @var ActionsService */
     private $actionsService;
+    /** @var Translator */
+    private $translator;
 
-    public function __construct(ActionsService $actionsService, Action $action = null)
+    public function __construct(ActionsService $actionsService, Translator $translator, Action $action = null)
     {
         $this->actionsService = $actionsService;
+        $this->translator = $translator;
         $this->setAction($action);
     }
 
@@ -47,32 +52,35 @@ class ActionForm extends UI\Component
 
         if ($action) {
             $data = $action->getData();
-            $data['conditions'] = array_map(function($c) {return $c->getData(); }, $action->conditions);
+            $data['conditions'] = array_map(function ($c) {
+                return $c->getData();
+            }, $action->conditions);
             $form->setDefaults($data);
         }
 
         /** @var SubmitButton $save */
         $save = $form['save'];
-        $save->setCaption($action ? 'Upravit' : 'Vytvořit');
-
+        $save->setCaption('exe.actionForm.submit' . ($action ? 'Update' : 'Create'));
     }
 
     public function createComponentForm()
     {
         $form = new Form();
-        $form->addGroup('Akce');
-        $form->addSelect('type', 'Typ akce', $this->actionsService->getActionTypes());
-        $form->addText('params', 'Parametry akce');
+        $form->setTranslator($this->translator);
 
-        $form->addGroup('Podmínky');
+        $form->addGroup('exe.action');
+        $form->addSelect('type', 'exe.actionType', $this->actionsService->getActionTypes());
+        $form->addText('params', 'exe.actionParams');
+
+        $form->addGroup('exe.actionConditions');
         $form['conditions'] = $conditions = new Multiplier(function (Container $container) {
-            $container->addSelect('type', 'Podmínka', $this->actionsService->getConditionTypes());
-            $container->addText('params', 'Parametry podmínky');
+            $container->addSelect('type', 'exe.condition', $this->actionsService->getConditionTypes());
+            $container->addText('params', 'exe.conditionParams');
             $container->addHidden('id');
         }, 1, 5);
         $conditions->setResetKeys(false);
-        $conditions->addCreateButton('Přidat podmínku');
-        $conditions->addRemoveButton('Odebrat podmínku');
+        $conditions->addCreateButton('exe.actionForm.addCondition');
+        $conditions->addRemoveButton('exe.actionForm.removeCondition');
 
         $form->addGroup();
         $form->addSubmit('save');
@@ -81,7 +89,7 @@ class ActionForm extends UI\Component
             $values = $form->getValues();
             $conditions = (array)$values['conditions'];
             unset($values['conditions']);
-            
+
             $action = $this->action;
             $action->assign($values);
 

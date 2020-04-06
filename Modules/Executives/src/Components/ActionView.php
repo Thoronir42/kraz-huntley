@@ -2,46 +2,41 @@
 
 namespace SeStep\Executives\Components;
 
+use Contributte\Translation\Translator;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Html;
 use SeStep\Executives\Model\Entity\Action;
+use SeStep\Executives\Model\Service\ActionsService;
 
 class ActionView extends UI\Component
 {
     /** @var Action */
     private $action;
 
-    public function __construct(Action $action)
+    /** @var Translator */
+    private $translator;
+    /** @var ActionsService */
+    private $actionsService;
+
+    public function __construct(Action $action, Translator $translator, ActionsService $actionsService)
     {
         $this->action = $action;
+        $this->translator = $translator;
+        $this->actionsService = $actionsService;
     }
 
     public function getHtml()
     {
-        switch ($this->action->type) {
-            case 'th.activateChallenge':
-                $text = Html::el('span', $this->action->type);
-                $value = Html::el('span', $this->action->params);
-                $value->class[] = 'value';
-                $el = Html::el('div');
-                $el->addHtml($text);
-                $el->addHtml($value);
+        $placeholder = $this->actionsService->getActionLocalisationPlaceholder($this->action->type);
+        $text = Html::el('span', $this->translator->translate($placeholder));
+        $value = Html::el('span', $this->action->params);
+        $value->class[] = 'value';
+        $el = Html::el('div');
+        $el[] = $text;
+        $el[] = $value;
 
-                return $el;
-
-            case 'th.revealNarrative':
-                $text = Html::el('span', $this->action->type);
-                $value = Html::el('span', $this->action->params);
-                $value->class[] = 'value';
-                $el = Html::el('div');
-                $el->addHtml($text);
-                $el->addHtml($value);
-
-                return $el;
-        }
-
-        throw new InvalidArgumentException("Action type {$this->action->type} not recognized");
+        return $el;
     }
 
     public function createComponentConditions()
