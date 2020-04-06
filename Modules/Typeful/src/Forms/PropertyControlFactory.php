@@ -22,6 +22,12 @@ class PropertyControlFactory
         }
     }
 
+    public function getTypes(): array
+    {
+        $types = array_keys($this->typeToControlFactory);
+
+        return array_combine($types, $types);
+    }
 
     /**
      * @param string $type

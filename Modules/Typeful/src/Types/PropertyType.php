@@ -7,8 +7,6 @@ use Nette\Utils\Html;
 interface PropertyType
 {
 
-    public function getName(): string;
-
     /**
      * @param mixed $value
      * @param array $options

@@ -2,12 +2,17 @@
 
 namespace SeStep\Typeful\Service;
 
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\MemoryStorage;
 use SeStep\Typeful\Types\PropertyType;
 
 class TypeRegistry
 {
     /** @var PropertyType[] */
     private $propertyTypes;
+
+    /** @var Cache */
+    private $cache;
 
     /**
      * TypeRegister constructor.
@@ -16,9 +21,9 @@ class TypeRegistry
      */
     public function __construct(array $propertyTypes)
     {
-        foreach ($propertyTypes as $type) {
-            $this->propertyTypes[$type::getName()] = $type;
-        }
+        $this->propertyTypes = $propertyTypes;
+
+        $this->cache = new Cache(new MemoryStorage());
     }
 
     public function hasType(string $type): bool
@@ -34,5 +39,14 @@ class TypeRegistry
         }
 
         return $this->propertyTypes[$type];
+    }
+
+    public function getTypesLocalized()
+    {
+        return $this->cache->load('typesLocalized', function () {
+            $types = array_keys($this->propertyTypes);
+
+            return array_combine($types, $types);
+        });
     }
 }

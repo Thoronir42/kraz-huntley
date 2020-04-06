@@ -1,0 +1,5 @@
+type:
+    int: Celé číslo
+    text: Text
+    date: Datum
+    dateTime: Datum a čas

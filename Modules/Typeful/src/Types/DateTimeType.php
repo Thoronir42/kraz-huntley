@@ -6,11 +6,6 @@ use Latte\Runtime\Filters;
 
 class DateTimeType implements PropertyType
 {
-    public function getName(): string
-    {
-        return 'datetime';
-    }
-
     public function renderValue($value, array $options = [])
     {
         // TODO: Avoid using internal class Filters

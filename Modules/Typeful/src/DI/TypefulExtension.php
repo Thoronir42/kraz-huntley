@@ -9,7 +9,10 @@ use SeStep\Typeful\Service;
 
 class TypefulExtension extends CompilerExtension
 {
+    use TypefulLoader;
+
     const TAG_TYPE = 'typeful.propertyType';
+    const TAG_TYPE_CONTROL_FACTORY = 'typeful.typeControlFactory';
     const TAG_ENTITY = 'typeful.entity';
 
     private $configFile;
@@ -30,16 +33,19 @@ class TypefulExtension extends CompilerExtension
             ->setType(Forms\PropertyControlFactory::class);
         $builder->addDefinition($this->prefix('formPopulator'))
             ->setType(Forms\EntityFormPopulator::class);
+
+        $this->initTypeful($builder, $this->configFile['typeful']);
     }
 
     public function beforeCompile()
     {
         $builder = $this->getContainerBuilder();
 
-        $types = $this->configFile['defaultTypes'];
-
-        foreach (array_keys($builder->findByTag(self::TAG_TYPE)) as $typeServiceName) {
-            $types[] = $builder->getDefinition($typeServiceName);
+        $types = [];
+        $typesDefinitions = $builder->findByTag(self::TAG_TYPE);
+        foreach (array_keys($typesDefinitions) as $typeServiceName) {
+            $definition = $builder->getDefinition($typeServiceName);
+            $types[$definition->getName()] = $definition;
         }
 
         /** @var ServiceDefinition $typeRegister */
@@ -47,7 +53,7 @@ class TypefulExtension extends CompilerExtension
         $typeRegister->setArgument('propertyTypes', $types);
 
         $propertyControlFactory = $builder->getDefinition($this->prefix('propertyControlFactory'));
-        $propertyControlFactory->setArgument('typeMap', $this->configFile['defaultTypeControlFactories']);
+        $propertyControlFactory->setArgument('typeMap', $builder->findByTag(self::TAG_TYPE_CONTROL_FACTORY));
 
         $descriptors = [];
         foreach ($builder->findByTag(self::TAG_ENTITY) as $service => $entityClass) {

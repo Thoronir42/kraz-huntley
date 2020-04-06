@@ -1,11 +1,14 @@
-defaultTypes:
-    - SeStep\Typeful\Types\IntType()
-    - SeStep\Typeful\Types\TextType()
-    - SeStep\Typeful\Types\DateType()
-    - SeStep\Typeful\Types\DateTimeType()
-
-defaultTypeControlFactories:
-    text: SeStep\Typeful\Forms\StandardControlsFactory::createText
-    int: SeStep\Typeful\Forms\StandardControlsFactory::createInt
+typeful:
+    types:
+        int:
+            class: SeStep\Typeful\Types\IntType
+            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createText
+        text:
+            class: SeStep\Typeful\Types\TextType
+            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createInt
+        date:
+            class: SeStep\Typeful\Types\DateType
+        dateTime:
+            class: SeStep\Typeful\Types\DateTimeType
 
 
