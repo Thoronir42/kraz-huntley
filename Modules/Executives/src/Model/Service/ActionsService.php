@@ -104,16 +104,22 @@ class ActionsService
      */
     public function saveAction(Action $action, array $conditions = [])
     {
+        /** @var Condition[] $conditionsEntities */
         $conditionsEntities = $conditions ? array_map(function ($cond) use ($action) {
             if (!$cond instanceof Condition) {
                 $cond = new Condition($cond);
             }
+
             return $cond;
         }, $conditions) : [];
 
         $this->transactionManager->execute(function () use ($action, $conditionsEntities) {
+            if (!$action->isDetached()) {
+                $this->actionRepository->deleteConditions($action);
+            }
+
             $this->actionRepository->persist($action);
-            $this->actionRepository->deleteConditions($action);
+
             $this->conditionRepository->persistMany($conditionsEntities);
             $action->addToConditions($conditionsEntities);
             $this->actionRepository->persist($action);

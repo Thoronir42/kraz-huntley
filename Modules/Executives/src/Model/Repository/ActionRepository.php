@@ -23,6 +23,8 @@ class ActionRepository extends Repository
         $delete = $this->connection->delete($relationship->getTargetTable())
             ->where('%n IN ?', $targetPrimaryColumn, $targetIdsQuery);
 
+        $action->removeAllConditions();
+
         return $delete->execute();
     }
 
