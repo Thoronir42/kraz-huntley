@@ -45,7 +45,10 @@ class ChallengeActionPresenter extends Presenter
         $challenge = $this->challengeService->getChallenge($challengeId);
         $action = $this->actionsService->getAction($actionId);
 
-        if (!$challenge || !$action || $challenge->submitScript !== $action->script) {
+        if (!$challenge || !$action) {
+            throw new BadRequestException();
+        }
+        if ($challenge->submitScript != $action->script) {
             throw new BadRequestException();
         }
 

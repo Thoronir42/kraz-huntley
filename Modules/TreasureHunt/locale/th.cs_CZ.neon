@@ -1,4 +1,7 @@
 challenge:
+    title: Název
+    description: Výzva
+    keyType: Typ klíče
     onSubmitActions: Akce po odpovědi
 
 executives:
