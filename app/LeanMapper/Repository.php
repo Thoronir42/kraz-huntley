@@ -67,7 +67,7 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         $this->filter->apply($fluent, $conditions, $this->mapper->getEntityClass($this->getTable()));
 
         if ($row = $fluent->fetch()) {
-            return $this->createentity($row);
+            return $this->createEntity($row);
         }
 
         return null;
