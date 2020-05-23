@@ -4,60 +4,94 @@ namespace CP\TreasureHunt\Model\Service;
 
 use App\LeanMapper\TransactionManager;
 use App\Model\Entity\User;
+use CP\TreasureHunt\Components\Notebook\IndexPage;
+use CP\TreasureHunt\Executives\Actions\InitializeNotebookAction;
+use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\Notebook;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
 use CP\TreasureHunt\Model\Repository\NotebookPageRepository;
 use CP\TreasureHunt\Model\Repository\NotebookRepository;
+use SeStep\Executives\Execution\ActionExecutor;
+use SeStep\Executives\Execution\ClassnameActionExecutor;
+use SeStep\Executives\ModuleAggregator;
 
 class NotebookService
 {
+    private const PAGE_TYPES = [
+        NotebookPage::TYPE_INDEX,
+        NotebookPage::TYPE_CHALLENGE,
+    ];
+
     /** @var NotebookRepository */
     private $notebookRepository;
     /** @var NotebookPageRepository */
     private $notebookPageRepository;
     /** @var TransactionManager */
     private $transactionManager;
+    /** @var ClassnameActionExecutor */
+    private $classnameActionExecutor;
 
     public function __construct(
         NotebookRepository $notebookRepository,
         NotebookPageRepository $notebookPageRepository,
-        TransactionManager $transactionManager
+        TransactionManager $transactionManager,
+        ClassnameActionExecutor $classnameActionExecutor
     ) {
         $this->notebookRepository = $notebookRepository;
         $this->notebookPageRepository = $notebookPageRepository;
         $this->transactionManager = $transactionManager;
+        $this->classnameActionExecutor = $classnameActionExecutor;
     }
 
-    public function getNotebookByUser(User $user, bool $createIfMissing = false): ?Notebook
+    public function getPageTypes(): array
     {
-        $notebook = $this->notebookRepository->findOneBy([
+        return self::PAGE_TYPES;
+    }
+
+    public function getNotebook(string $id): ?Notebook
+    {
+        return $this->notebookRepository->find($id);
+    }
+
+    public function getNotebookByUser(User $user): ?Notebook
+    {
+        return $this->notebookRepository->findOneBy([
             'user' => $user,
         ]);
-        if (!$notebook && $createIfMissing) {
-            $notebook = $this->createNotebook($user);
-        }
-
-        return $notebook;
     }
 
     public function createNotebook(User $user): Notebook
     {
-        return $this->transactionManager->execute(function() use ($user) {
+        return $this->transactionManager->execute(function () use ($user) {
             $notebook = $this->notebookRepository->create($user, 1);
-            $this->notebookPageRepository->createIndex($notebook);
+
+            $context = new \stdClass();
+            $context->notebook = $notebook;
+
+            $this->classnameActionExecutor->execute(InitializeNotebookAction::class, [
+                'challengeId' => 'CZv9',
+            ], $context);
 
             return $notebook;
         });
     }
 
-    public function getPageByUser(string $userId, int $page): ?NotebookPage
+    public function activateChallengePage(Notebook $notebook, Challenge $challenge): bool
     {
-        $page = $this->notebookPageRepository->findOneBy([
-            'notebook.user' => $userId,
-            'page' => $page,
-        ]);
+        return $this->transactionManager->execute(function () use ($notebook, $challenge) {
+            $challengePage = $this->notebookPageRepository->findOneBy([
+                'notebook' => $notebook,
+                'params' => '"challengeId": "' . $challenge->id . '"',
+            ]);
 
-        dump($page);
-        exit;
+            if (!$challengePage) {
+                $challengePage = $this->notebookPageRepository->createChallenge($notebook, $challenge);
+            }
+
+            $notebook->activePage = $challengePage->pageNumber;
+            $this->notebookRepository->persist($notebook);
+
+            return true;
+        });
     }
 }

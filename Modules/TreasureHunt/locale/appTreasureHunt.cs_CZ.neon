@@ -1,2 +1,7 @@
 type:
     binaryMatrix: Binární matice
+
+executives:
+    action:
+        activateChallenge: Aktivovat výzvu
+        revealNarrative: Odhalit průpravu

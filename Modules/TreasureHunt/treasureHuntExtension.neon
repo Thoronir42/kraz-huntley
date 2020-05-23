@@ -15,6 +15,8 @@ services:
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
     narrativeFormFactory: CP\TreasureHunt\Components\NarrativeFormFactory
 
+    notebookControlFactory: CP\TreasureHunt\Components\Notebook\NotebookControlFactory
+
     executivesModule:
         class: CP\TreasureHunt\Executives\TreasureHuntExecutivesModule
         tags:

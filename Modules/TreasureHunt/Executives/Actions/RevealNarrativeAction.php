@@ -2,14 +2,13 @@
 
 namespace CP\TreasureHunt\Executives\Actions;
 
-use Nette\NotImplementedException;
-use SeStep\Executives\ActionType;
+use SeStep\Executives\Execution\Action;
+use SeStep\Executives\Execution\ExecutionResult;
 
-class RevealNarrativeAction implements ActionType
+class RevealNarrativeAction implements Action
 {
-
-    public function execute(array $params)
+    public function execute($context): ExecutionResult
     {
-        throw new NotImplementedException();
+        // TODO: Implement execute() method.
     }
 }

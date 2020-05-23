@@ -3,40 +3,33 @@
 namespace CP\TreasureHunt\Executives;
 
 
-use CP\TreasureHunt\Executives\Actions\RevealChallengeAction;
+use CP\TreasureHunt\Executives\Actions\ActivateChallengeAction;
 use CP\TreasureHunt\Executives\Actions\RevealNarrativeAction;
 use CP\TreasureHunt\Executives\Conditions\AnswerEquals;
-use Nette\DI\Container;
 use SeStep\Executives\ExecutivesModule;
 
 class TreasureHuntExecutivesModule implements ExecutivesModule
 {
     private const ACTIONS = [
-        'activateChallenge' => RevealChallengeAction::class,
+        'activateChallenge' => ActivateChallengeAction::class,
         'revealNarrative' => RevealNarrativeAction::class,
     ];
     private const CONDITIONS = [
         'answerEquals' => AnswerEquals::class,
     ];
 
-    /** @var Container */
-    private $container;
-
-    public function __construct(Container $container)
+    public function getLocalizationName(): string
     {
-        $this->container = $container;
+        return 'appTreasureHunt';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getActionTypes(): array
+    public function getActions(): array
     {
-        return array_keys(self::ACTIONS);
+        return self::ACTIONS;
     }
 
-    public function getConditionTypes(): array
+    public function getConditions(): array
     {
-        return array_keys(self::CONDITIONS);
+        return self::CONDITIONS;
     }
 }

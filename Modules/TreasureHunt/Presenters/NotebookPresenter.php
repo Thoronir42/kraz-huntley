@@ -3,33 +3,42 @@
 namespace CP\TreasureHunt\Presenters;
 
 use App\Security\HasAppUser;
-use CP\TreasureHunt\Components\Notebook\Notebook;
+use CP\TreasureHunt\Components\Notebook\NotebookControlFactory;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\UI\Presenter;
+use Nette\InvalidStateException;
 
 class NotebookPresenter extends Presenter
 {
-    uSe HasAppUser;
+    use HasAppUser;
 
     /** @var NotebookService @inject */
     public $notebookService;
 
-    public function actionIndex()
+    /** @var NotebookControlFactory @inject */
+    public $notebookControlFactory;
+
+    public function checkRequirements($element): void
     {
+        parent::checkRequirements($element);
+
         if (!$this->user->isLoggedIn()) {
             $this->redirect('TreasureHunt:intro');
         }
-
-        $notebook = $this->notebookService->getNotebookByUser($this->appUser, true);
-
-        $this['notebook'] = new Notebook($notebook);
-        $this->template->pageNumber = 1;
     }
 
-    public function actionPage(int $page)
+    public function actionPage(int $page = 1)
     {
-        if ($page <= 1) {
-            $this->redirect('index');
+        $notebook = $this->notebookService->getNotebookByUser($this->appUser);
+        if (!$notebook) {
+            $notebook = $this->notebookService->createNotebook($this->appUser);
+        }
+
+        $this['notebook'] = $notebookControl = $this->notebookControlFactory->create($notebook);
+        $this->template->pageNumber = $page;
+
+        if ($page < 1 || $page > $notebook->countPages()) {
+            $this->redirect('this', ['page' => 1]);
         }
     }
 

@@ -2,9 +2,45 @@
 
 namespace CP\TreasureHunt\Components\Notebook;
 
-class ChallengePage
+use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
+use Nette\Application\UI;
+use SeStep\Typeful\Forms\PropertyControlFactory;
+
+class ChallengePage extends UI\Control
 {
-    public function __construct(NotebookPageChallenge $page)
-    {
+    public $onAnswerSubmitted = [];
+    /** @var NotebookPageChallenge */
+    private $page;
+    /** @var Challenge */
+    private $challenge;
+    /** @var PropertyControlFactory */
+    private $controlFactory;
+
+    public function __construct(
+        NotebookPageChallenge $page,
+        Challenge $challenge,
+        PropertyControlFactory $controlFactory
+    ) {
+        $this->page = $page;
+        $this->challenge = $challenge;
+        $this->controlFactory = $controlFactory;
     }
+
+    public function render()
+    {
+        $template = $this->template->setFile(__DIR__ . '/challengePage.latte');
+        $template->challenge = $this->challenge;
+
+        $template->render();
+    }
+
+    public function createComponentKey()
+    {
+        $form = new UI\Form();
+
+        $form->addSubmit('send');
+        return $form;
+    }
+
 }

@@ -1,8 +1,12 @@
-Huntleyho poklad
-<ul>
-    <li n:foreach="$indexEntries as $indexEntry">
-        {dump $indexEntry}
-        <span>PAGE</span>...<span>{$indexEntry['pageNumber']}</span>
-    </li>
+<div class="index">
+    Sexy deník
+    <ul>
+        <li n:foreach="$indexEntries as $indexEntry">
+            {dump $indexEntry}
+            <a href="{plink page $indexEntry->pageNumber}">
+                <span>{$indexEntry|pageTitle}</span>...<span>{$indexEntry->pageNumber}</span>
+            </a>
+        </li>
 
-</ul>
+    </ul>
+</div>

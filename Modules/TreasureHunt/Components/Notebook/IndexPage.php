@@ -3,6 +3,7 @@
 namespace CP\TreasureHunt\Components\Notebook;
 
 use CP\TreasureHunt\Model\Entity\NotebookPage;
+use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
 use CP\TreasureHunt\Model\Entity\NotebookPageIndex;
 use Nette\Application\UI;
 use Nette\InvalidArgumentException;
@@ -23,6 +24,16 @@ class IndexPage extends UI\Control
     public function render()
     {
         $this->template->indexEntries = $this->filterPages($this->page->getPages());
+        $this->template->addFilter('pageTitle', function (NotebookPage $page) {
+            // todo: polish title retrieving
+            if ($page->type === NotebookPage::TYPE_CHALLENGE) {
+                /** @var NotebookPageChallenge $page */
+                return 'Challenge ' . $page->getChallengeId();
+            }
+
+            return '?? ???';
+        });
+
         $this->template->render(__DIR__ . '/indexPage.latte');
     }
 

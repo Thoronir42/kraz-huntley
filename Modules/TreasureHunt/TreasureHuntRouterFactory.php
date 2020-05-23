@@ -11,13 +11,10 @@ class TreasureHuntRouterFactory
     {
         $router = new RouteList('TreasureHunt');
         $router
-            ->addRoute('/notebook[/]', [
-                'presenter' => 'Notebook',
-                'action' => 'index',
-            ])
-            ->addRoute('/notebook/<page>', [
+            ->addRoute('/notebook[/<page>[/]]', [
                 'presenter' => 'Notebook',
                 'action' => 'page',
+                'page' => 1,
             ])
             ->addRoute('/narratives/<id>', [
                 'presenter' => 'Narratives',

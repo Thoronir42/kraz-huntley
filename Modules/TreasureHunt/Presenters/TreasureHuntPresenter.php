@@ -45,7 +45,7 @@ class TreasureHuntPresenter extends Presenter
             if ($result ?? false || $submitter == $form['login']) {
                 try {
                     $this->user->login($nick, $pass);
-                    $this->redirect('Notebook:index');
+                    $this->redirect('Notebook:page');
                 } catch (AuthenticationException $exception) {
                     $this->flashMessage("Nedaří se nám ověřit vaši identitu, zkuste to, prosíme, znovu");
                 }

@@ -39,4 +39,9 @@ class Notebook extends Entity
 
         return null;
     }
+
+    public function countPages(): int
+    {
+        return count($this->pages);
+    }
 }
