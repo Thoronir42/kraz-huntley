@@ -16,6 +16,9 @@ class TransactionManager
     /** @var Connection */
     private $connection;
 
+    /** @var int */
+    private $transactionLevel = 0;
+
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
@@ -34,8 +37,14 @@ class TransactionManager
     {
         try {
             $this->connection->begin();
+            $this->transactionLevel++;
             $result = call_user_func_array($callback, $arguments);
-            $this->connection->commit();
+            if($this->transactionLevel > 0) {
+                $this->transactionLevel--;
+                if($this->transactionLevel === 0) {
+                    $this->connection->commit();
+                }
+            }
 
             return $result;
         } catch (\Exception $exception) {
