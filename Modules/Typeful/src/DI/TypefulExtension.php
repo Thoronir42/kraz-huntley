@@ -4,8 +4,11 @@ namespace SeStep\Typeful\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
+use SeStep\Typeful\Console\ListEntitiesCommand;
+use SeStep\Typeful\Console\ListTypesCommand;
 use SeStep\Typeful\Forms;
 use SeStep\Typeful\Service;
+use Symfony\Component\Console\Command\Command;
 
 class TypefulExtension extends CompilerExtension
 {
@@ -35,6 +38,15 @@ class TypefulExtension extends CompilerExtension
             ->setType(Forms\EntityFormPopulator::class);
 
         $this->initTypeful($builder, $this->configFile['typeful']);
+
+        if (class_exists(Command::class)) {
+            $builder->addDefinition($this->prefix('listTypesCommand'))
+                ->setType(ListTypesCommand::class)
+                ->setArgument('name', $this->name . ':types:list');
+            $builder->addDefinition($this->prefix('listDescriptorsCommand'))
+                ->setType(ListEntitiesCommand::class)
+                ->setArgument('name', $this->name . ':descriptors:list');
+        }
     }
 
     public function beforeCompile()

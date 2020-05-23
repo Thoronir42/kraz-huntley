@@ -7,6 +7,7 @@ use SeStep\Typeful\Entity;
 
 class EntityDescriptorRegistry
 {
+    /** @var Entity\EntityDescriptor[] */
     private $descriptors = [];
 
     public function __construct(array $descriptors)
@@ -31,7 +32,15 @@ class EntityDescriptorRegistry
         return $descriptor->getProperty($propertyName);
     }
 
-    private function add(Entity\EntityDescriptor $descriptor)
+    /**
+     * @return Entity\EntityDescriptor[]
+     */
+    public function getDescriptors(): array
+    {
+        return $this->descriptors;
+    }
+
+    private function add(Entity\EntityDescriptor $descriptor): void
     {
         $entityName = $descriptor->getName();
         if (isset($this->descriptors[$entityName])) {

@@ -2,10 +2,10 @@ typeful:
     types:
         int:
             class: SeStep\Typeful\Types\IntType
-            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createText
+            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createInt
         text:
             class: SeStep\Typeful\Types\TextType
-            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createInt
+            controlFactory: SeStep\Typeful\Forms\StandardControlsFactory::createText
         date:
             class: SeStep\Typeful\Types\DateType
         dateTime:
