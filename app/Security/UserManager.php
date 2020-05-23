@@ -5,6 +5,7 @@ namespace App\Security;
 
 use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
+use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
 use Nette\Security\IIdentity;
@@ -38,10 +39,10 @@ class UserManager implements IAuthenticator
         $user = $this->userRepository->findByNick($nick);
         if (!$user) {
             $this->passwords->hash($password);
-            return null;
+            throw new AuthenticationException('auth.userNotFound', self::IDENTITY_NOT_FOUND);
         }
         if (!$this->passwords->verify($password, $user->pass)) {
-            return null;
+            throw new AuthenticationException('auth.invalidCredentials', self::INVALID_CREDENTIAL);
         }
 
         $roles = [];
