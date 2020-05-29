@@ -140,10 +140,6 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         return $this->mapper->getEntityClass($this->getTable());
     }
 
-    public function getDataSource(string $alias = null): Fluent
-    {
-        return $this->select($alias);
-    }
 
     public function getEntityDataSource(array $conditions = null): LeanMapperDataSource
     {
