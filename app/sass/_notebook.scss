@@ -1,16 +1,61 @@
-.notebook {
-  &.page-odd {
-    background: url("/img/diary_left.png");
-  }
-
-  &.page-even {
-    background: url("/img/diary_right.png");
-  }
-
+.container-notebook {
   height: 100vh;
   width: 100vw;
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.notebook {
+  display: flex;
+  flex-direction: column;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  &.page-left {
+    background-image: url("/img/diary_left.png");
+    padding-left: 36px;
+    padding-right: 12px;
+  }
+
+  &.page-right {
+    background-image: url("/img/diary_right.png");
+  }
+
+  height: 650px;
+  width: 420px;
+
   padding: 24px;
+
+  .page-content {
+    flex: 1;
+  }
+
+  .pagination {
+    align-self: stretch;
+    justify-self: end;
+
+
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+    .page-link {
+      display: inline-flex;
+      width: 3em;
+      justify-content: center;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      border-radius: 4px;
+    }
+  }
 }
 
 .challenge {

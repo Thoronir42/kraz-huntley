@@ -1,4 +1,6 @@
-{var $pageNumber = $page->pageNumber}
-<div n:class="notebook, $pageNumber % 2 ? page-odd : page-even" id="{$control->getName()}">
-    {control page-$pageNumber}
+<div n:class="notebook, $pageNumber % 2 === 0? 'page-left' : 'page-right'" id="{$control->getName()}">
+    <div class="page-content">
+        {control page-$pageNumber}
+    </div>
+    {control pagination, $pageNumber}
 </div>

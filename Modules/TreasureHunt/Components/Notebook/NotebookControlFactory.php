@@ -6,5 +6,5 @@ use CP\TreasureHunt\Model\Entity\Notebook;
 
 interface NotebookControlFactory
 {
-    public function create(Notebook $notebook): NotebookControl;
+    public function create(Notebook $notebook, int $minPageCount): NotebookControl;
 }

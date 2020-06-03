@@ -1,0 +1,9 @@
+<div class="pagination">
+    <a href="{plink page, $pageNumber - 1}" n:tag-if="$pageNumber > $minPage">
+        <span class="page-link">&lt;</span>
+    </a>
+    <span class="current-page">{$pageNumber}</span>
+    <a href="{plink page, $pageNumber + 1}" n:tag-if="$pageNumber < $maxPage">
+        <span class="page-link">&gt;</span>
+    </a>
+</div>

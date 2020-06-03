@@ -10,6 +10,8 @@ use Nette\InvalidStateException;
 
 class NotebookPresenter extends Presenter
 {
+    private const MIN_PAGE_COUNT = 24;
+
     use HasAppUser;
 
     /** @var NotebookService @inject */
@@ -34,10 +36,10 @@ class NotebookPresenter extends Presenter
             $notebook = $this->notebookService->createNotebook($this->appUser);
         }
 
-        $this['notebook'] = $notebookControl = $this->notebookControlFactory->create($notebook);
+        $this['notebook'] = $notebookControl = $this->notebookControlFactory->create($notebook, self::MIN_PAGE_COUNT);
         $this->template->pageNumber = $page;
 
-        if ($page < 1 || $page > $notebook->countPages()) {
+        if ($page < 1 || ($page > self::MIN_PAGE_COUNT && $page > $notebook->countPages())) {
             $this->redirect('this', ['page' => 1]);
         }
     }

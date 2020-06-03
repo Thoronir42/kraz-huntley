@@ -15,6 +15,9 @@ class NotebookControl extends Control
 {
     /** @var Entity\Notebook */
     private $notebook;
+    /** @var int */
+    private $minPageCount;
+
     /** @var ChallengesService */
     private $challengesService;
     /** @var PropertyControlFactory */
@@ -22,28 +25,36 @@ class NotebookControl extends Control
 
     public function __construct(
         Entity\Notebook $notebook,
+        int $minPageCount,
         ChallengesService $challengesService,
         PropertyControlFactory $propertyControlFactory
     ) {
         $this->notebook = $notebook;
+        $this->minPageCount = $minPageCount;
         $this->challengesService = $challengesService;
         $this->propertyControlFactory = $propertyControlFactory;
     }
 
     public function render(int $page)
     {
-        $notebookPage = $this->notebook->getPage($page, true);
-
         $this->template->setFile(__DIR__ . "/notebook.latte");
-        $this->template->page = $notebookPage;
+        $this->template->pageNumber = $page;
 
         $this->template->render();
+    }
+
+    public function createComponentPagination()
+    {
+        return new NotebookPagination(max($this->notebook->countPages(), $this->minPageCount));
     }
 
     public function createComponentPage()
     {
         return new Multiplier(function ($pageNumber) {
             $page = $this->notebook->getPage((int)$pageNumber);
+            if(!$page) {
+                return new EmptyPage();
+            }
 
             switch ($page->type) {
                 case Entity\NotebookPage::TYPE_INDEX:

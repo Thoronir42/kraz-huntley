@@ -21,6 +21,7 @@ class Notebook extends Entity
 {
     public function getPage(int $i, bool $need = false): ?NotebookPage
     {
+        // todo: adjust creation of pages collection to avoid for-cycle search
         foreach ($this->pages as $page) {
             if ($page->pageNumber !== $i) {
                 continue;
