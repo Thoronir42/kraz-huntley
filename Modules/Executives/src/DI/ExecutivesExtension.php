@@ -7,6 +7,7 @@ use Nette\DI\Container;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\InvalidStateException;
+use SeStep\Executives;
 use SeStep\Executives\Execution\ActionExecutor;
 use SeStep\Executives\Execution\ClassnameActionExecutor;
 use SeStep\Executives\Execution\ExecutivesLocator;
@@ -49,6 +50,18 @@ class ExecutivesExtension extends CompilerExtension
             ->setType(ExecutivesLocalization::class);
         $builder->addDefinition($this->prefix('multiActionStrategyFactory'))
             ->setType(MultiActionStrategyFactory::class);
+
+        $builder->addDefinition($this->prefix('listActionsCommand'))
+            ->setType(Executives\Console\ExecutivesRegistryListCommand::class)
+            ->setAutowired(false)
+            ->setArgument('name', 'exe:actions:list')
+            ->setArgument('listingType', 'action');
+
+        $builder->addDefinition($this->prefix('listConditionsCommand'))
+            ->setType(Executives\Console\ExecutivesRegistryListCommand::class)
+            ->setAutowired(false)
+            ->setArgument('name', 'exe:condition:list')
+            ->setArgument('listingType', 'condition');
     }
 
     public function beforeCompile()
