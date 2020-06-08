@@ -45,14 +45,18 @@ class PropertyControlFactory
         $this->typeToControlFactory[$type] = $callback;
     }
 
-    public function create(Property $property): IControl
+    public function create(string $name, string $type, array $typeOptions = []): IControl
     {
-        $type = $property->getType();
         $controlFactory = $this->typeToControlFactory[$type] ?? null;
         if (!$controlFactory) {
             throw new InvalidStateException("Type '$type' does not have a factory associated");
         }
 
-        return $controlFactory($property->getName(), $property->getTypeOptions());
+        return $controlFactory($name, $typeOptions);
+    }
+
+    public function createByProperty(Property $property): IControl
+    {
+        return $this->create($property->getName(), $property->getType(), $property->getTypeOptions());
     }
 }
