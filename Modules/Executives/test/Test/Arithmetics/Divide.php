@@ -4,11 +4,16 @@
 namespace SeStep\Executives\Test\Arithmetics;
 
 
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use SeStep\Executives\Execution\Action;
 use SeStep\Executives\Execution\ExecutionResult;
 use SeStep\Executives\Execution\ExecutionResultBuilder;
+use SeStep\Executives\Validation\HasParamsSchema;
+use SeStep\Executives\Validation\ParamValidationError;
+use SeStep\Executives\Validation\ValidatesParams;
 
-class Divide implements Action
+class Divide implements Action, HasParamsSchema, ValidatesParams
 {
     public function execute($context, $params): ExecutionResult
     {
@@ -27,5 +32,27 @@ class Divide implements Action
         return ExecutionResultBuilder::ok()
             ->update($target, $leftValue / $rightValue)
             ->create();
+    }
+
+    public function getParamsSchema(): Schema
+    {
+        $referenceOrNumeric = Expect::anyOf(Expect::int(), Expect::float(), Expect::string()->min(1))->required();
+        return Expect::structure([
+            'left' => $referenceOrNumeric,
+            'right' => $referenceOrNumeric,
+            'target' => Expect::string()->min(1),
+        ]);
+    }
+
+
+    public function validateParams(array $params): array
+    {
+        $errors = [];
+
+        if ($params['right'] == 0) {
+            $errors['right'] = new ParamValidationError('divisionByZero');
+        }
+
+        return $errors;
     }
 }

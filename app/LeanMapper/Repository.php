@@ -140,6 +140,17 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         return $this->mapper->getEntityClass($this->getTable());
     }
 
+    public function listColumn(string $property): array
+    {
+        $table = $this->getTable();
+        $entityClass = $this->mapper->getEntityClass($table);
+        $primary = $this->mapper->getPrimaryKey($table);
+
+        $column = $this->mapper->getColumn($entityClass, $property);
+        return $this->connection->select("$primary, $column")
+            ->from($table)
+            ->fetchPairs($primary, $column);
+    }
 
     public function getEntityDataSource(array $conditions = null): LeanMapperDataSource
     {

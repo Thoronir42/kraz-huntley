@@ -3,11 +3,14 @@
 namespace SeStep\Executives\Test\Arithmetics;
 
 
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use SeStep\Executives\Execution\Action;
 use SeStep\Executives\Execution\ExecutionResult;
 use SeStep\Executives\Execution\ExecutionResultBuilder;
+use SeStep\Executives\Validation\HasParamsSchema;
 
-class Add implements Action
+class Add implements Action, HasParamsSchema
 {
     public function execute($context, $params): ExecutionResult
     {
@@ -21,5 +24,15 @@ class Add implements Action
         return ExecutionResultBuilder::ok()
             ->update($target, $leftValue + $rightValue)
             ->create();
+    }
+
+    public function getParamsSchema(): Schema
+    {
+        $referenceOrNumeric = Expect::anyOf(Expect::int(), Expect::float(), Expect::string())->required();
+        return Expect::structure([
+            'left' => $referenceOrNumeric,
+            'right' => $referenceOrNumeric,
+            'target' => Expect::string(),
+        ]);
     }
 }

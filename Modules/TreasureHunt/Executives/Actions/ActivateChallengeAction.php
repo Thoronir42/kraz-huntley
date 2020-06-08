@@ -4,13 +4,16 @@ namespace CP\TreasureHunt\Executives\Actions;
 
 use CP\TreasureHunt\Model\Service\ChallengesService;
 use CP\TreasureHunt\Model\Service\NotebookService;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use SeStep\Executives\Execution\Action;
 use SeStep\Executives\Execution\ExecutionResult;
 use SeStep\Executives\Execution\ExecutionResultBuilder;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
+use SeStep\Executives\Validation\HasParamsSchema;
 
-class ActivateChallengeAction implements Action
+class ActivateChallengeAction implements Action, HasParamsSchema
 {
     /** @var NotebookService */
     private $notebookService;
@@ -50,6 +53,15 @@ class ActivateChallengeAction implements Action
         return new GenericActionData('exe.multiAction', [
             'strategy' => 'executeAll',
             'actions' => [],
+        ]);
+    }
+
+    public function getParamsSchema(): Schema
+    {
+        $challengeIds = array_keys($this->challengesService->getNames());
+
+        return Expect::structure([
+            'challengeId' => Expect::anyOf(...$challengeIds)->required(),
         ]);
     }
 }

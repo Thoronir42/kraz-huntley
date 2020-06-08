@@ -13,6 +13,7 @@ class NetteExecutivesExtension extends CompilerExtension
     {
         $this->loadDefinitionsFromConfig([
             'actionFormFactory' => Components\ActionForm\ActionFormFactory::class,
+            'actionParamsControlFactory' => Controls\ActionParamsControlFactory::class,
         ]);
     }
 

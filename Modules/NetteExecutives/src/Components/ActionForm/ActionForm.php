@@ -2,10 +2,13 @@
 
 namespace SeStep\NetteExecutives\Components\ActionForm;
 
+use Closure;
 use Contributte\FormMultiplier\Multiplier;
 use Contributte\Translation\Translator;
+use Nette\UnexpectedValueException;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
+use SeStep\Executives\Validation\ExecutivesValidator;
 use SeStep\LeanExecutives\Entity\Action;
 use SeStep\LeanExecutives\Entity\Condition;
 use Nette\Application\UI;
@@ -13,6 +16,8 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
 use SeStep\Executives\ModuleAggregator;
+use SeStep\NetteExecutives\Controls\ActionParamsControlFactory;
+use SeStep\NetteExecutives\Controls\AssociativeArrayControl;
 
 /**
  * Class ActionForm
@@ -30,14 +35,23 @@ class ActionForm extends UI\Component
     private $executivesModules;
     /** @var Translator */
     private $translator;
+    /** @var ActionParamsControlFactory */
+    private $actionParamsControlFactory;
+    /** @var ExecutivesValidator */
+    private $executivesValidator;
 
     public function __construct(
         ModuleAggregator $executivesModules,
         Translator $translator,
+        ActionParamsControlFactory $actionParamsControlFactory,
+        ExecutivesValidator $executivesValidator,
         ActionData $action = null
     ) {
         $this->executivesModules = $executivesModules;
         $this->translator = $translator;
+        $this->actionParamsControlFactory = $actionParamsControlFactory;
+        $this->executivesValidator = $executivesValidator;
+
         $this->setAction($action);
     }
 
@@ -83,7 +97,7 @@ class ActionForm extends UI\Component
 
         $form->addGroup('exe.action');
         $form->addSelect('type', 'exe.actionType', $this->executivesModules->getActionsPlaceholders());
-        $form->addText('params', 'exe.actionParams');
+        $params = $form['params'] = $this->actionParamsControlFactory->create(null, 'exe.actionParams');
 
         $form->addGroup('exe.actionConditions');
         $form['conditions'] = $conditions = new Multiplier(function (Container $container) {
@@ -97,6 +111,8 @@ class ActionForm extends UI\Component
 
         $form->addGroup();
         $form->addSubmit('save');
+
+        $form->onSubmit[] = [$this, 'normalizeParams'];
 
         $form->onSuccess[] = function (Form $form) {
             $values = $form->getValues();
@@ -116,5 +132,24 @@ class ActionForm extends UI\Component
         return $form;
     }
 
+    public function normalizeParams(Form $form)
+    {
+        $values = $form->getValues('array');
+
+        $errors = $this->executivesValidator->validateActionParams($this->action->getType(), $values['params'], true);
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                $errorType = $error->getErrorType();
+                if ($errorType !== 'schema.validationException') {
+                    // todo: localization of errors
+                    throw new UnexpectedValueException("Error of type '$errorType' not recognized");
+                }
+
+                $form->addError($error->getErrorData()['message'], false);
+            }
+        }
+
+        $form->setValues($values);
+    }
 
 }

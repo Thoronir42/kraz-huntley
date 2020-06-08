@@ -14,6 +14,7 @@ use SeStep\Executives\ExecutivesLocalization;
 use SeStep\Executives\Module\ExecutivesModule;
 use SeStep\Executives\Module\MultiActionStrategyFactory;
 use SeStep\Executives\ModuleAggregator;
+use SeStep\Executives\Validation\ExecutivesValidator;
 
 class ExecutivesExtension extends CompilerExtension
 {
@@ -22,8 +23,11 @@ class ExecutivesExtension extends CompilerExtension
     public function loadConfiguration()
     {
         $builder = $this->getContainerBuilder();
-        $builder->addDefinition($this->prefix('moduleAggregator'))
-            ->setType(ModuleAggregator::class);
+        $this->loadDefinitionsFromConfig([
+            'moduleAggregator' => ModuleAggregator::class,
+            'validator' => ExecutivesValidator::class,
+            'actionExecutor' => ActionExecutor::class,
+        ]);
 
         $builder->addDefinition($this->prefix('executivesLocator'))
             ->setType(ExecutivesLocator::class)
@@ -31,8 +35,6 @@ class ExecutivesExtension extends CompilerExtension
                 [$builder->getDefinitionByType(Container::class), 'createInstance'],
             ]));
 
-        $builder->addDefinition($this->prefix('actionExecutor'))
-            ->setType(ActionExecutor::class);
         $builder->addDefinition($this->prefix('classnameActionExecutor'))
             ->setType(ClassnameActionExecutor::class)
             ->setArgument('resolveByClassname', new Statement('Closure::fromCallable', [

@@ -15,6 +15,11 @@ actionForm:
     submitCreate: Vytvořit
     submitUpdate: Upravit
 
+validation:
+    missingField: Chybí hodnota '%field%'
+    unexpectedTypeInField: Nečekaná hodnota v '%%field'
+    unknownValue: Neznámá hodnota '%value%'
+
 executives:
     action:
         multiAction: Skupina akcí
