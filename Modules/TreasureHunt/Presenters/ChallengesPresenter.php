@@ -5,27 +5,24 @@ namespace CP\TreasureHunt\Presenters;
 use CP\TreasureHunt\Components\ChallengeFormFactory;
 use CP\TreasureHunt\Components\ChallengesGridFactory;
 use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Service\ChallengesService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
-use CP\TreasureHunt\Model\Service\ChallengesService;
-use SeStep\Executives\Components\ActionGridFactory;
-use SeStep\Executives\Model\Service\ActionsService;
+use SeStep\Executives\Model\ActionData;
+use SeStep\NetteExecutives\Components\ActionForm\ActionFormFactory;
 
 class ChallengesPresenter extends Presenter
 {
     /** @var ChallengesService @inject */
     public $challengesService;
-    /** @var ActionsService @inject */
-    public $actionsService;
 
     /** @var ChallengesGridFactory @inject */
     public $challengesGridFactory;
     /** @var ChallengeFormFactory @inject */
     public $challengeFormFactory;
-
-    /** @var ActionGridFactory @inject */
-    public $actionGridFactory;
+    /** @var ActionFormFactory @inject */
+    public $actionFormFactory;
 
     public function actionCreateNew()
     {
@@ -60,13 +57,22 @@ class ChallengesPresenter extends Presenter
             $this->redirect('this');
         };
 
-        $actionGrid = $this->actionGridFactory->create();
-        $actionGrid->setDataSource($this->actionsService->getActionsDataSource($challenge->submitScript));
+        $actionForm = $this->actionFormFactory->create($challenge->onSubmit);
 
-        $actionGrid->addAction('edit', 'edit', 'ChallengeAction:detail', ['actionId' => 'id'])
-            ->addParameters(['challengeId' => $challenge->id]);
+        $actionForm->onSave[] = function ($form, ActionData $action) use ($challenge) {
+            $this->challengesService->setOnSubmitAction($challenge, $action);
+            $this->flashMessage('th.challengeOnSave.updated');
+            $this->redirect('this');
+        };
 
-        $this['actionGrid'] = $actionGrid;
+        $this['actionForm'] = $actionForm;
+
+    }
+
+    protected function beforeRender()
+    {
+        parent::beforeRender();
+        $this->setLayout('meta');
     }
 
     public function renderIndex()

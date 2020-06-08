@@ -31,4 +31,12 @@ class MultiActionStrategyFactory
 
         return new $class();
     }
+
+    /**
+     * @return string[]
+     */
+    public function listStrategies(): array
+    {
+        return array_keys($this->strategies);
+    }
 }

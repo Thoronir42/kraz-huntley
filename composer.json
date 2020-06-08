@@ -12,21 +12,22 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
-        "tracy/tracy": "^2.7",
-        "nette/di": "^3.0",
-        "nette/application": "^3.0",
-        "nette/routing": "^3.0",
-        "latte/latte": "^2.6",
-        "nette/bootstrap": "^3.0",
-        "tharos/leanmapper": "^3.4",
-        "sestep/modular-lean-mapper": "dev-master",
-        "sestep/entity-ids": "^0.9",
-        "nette/security": "^3.0",
-        "nette/forms": "^3.0",
         "contributte/console": "0.7.1",
-        "ublaboo/datagrid": "^6.2",
         "contributte/forms-multiplier": "^3.1@dev",
-        "contributte/translation": "^0.7.0@dev"
+        "contributte/translation": "^0.7.0@dev",
+        "latte/latte": "^2.6",
+        "nette/application": "^3.0",
+        "nette/bootstrap": "^3.0",
+        "nette/di": "^3.0",
+        "nette/forms": "^3.0",
+        "nette/routing": "^3.0",
+        "nette/schema": "master",
+        "nette/security": "^3.0",
+        "sestep/entity-ids": "^0.9",
+        "sestep/modular-lean-mapper": "dev-master",
+        "tharos/leanmapper": "^3.4",
+        "tracy/tracy": "^2.7",
+        "ublaboo/datagrid": "^6.2"
     },
     "require-dev": {
         "phpunit/phpunit": "8.0"
@@ -39,7 +40,9 @@
             "SeStep\\Executives\\": "Modules/Executives/src/",
             "SeStep\\LeanExecutives\\": "Modules/LeanExecutives/src/",
             "SeStep\\NetteExecutives\\": "Modules/NetteExecutives/src/",
-            "SeStep\\Typeful\\": "Modules/Typeful/src/"
+            "SeStep\\Typeful\\": "Modules/Typeful/src/",
+
+            "Data\\Huntley\\": "data/huntley/"
         }
     },
     "autoload-dev": {
@@ -47,6 +50,8 @@
             "SeStep\\Executives\\": "Modules/Executives/test/",
             "SeStep\\Typeful\\": "Modules/Typeful/test/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
-
 }

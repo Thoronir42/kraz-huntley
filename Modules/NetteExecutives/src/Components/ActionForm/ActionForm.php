@@ -2,10 +2,8 @@
 
 namespace SeStep\NetteExecutives\Components\ActionForm;
 
-use Closure;
 use Contributte\FormMultiplier\Multiplier;
 use Contributte\Translation\Translator;
-use Nette\UnexpectedValueException;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
 use SeStep\Executives\Validation\ExecutivesValidator;
@@ -17,7 +15,6 @@ use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
 use SeStep\Executives\ModuleAggregator;
 use SeStep\NetteExecutives\Controls\ActionParamsControlFactory;
-use SeStep\NetteExecutives\Controls\AssociativeArrayControl;
 
 /**
  * Class ActionForm
@@ -136,16 +133,19 @@ class ActionForm extends UI\Component
     {
         $values = $form->getValues('array');
 
-        $errors = $this->executivesValidator->validateActionParams($this->action->getType(), $values['params'], true);
+        $errors = $this->executivesValidator->validateActionParams($values['type'], $values['params'], true);
         if (!empty($errors)) {
-            foreach ($errors as $error) {
+            foreach ($errors as $field => $error) {
                 $errorType = $error->getErrorType();
-                if ($errorType !== 'schema.validationException') {
-                    // todo: localization of errors
-                    throw new UnexpectedValueException("Error of type '$errorType' not recognized");
+                $errorData = $error->getErrorData();
+
+                if ($errorType === 'schema.validationException') {
+                    $form->addError($errorData['message'], false);
+                    continue;
                 }
 
-                $form->addError($error->getErrorData()['message'], false);
+                $form->addError($this->translator->translate($error->getErrorType(), $errorData));
+
             }
         }
 

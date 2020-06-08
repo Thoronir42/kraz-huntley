@@ -1,6 +1,6 @@
-{control challengeForm}
+{block content}
 
+{control challengeForm}
 {ifset $challenge}
-{control actionGrid}
-    <a n:href="ChallengeAction:add $challenge->id">Přidat akci</a>
+    {control actionForm}
 {/ifset}

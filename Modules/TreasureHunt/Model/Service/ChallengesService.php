@@ -5,7 +5,9 @@ namespace CP\TreasureHunt\Model\Service;
 use App\LeanMapper\TransactionManager;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Repository\ChallengeRepository;
+use SeStep\Executives\Model\ActionData;
 use SeStep\LeanExecutives\ActionsService;
+use SeStep\LeanExecutives\Entity\Action;
 use Ublaboo\DataGrid\DataSource\IDataSource;
 
 class ChallengesService
@@ -43,5 +45,23 @@ class ChallengesService
             $this->challengeRepository->persist($challenge);
         });
 
+    }
+
+    public function getNames()
+    {
+        return $this->challengeRepository->listColumn('title');
+    }
+
+    public function setOnSubmitAction(Challenge $challenge, ActionData $action)
+    {
+        if (!$action instanceof Action) {
+            $action = Action::createFrom($action);
+        }
+
+        $this->transactionManager->execute(function () use ($challenge, $action) {
+            $this->actionsService->saveAction($action);
+            $challenge->onSubmit = $action;
+            $this->challengeRepository->persist($challenge);
+        });
     }
 }

@@ -44,6 +44,13 @@ class ExecutionResultBuilder
         return $this;
     }
 
+    public function withData(string $field, $value)
+    {
+        $this->data[$field] = $value;
+
+        return $this;
+    }
+
     public function create(): ExecutionResult
     {
         return new ExecutionResult($this->code, $this->data);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec679a9f930ac69b04619ce854c2a7e6",
+    "content-hash": "11b720e0487b7b4c83d12813b3679518",
     "packages": [
         {
             "name": "contributte/application",
@@ -1262,16 +1262,16 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4"
+                "reference": "566e2076ed4682b57b76b7adeaf0a891009e9f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
-                "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
+                "url": "https://api.github.com/repos/nette/schema/zipball/566e2076ed4682b57b76b7adeaf0a891009e9f78",
+                "reference": "566e2076ed4682b57b76b7adeaf0a891009e9f78",
                 "shasum": ""
             },
             "require": {
@@ -1285,7 +1285,9 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": []
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
             },
             "autoload": {
                 "classmap": [
@@ -1295,8 +1297,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
+                "GPL-2.0-only",
+                "GPL-3.0-only"
             ],
             "authors": [
                 {
@@ -1314,7 +1316,7 @@
                 "config",
                 "nette"
             ],
-            "time": "2020-01-06T22:52:48+00:00"
+            "time": "2020-06-03T08:48:19+00:00"
         },
         {
             "name": "nette/security",
@@ -3999,9 +4001,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "sestep/modular-lean-mapper": 20,
         "contributte/forms-multiplier": 20,
-        "contributte/translation": 20
+        "contributte/translation": 20,
+        "sestep/modular-lean-mapper": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

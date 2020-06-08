@@ -17,11 +17,6 @@ use SeStep\Executives\ModuleAggregator;
 
 class NotebookService
 {
-    private const PAGE_TYPES = [
-        NotebookPage::TYPE_INDEX,
-        NotebookPage::TYPE_CHALLENGE,
-    ];
-
     /** @var NotebookRepository */
     private $notebookRepository;
     /** @var NotebookPageRepository */
@@ -41,11 +36,6 @@ class NotebookService
         $this->notebookPageRepository = $notebookPageRepository;
         $this->transactionManager = $transactionManager;
         $this->classnameActionExecutor = $classnameActionExecutor;
-    }
-
-    public function getPageTypes(): array
-    {
-        return self::PAGE_TYPES;
     }
 
     public function getNotebook(string $id): ?Notebook
