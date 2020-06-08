@@ -37,6 +37,8 @@
             "CP\\TreasureHunt\\": "Modules/TreasureHunt/",
             "DatabaseCli\\": "Modules/DatabaseCli/src",
             "SeStep\\Executives\\": "Modules/Executives/src/",
+            "SeStep\\LeanExecutives\\": "Modules/LeanExecutives/src/",
+            "SeStep\\NetteExecutives\\": "Modules/NetteExecutives/src/",
             "SeStep\\Typeful\\": "Modules/Typeful/src/"
         }
     },

@@ -5,8 +5,7 @@ namespace CP\TreasureHunt\Model\Service;
 use App\LeanMapper\TransactionManager;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Repository\ChallengeRepository;
-use SeStep\Executives\Model\Entity\Script;
-use SeStep\Executives\Model\Service\ActionsService;
+use SeStep\LeanExecutives\ActionsService;
 use Ublaboo\DataGrid\DataSource\IDataSource;
 
 class ChallengesService
@@ -41,11 +40,6 @@ class ChallengesService
     public function save(Challenge $challenge)
     {
         $this->transactionManager->execute(function () use ($challenge) {
-            if ($challenge->isDetached()) {
-                $script = $this->actionsService->createScript(Script::METHOD_STOP_ON_FIRST_PASS);
-                $challenge->submitScript = $script;
-            }
-
             $this->challengeRepository->persist($challenge);
         });
 

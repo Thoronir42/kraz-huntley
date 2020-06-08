@@ -8,8 +8,7 @@ services:
             typeMap:
                 2: App\Model\Entity\User
                 7: CP\TreasureHunt\Model\Entity\Challenge
-                10: SeStep\Executives\Model\Entity\Script
-                12: SeStep\Executives\Model\Entity\Action
+                12: SeStep\LeanExecutives\Entity\Action
         autowired: false
     ids.6generator:
         class: SeStep\EntityIds\Generator\TypeMapIdGenerator
@@ -17,7 +16,7 @@ services:
             checkSum: SeStep\EntityIds\Type\CheckSum(@ids.charSet, [3])
             length: 6
             typeMap:
-                1: SeStep\Executives\Model\Entity\Condition
+                1: SeStep\LeanExecutives\Entity\Condition
                 3: CP\TreasureHunt\Model\Entity\Notebook
                 9: CP\TreasureHunt\Model\Entity\NotebookPage
                 17: CP\TreasureHunt\Model\Entity\Narrative

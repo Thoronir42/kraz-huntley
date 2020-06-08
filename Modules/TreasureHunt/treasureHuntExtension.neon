@@ -15,10 +15,10 @@ services:
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
     narrativeFormFactory: CP\TreasureHunt\Components\NarrativeFormFactory
 
-    executiveModule:
+    executivesModule:
         class: CP\TreasureHunt\Executives\TreasureHuntExecutivesModule
         tags:
-            executiveModule: th
+            executivesModule: th
 
 typeful:
     entities:

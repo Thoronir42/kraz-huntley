@@ -14,3 +14,7 @@ actionForm:
 
     submitCreate: Vytvořit
     submitUpdate: Upravit
+
+executives:
+    action:
+        multiAction: Skupina akcí

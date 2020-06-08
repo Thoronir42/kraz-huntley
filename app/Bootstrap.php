@@ -2,9 +2,7 @@
 
 namespace App;
 
-use ArrayIterator;
 use Contributte\Console;
-use IteratorIterator;
 use Nette\Application;
 use Nette\Configurator;
 use Nette\DI\Container;

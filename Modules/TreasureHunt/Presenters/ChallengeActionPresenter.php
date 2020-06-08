@@ -6,9 +6,8 @@ use CP\TreasureHunt\Model\Service\ChallengesService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
-use SeStep\Executives\Components\ActionForm\ActionForm;
-use SeStep\Executives\Components\ActionForm\ActionFormFactory;
-use SeStep\Executives\Model\Entity\Action;
+use SeStep\NetteExecutives\Components\ActionForm\ActionFormFactory;
+use SeStep\LeanExecutives\Entity\Action;
 use SeStep\Executives\Model\Service\ActionsService;
 
 class ChallengeActionPresenter extends Presenter

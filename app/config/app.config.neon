@@ -19,7 +19,7 @@ services:
                 mapper: App\LeanMapper\UnderscoreMapper()
                 modules:
                     app__: SeStep\ModularLeanMapper\MapperModule::create('App\Model')
-                    exe__: SeStep\ModularLeanMapper\MapperModule::create('SeStep\Executives\Model')
+                    exe__: SeStep\ModularLeanMapper\MapperModule::create('SeStep\LeanExecutives')
                     th__: CP\TreasureHunt\Model\TreasureHuntMapperModule()
     transactionManager: App\LeanMapper\TransactionManager
 
@@ -35,6 +35,8 @@ extensions:
     idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
     appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension
     executives: SeStep\Executives\DI\ExecutivesExtension
+    leanExecutives: SeStep\LeanExecutives\DI\LeanExecutivesExtension
+    netteExecutives: SeStep\NetteExecutives\NetteExecutivesExtension
 
 leanMapper:
     db:
@@ -50,6 +52,7 @@ translation:
     dirs:
         - %appDir%/locale
         - %modulesDir%/Executives/locale
+        - %modulesDir%/NetteExecutives/locale
         - %modulesDir%/TreasureHunt/locale
 
 repositories:
@@ -59,7 +62,7 @@ dbCli:
     initCmd:
         files:
             - %appDir%/database/init.sql
-            - %modulesDir%/Executives/database/init.sql
+            - %modulesDir%/LeanExecutives/database/init.sql
             - %modulesDir%/TreasureHunt/Model/database/init.sql
     wipeCmd:
         schemaName: 'huntley'

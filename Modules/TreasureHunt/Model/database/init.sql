@@ -4,11 +4,11 @@ CREATE TABLE th__challenge
     title       varchar(72) NOT NULL,
     description text        NOT NULL,
     key_type    varchar(92) NOT NULL,
-    script_id   varchar(4)  NULL,
+    on_submit   varchar(4)  NULL,
 
     CONSTRAINT `th__challenge_pk` PRIMARY KEY (id),
     CONSTRAINT `th__challenge_script_fk` FOREIGN KEY
-        (script_id) REFERENCES exe__script (id)
+        (on_submit) REFERENCES exe__action (id)
 );
 
 CREATE TABLE th__narrative
