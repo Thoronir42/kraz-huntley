@@ -13,6 +13,8 @@ use SeStep\Typeful\Forms\PropertyControlFactory;
 
 class NotebookControl extends Control
 {
+    public $onAnswerSubmit = [];
+
     /** @var Entity\Notebook */
     private $notebook;
     /** @var int */
@@ -63,9 +65,12 @@ class NotebookControl extends Control
 
                 case Entity\NotebookPage::TYPE_CHALLENGE:
                     /** @var Entity\NotebookPageChallenge $page */
-                    return new ChallengePage($page,
+                    $challengePage = new ChallengePage($page,
                         $this->challengesService->getChallenge($page->getChallengeId()),
                         $this->propertyControlFactory);
+                    $challengePage->onAnswerSubmit = &$this->onAnswerSubmit;
+
+                    return $challengePage;
 
                 default:
                     throw new NotImplementedException("Page type '{$page->type}' not recognized");

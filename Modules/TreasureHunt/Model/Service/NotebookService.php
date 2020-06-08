@@ -76,12 +76,12 @@ class NotebookService
         });
     }
 
-    public function activateChallengePage(Notebook $notebook, Challenge $challenge): bool
+    public function activateChallengePage(Notebook $notebook, Challenge $challenge): ?int
     {
         return $this->transactionManager->execute(function () use ($notebook, $challenge) {
             $challengePage = $this->notebookPageRepository->findOneBy([
                 'notebook' => $notebook,
-                'params' => '"challengeId": "' . $challenge->id . '"',
+                'params' => '%"challengeId":"' . $challenge->id . '"%',
             ]);
 
             if (!$challengePage) {
@@ -91,7 +91,7 @@ class NotebookService
             $notebook->activePage = $challengePage->pageNumber;
             $this->notebookRepository->persist($notebook);
 
-            return true;
+            return $notebook->activePage;
         });
     }
 }

@@ -9,7 +9,8 @@ use SeStep\Typeful\Forms\PropertyControlFactory;
 
 class ChallengePage extends UI\Control
 {
-    public $onAnswerSubmitted = [];
+    public $onAnswerSubmit = [];
+
     /** @var NotebookPageChallenge */
     private $page;
     /** @var Challenge */
@@ -38,8 +39,16 @@ class ChallengePage extends UI\Control
     public function createComponentKey()
     {
         $form = new UI\Form();
+        $form['value'] = $this->controlFactory->create('value', $this->challenge->keyType);
 
         $form->addSubmit('send');
+
+        $form->onSuccess[] = function($form, $values) {
+            $answer = $values['value'];
+
+            $this->onAnswerSubmit($this->challenge, $answer);
+        };
+
         return $form;
     }
 

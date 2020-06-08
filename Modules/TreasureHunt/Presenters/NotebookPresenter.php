@@ -4,7 +4,10 @@ namespace CP\TreasureHunt\Presenters;
 
 use App\Security\HasAppUser;
 use CP\TreasureHunt\Components\Notebook\NotebookControlFactory;
+use CP\TreasureHunt\Executives\Triggers\AnswerSubmitted;
+use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Service\NotebookService;
+use CP\TreasureHunt\Model\Service\TreasureHuntService;
 use Nette\Application\UI\Presenter;
 use Nette\InvalidStateException;
 
@@ -19,6 +22,9 @@ class NotebookPresenter extends Presenter
 
     /** @var NotebookControlFactory @inject */
     public $notebookControlFactory;
+
+    /** @var TreasureHuntService @inject */
+    public $treasureHuntService;
 
     public function checkRequirements($element): void
     {
@@ -42,6 +48,13 @@ class NotebookPresenter extends Presenter
         if ($page < 1 || ($page > self::MIN_PAGE_COUNT && $page > $notebook->countPages())) {
             $this->redirect('this', ['page' => 1]);
         }
+
+        $notebookControl->onAnswerSubmit[] = function (Challenge $challenge, $answer) use ($notebook) {
+            $trigger = new AnswerSubmitted($notebook, $challenge, $answer);
+            $result = $this->treasureHuntService->triggerSubmitAnswer($trigger);
+            $activePage = $result->getData()['activePage'];
+            $this->redirect('this', $activePage);
+        };
     }
 
     protected function beforeRender()

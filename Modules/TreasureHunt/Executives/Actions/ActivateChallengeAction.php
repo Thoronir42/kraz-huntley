@@ -38,14 +38,16 @@ class ActivateChallengeAction implements Action, HasParamsSchema
 
         $result = $this->notebookService->activateChallengePage($notebook, $challenge);
 
-        if (!$result) {
+        if ($result === null) {
             return ExecutionResultBuilder::fail(ExecutionResult::CODE_EXECUTION_FAILED, 'th.pageActivationFailed', [
                 'challengeId' => $params['challengeId'],
             ])
                 ->create();
         }
 
-        return ExecutionResult::ok([]);
+        return ExecutionResultBuilder::ok()
+            ->update('activePage', $result)
+            ->create();
     }
 
     public static function create(): ActionData

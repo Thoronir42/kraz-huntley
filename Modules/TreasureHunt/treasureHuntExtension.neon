@@ -8,6 +8,8 @@ services:
     challengesService: CP\TreasureHunt\Model\Service\ChallengesService
     narrativeService: CP\TreasureHunt\Model\Service\NarrativesService
 
+    treasureHuntService: CP\TreasureHunt\Model\Service\TreasureHuntService
+
     registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory
     challengesGridFactory: CP\TreasureHunt\Components\ChallengesGridFactory
     challengeFormFactory: CP\TreasureHunt\Components\ChallengeFormFactory
