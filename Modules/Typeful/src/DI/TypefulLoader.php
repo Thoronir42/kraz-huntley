@@ -71,7 +71,7 @@ trait TypefulLoader
                 ->setType($definition->class)
                 ->setAutowired(false)
                 ->setArguments($definition->arguments)
-                ->addTag(TypefulExtension::TAG_TYPE);
+                ->addTag(TypefulExtension::TAG_TYPE, $this->prefix($type));
             if (isset($definition->controlFactory)) {
                 $typeDefinition->addTag(TypefulExtension::TAG_TYPE_CONTROL_FACTORY, $definition->controlFactory);
             }

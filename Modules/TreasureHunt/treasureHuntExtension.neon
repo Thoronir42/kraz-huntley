@@ -30,9 +30,9 @@ typeful:
             name: CP\TreasureHunt\Model\Entity\Narrative
             properties:
                 title:
-                    type: 'text'
+                    type: 'typeful.text'
                 content:
-                    type: 'text'
+                    type: 'typeful.text'
                     options:
                         richText: true
 

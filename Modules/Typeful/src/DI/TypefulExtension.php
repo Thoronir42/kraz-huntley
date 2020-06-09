@@ -18,13 +18,12 @@ class TypefulExtension extends CompilerExtension
     const TAG_TYPE_CONTROL_FACTORY = 'typeful.typeControlFactory';
     const TAG_ENTITY = 'typeful.entity';
 
-    private $configFile;
-
     public function loadConfiguration()
     {
-        $this->configFile = $this->loadFromFile(__DIR__ . '/typefulExtension.neon');
-
         $builder = $this->getContainerBuilder();
+
+        $configFile = $this->loadFromFile(__DIR__ . '/typefulExtension.neon');
+        $this->initTypeful($builder, $configFile['typeful']);
 
         $builder->addDefinition($this->prefix('typeRegister'))
             ->setType(Service\TypeRegistry::class);
@@ -37,7 +36,6 @@ class TypefulExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('formPopulator'))
             ->setType(Forms\EntityFormPopulator::class);
 
-        $this->initTypeful($builder, $this->configFile['typeful']);
 
         if (class_exists(Command::class)) {
             $builder->addDefinition($this->prefix('listTypesCommand'))
@@ -54,10 +52,15 @@ class TypefulExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         $types = [];
+        $controlFactories = [];
         $typesDefinitions = $builder->findByTag(self::TAG_TYPE);
-        foreach (array_keys($typesDefinitions) as $typeServiceName) {
-            $definition = $builder->getDefinition($typeServiceName);
-            $types[$definition->getName()] = $definition;
+        foreach ($typesDefinitions as $definitionName => $typeName) {
+            $definition = $builder->getDefinition($definitionName);
+            $types[$typeName] = $definition;
+            $controlFactory = $definition->getTag(self::TAG_TYPE_CONTROL_FACTORY);
+            if ($controlFactory) {
+                $controlFactories[$typeName] = $controlFactory;
+            }
         }
 
         /** @var ServiceDefinition $typeRegister */
@@ -65,7 +68,7 @@ class TypefulExtension extends CompilerExtension
         $typeRegister->setArgument('propertyTypes', $types);
 
         $propertyControlFactory = $builder->getDefinition($this->prefix('propertyControlFactory'));
-        $propertyControlFactory->setArgument('typeMap', $builder->findByTag(self::TAG_TYPE_CONTROL_FACTORY));
+        $propertyControlFactory->setArgument('typeMap', $controlFactories);
 
         $descriptors = [];
         foreach ($builder->findByTag(self::TAG_ENTITY) as $service => $entityClass) {
