@@ -154,6 +154,7 @@ class ExecutivesValidator
 
         if (empty($errors) && $subject instanceof ValidatesParams) {
             foreach ($subject->validateParams($params) as $field => $error) {
+                $error->addData('field', $field, false);
                 $errors[$field] = $error;
             }
         }

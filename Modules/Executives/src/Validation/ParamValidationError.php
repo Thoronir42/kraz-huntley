@@ -24,4 +24,13 @@ class ParamValidationError
     {
         return $this->errorData;
     }
+
+    public function addData(string $field, $value, bool $overwrite = false): self
+    {
+        if ($overwrite || !isset($this->errorData[$field])) {
+            $this->errorData[$field] = $value;
+        }
+
+        return $this;
+    }
 }

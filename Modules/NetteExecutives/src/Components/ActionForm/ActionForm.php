@@ -109,7 +109,7 @@ class ActionForm extends UI\Component
         $form->addGroup();
         $form->addSubmit('save');
 
-        $form->onSubmit[] = [$this, 'normalizeParams'];
+        $form->onValidate[] = [$this, 'normalizeParams'];
 
         $form->onSuccess[] = function (Form $form) {
             $values = $form->getValues();
@@ -144,8 +144,7 @@ class ActionForm extends UI\Component
                     continue;
                 }
 
-                $form->addError($this->translator->translate($error->getErrorType(), $errorData));
-
+                $form->addError($this->translator->translate($error->getErrorType(), $errorData), false);
             }
         }
 

@@ -1,0 +1,3 @@
+structure.unexpectedKey: Neočekávaná položka '%field%'
+optionMissing: Chybějící hodnota '%field%'
+unexpectedValue: Neočekávaná hodnota v '%field%'
