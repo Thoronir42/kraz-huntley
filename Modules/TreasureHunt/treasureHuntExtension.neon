@@ -25,6 +25,10 @@ services:
             executivesModule: th
 
 typeful:
+    types:
+        clueType:
+             class: CP\TreasureHunt\Typeful\Types\ClueType
+             autowired: true
     entities:
         narrative:
             name: CP\TreasureHunt\Model\Entity\Narrative

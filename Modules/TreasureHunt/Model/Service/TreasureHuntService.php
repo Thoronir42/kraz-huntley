@@ -42,6 +42,12 @@ class TreasureHuntService
             return $executionResult;
         }
 
+        // This is starting to get ugly
+        // TODO: adjust command flow
+        if (isset($executionResult->getData()[Navigation::ADVANCE_TYPE])) {
+            return $executionResult;
+        }
+
         return NavigationResultBuilder::redirect(Navigation::TARGET_NOTEBOOK_PAGE)
             ->withArg('pageNumber', $context->activePage)
             ->build();

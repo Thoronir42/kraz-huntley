@@ -1,7 +1,10 @@
+narrativeNotFound: Prupovídka nenalezena
+
 type:
     binaryMatrix: Binární matice
+    clueType: Typ nápovědy
 
 executives:
     action:
         activateChallenge: Aktivovat výzvu
-        revealNarrative: Odhalit průpravu
+        revealClue: Odhalit nápovědu

@@ -32,8 +32,8 @@ trait HandleNavigationAdvance
         switch ($data[Navigation::TARGET]) {
             case Navigation::TARGET_NOTEBOOK_PAGE:
                 return [':TreasureHunt:Notebook:page', ['page' => $navArgs['pageNumber']]];
-//            case Navigation::TARGET_NARRATIVE: TODO: implement properly
-//                return [':TreasureHunt:Clue:narrative', ['narrative' => $navArgs['clueId']]];
+            case Navigation::TARGET_NARRATIVE:
+                return [':TreasureHunt:Clue:narrative', ['narrativeId' => $navArgs['clueArgs']['narrative']]];
 
             default:
                 throw new NotImplementedException("Invalid target '{$data[Navigation::TARGET]}'");
