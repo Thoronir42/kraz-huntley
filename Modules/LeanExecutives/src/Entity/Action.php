@@ -35,7 +35,7 @@ class Action extends Entity implements ActionData
     public function getParams(): array
     {
         if ($this->arrayParams === null) {
-            $this->arrayParams = json_decode($this->row->params);
+            $this->arrayParams = json_decode($this->row->params, true);
         }
 
         return $this->arrayParams;
