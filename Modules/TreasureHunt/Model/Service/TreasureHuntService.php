@@ -2,7 +2,9 @@
 
 namespace CP\TreasureHunt\Model\Service;
 
+use CP\TreasureHunt\Executives\NavigationResultBuilder;
 use CP\TreasureHunt\Executives\Triggers\AnswerSubmitted;
+use CP\TreasureHunt\Navigation;
 use SeStep\Executives\Execution\ActionExecutor;
 use SeStep\Executives\Execution\ExecutionResult;
 use SeStep\Executives\Execution\ExecutionResultBuilder;
@@ -36,8 +38,12 @@ class TreasureHuntService
         $context->answer = $trigger->getAnswer();
 
         $executionResult = $this->actionExecutor->execute($challenge->onSubmit, $context);
-        return ExecutionResult::ok([
-            'activePage' => $context->activePage,
-        ]);
+        if (!$executionResult->isOk()) {
+            return $executionResult;
+        }
+
+        return NavigationResultBuilder::redirect(Navigation::TARGET_NOTEBOOK_PAGE)
+            ->withArg('pageNumber', $context->activePage)
+            ->build();
     }
 }
