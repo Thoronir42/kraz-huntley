@@ -25,6 +25,7 @@ trait TypefulLoader
                 'class' => Expect::string()->required(),
                 'arguments' => Expect::array(),
                 'controlFactory' => Expect::mixed(),
+                'autowired' => Expect::bool(false),
             ]));
             $entitiesSchema = Expect::arrayOf(Expect::structure([
                 'name' => Expect::string()->required(),
@@ -69,7 +70,7 @@ trait TypefulLoader
         foreach ($config->types as $type => $definition) {
             $typeDefinition = $builder->addDefinition($this->prefix("type.$type"))
                 ->setType($definition->class)
-                ->setAutowired(false)
+                ->setAutowired($definition->autowired)
                 ->setArguments($definition->arguments)
                 ->addTag(TypefulExtension::TAG_TYPE, $this->prefix($type));
             if (isset($definition->controlFactory)) {
