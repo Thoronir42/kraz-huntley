@@ -53,6 +53,13 @@
             },
             imageParts: {$fileUrls},
         };
+
+        const puzzle = new DragAndDropMap(map);
+
+        puzzle.onReady()
+            .then(() => puzzle.bind(document.querySelector('#treasure-map')));
+
+        window.puzzle = puzzle;
     })();
 </script>
 </body>
