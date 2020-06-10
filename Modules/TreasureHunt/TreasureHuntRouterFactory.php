@@ -19,6 +19,10 @@ class TreasureHuntRouterFactory
             ->addRoute('/narratives/<id>', [
                 'presenter' => 'Narratives',
                 'action' => 'view',
+            ])
+            ->addRoute('/clues/map/<mapId>', [ // temporary route for map debugging, TODO: Remove
+                'presenter' => 'Clue',
+                'action' => 'map',
             ]);
 
         $router->add(self::getManagementRoutes());

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11b720e0487b7b4c83d12813b3679518",
+    "content-hash": "c6d54c240e8932e88b0298baa44baca7",
     "packages": [
         {
             "name": "contributte/application",
@@ -454,6 +454,107 @@
                 "twig"
             ],
             "time": "2020-01-14T18:32:37+00:00"
+        },
+        {
+            "name": "league/flysystem",
+            "version": "2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "c6fd26cb88c6c0ddf1ff261bd93d89e0543e263d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c6fd26cb88c6c0ddf1ff261bd93d89e0543e263d",
+                "reference": "c6fd26cb88c6c0ddf1ff261bd93d89e0543e263d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "league/mime-type-detection": "^1.0.0",
+                "php": "^7.2"
+            },
+            "conflict": {
+                "guzzlehttp/ringphp": "<1.1.1"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "^3.132.4",
+                "phpseclib/phpseclib": "^2.0",
+                "phpstan/phpstan": "^0.12.9",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "File storage abstraction for PHP",
+            "keywords": [
+                "WebDAV",
+                "aws",
+                "cloud",
+                "file",
+                "files",
+                "filesystem",
+                "filesystems",
+                "ftp",
+                "s3",
+                "sftp",
+                "storage"
+            ],
+            "time": "2020-06-02T18:47:26+00:00"
+        },
+        {
+            "name": "league/mime-type-detection",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/mime-type-detection.git",
+                "reference": "521ff65678b30c9efab86462eba3bf9e0676f25b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/521ff65678b30c9efab86462eba3bf9e0676f25b",
+                "reference": "521ff65678b30c9efab86462eba3bf9e0676f25b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.11",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\MimeTypeDetection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "Mime-type detection for Flysystem",
+            "time": "2020-04-04T15:43:58+00:00"
         },
         {
             "name": "nette/application",
@@ -4003,6 +4104,7 @@
     "stability-flags": {
         "contributte/forms-multiplier": 20,
         "contributte/translation": 20,
+        "league/flysystem": 20,
         "sestep/modular-lean-mapper": 20
     },
     "prefer-stable": false,

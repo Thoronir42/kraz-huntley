@@ -6,3 +6,4 @@ app/config/config.local.neon
 vendor/
 node_modules/
 www/dist
+www/img/cache/

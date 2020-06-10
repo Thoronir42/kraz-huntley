@@ -35,6 +35,7 @@ class Bootstrap
         Debugger::$showLocation = true;
 
         $configurator->addParameters([
+            'rootDir' => dirname(__DIR__),
             'modulesDir' => __DIR__ . '/../Modules',
         ]);
 
