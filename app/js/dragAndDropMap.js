@@ -18,6 +18,11 @@
         /** @type {?RenderData} */
         this.renderData = null;
 
+        this.io = {
+            /** @type {?number} */
+            selectedTile: null,
+        };
+
         const whenReady = this.initialize(map)
             .catch((error) => console.error(error));
 
@@ -55,7 +60,13 @@
         }
 
         this.wrapperElement = puzzleWrapper;
-        puzzleWrapper.classList.add('drag-and-drop-puzzle');
+        this.initDomStructure();
+        this.initClickEvents();
+    };
+
+    /** @private */
+    DragAndDropMap.prototype.initDomStructure = function () {
+        this.wrapperElement.classList.add('drag-and-drop-puzzle');
 
         let imageCanvas = document.createElement('canvas');
         let imageContext = imageCanvas.getContext('2d');
@@ -83,12 +94,57 @@
 
         window.addEventListener('resize', () => updateCanvasSize(this.wrapperElement));
         updateCanvasSize(this.wrapperElement);
-
-
     };
+    /** @private */
+    DragAndDropMap.prototype.initClickEvents = function () {
+        this.wrapperElement.addEventListener('click', (/**MouseEvent*/ e) => {
+            if (!this.renderData) {
+                console.error("renderData not initialized");
+                return;
+            }
+            const tile = {
+                x: Math.floor((e.offsetX - this.renderData.offset.x) / this.renderData.tileSize.width),
+                y: Math.floor((e.offsetY - this.renderData.offset.y) / this.renderData.tileSize.height),
+            };
+
+            let tileSelection;
+            if (0 > tile.x || tile.x >= this.map.tiling.x
+                || 0 > tile.y || tile.y >= this.map.tiling.y) {
+                tileSelection = null;
+            } else {
+                tileSelection = tile.y * this.map.tiling.x + tile.x;
+            }
+
+            if (this.io.selectedTile !== null) {
+                if (this.io.selectedTile !== tileSelection) {
+                    this.swapTiles(this.io.selectedTile, tileSelection);
+                }
+                tileSelection = null;
+            }
+
+            this.io.selectedTile = tileSelection;
+            this.render();
+        })
+    }
+
+    /**
+     * @param {number} a
+     * @param {number} b
+     */
+    DragAndDropMap.prototype.swapTiles = function (a, b) {
+        if (0 > a || a >= this.imageOrder.length) {
+            throw new Error(a + ' is out of bounds');
+        }
+        if (0 > b || b >= this.imageOrder.length) {
+            throw new Error(b + ' is out of bounds');
+        }
+
+        let temp = this.imageOrder[a];
+        this.imageOrder[a] = this.imageOrder[b];
+        this.imageOrder[b] = temp;
+    }
 
     DragAndDropMap.prototype.render = function () {
-        console.log()
         this.renderImageTiling(this.layers.image.canvas, this.layers.image.context);
     };
 
@@ -114,8 +170,6 @@
             rd = this.renderData;
         }
 
-        context.strokeStyle = 'black 40px';
-
         let i = 0;
         for (let y = 0; y < this.map.tiling.y; y++) {
             for (let x = 0; x < this.map.tiling.x; x++) {
@@ -123,10 +177,34 @@
                 context.drawImage(image,
                     rd.offset.x + x * rd.tileSize.width, rd.offset.y + y * rd.tileSize.height,
                     rd.tileSize.width, rd.tileSize.height);
-                context.strokeRect(rd.offset.x + x * rd.tileSize.width, rd.offset.y + y * rd.tileSize.height,
-                    rd.tileSize.width, rd.tileSize.height);
             }
         }
+
+        context.strokeStyle = 'black';
+        context.beginPath();
+        for (let row = 0; row <= this.map.tiling.y; row++) {
+            let y = rd.offset.y + row * rd.tileSize.height;
+            context.moveTo(rd.offset.x, y);
+            context.lineTo(rd.offset.x + rd.targetSize.width, y);
+        }
+        for (let col = 0; col <= this.map.tiling.x; col++) {
+            let x = rd.offset.x + col * rd.tileSize.width;
+            context.moveTo(x, rd.offset.y);
+            context.lineTo(x, rd.offset.y + rd.targetSize.height);
+        }
+        context.stroke();
+
+        if (this.io.selectedTile !== null) {
+            let highlight = {
+                x: this.io.selectedTile % this.map.tiling.x,
+                y: Math.floor(this.io.selectedTile / this.map.tiling.x),
+            };
+            context.strokeStyle = 'lime';
+            context.strokeRect(rd.offset.x + highlight.x * rd.tileSize.width,
+                rd.offset.y + highlight.y * rd.tileSize.height,
+                rd.tileSize.width, rd.tileSize.height);
+        }
+
     }
 
     /**
