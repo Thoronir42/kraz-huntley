@@ -12,14 +12,19 @@ class EntityDescriptorRegistry
 
     public function __construct(array $descriptors)
     {
-        foreach ($descriptors as $descriptor) {
-            $this->add($descriptor);
+        foreach ($descriptors as $name => $descriptor) {
+            $this->add($name, $descriptor);
         }
     }
 
-    public function getEntityDescriptor(string $entityName): ?Entity\EntityDescriptor
+    public function getEntityDescriptor(string $entityName, bool $need = false): ?Entity\EntityDescriptor
     {
-        return $this->descriptors[$entityName] ?? null;
+        $entityDescriptor = $this->descriptors[$entityName] ?? null;
+        if (!$entityDescriptor && $need) {
+            throw new InvalidStateException("Entity descriptor '$entityName' not found");
+        }
+
+        return $entityDescriptor;
     }
 
     public function getEntityProperty(string $entityName, string $propertyName): ?Entity\Property
@@ -40,9 +45,8 @@ class EntityDescriptorRegistry
         return $this->descriptors;
     }
 
-    private function add(Entity\EntityDescriptor $descriptor): void
+    private function add(string $entityName, Entity\EntityDescriptor $descriptor): void
     {
-        $entityName = $descriptor->getName();
         if (isset($this->descriptors[$entityName])) {
             throw new InvalidStateException("Entity descriptor '$entityName' is already registered");
         }

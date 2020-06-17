@@ -28,7 +28,7 @@ trait TypefulLoader
                 'autowired' => Expect::bool(false),
             ]));
             $entitiesSchema = Expect::arrayOf(Expect::structure([
-                'name' => Expect::string()->required(),
+                'name' => Expect::string(),
                 'propertyNamePrefix' => Expect::string(),
                 'properties' => Expect::arrayOf(Expect::structure([
                     'type' => Expect::string()->required(),
@@ -82,6 +82,7 @@ trait TypefulLoader
             $builder->addDefinition(
                 $this->prefix("entity.$entity"),
                 $this->createEntityDefinition($definition)
+                    ->addTag(TypefulExtension::TAG_ENTITY, $definition->name ?? $entity)
             );
         }
     }
@@ -92,11 +93,9 @@ trait TypefulLoader
             ->setType(GenericDescriptor::class)
             ->setAutowired(false)
             ->setArguments([
-                'name' => $definition->name,
                 'properties' => self::getPropertiesStatement($definition->properties),
                 'propertyNamePrefix' => $definition->propertyNamePrefix ?? '',
-            ])
-            ->addTag(TypefulExtension::TAG_ENTITY);
+            ]);
     }
 
     protected static function getPropertiesStatement(array $properties): Statement

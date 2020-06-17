@@ -5,24 +5,17 @@ namespace SeStep\Typeful\Entity;
 
 class GenericDescriptor implements EntityDescriptor
 {
-
-    /** @var string */
-    private $name;
     /** @var Property[] */
     private $properties = [];
     /** @var string */
     private $propertyNamePrefix;
 
     /**
-     * GenericDescriptor constructor.
-     *
-     * @param string $name
      * @param Property[] $properties list of properties
      * @param string $propertyNamePrefix
      */
-    public function __construct(string $name, array $properties, string $propertyNamePrefix = '')
+    public function __construct(array $properties, string $propertyNamePrefix = '')
     {
-        $this->name = $name;
         $this->propertyNamePrefix = $propertyNamePrefix;
         foreach ($properties as $property) {
             $name = $property->getName();
@@ -31,12 +24,6 @@ class GenericDescriptor implements EntityDescriptor
             }
             $this->properties[$name] = $property;
         }
-    }
-
-    /** * @inheritDoc */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /** @inheritDoc */

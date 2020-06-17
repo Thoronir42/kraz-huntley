@@ -28,7 +28,7 @@ class ListEntitiesCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['Code', 'Entity']);
         foreach ($this->descriptorRegistry->getDescriptors() as $name => $descriptor) {
-            $table->addRow([$name, $this->translator->translate($descriptor->getName())]);
+            $table->addRow([$name, $this->translator->translate($name)]);
         }
 
         $table->render();

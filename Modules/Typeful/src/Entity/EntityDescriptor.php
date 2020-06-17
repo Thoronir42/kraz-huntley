@@ -8,13 +8,6 @@ namespace SeStep\Typeful\Entity;
 interface EntityDescriptor
 {
     /**
-     * Returns name of described entity
-     *
-     * @return string
-     */
-    public function getName(): string;
-
-    /**
      * Returns associative array of properties of described entity
      *
      * @return Property[]
