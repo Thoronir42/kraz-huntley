@@ -25,6 +25,13 @@ if(\$idGenerator->hasType(\$entityClass)) {
     \$service->bindIdGenerator(\$idGenerator);
 }
 PHP, [$builder->getDefinitionByType(IdGenerator::class)]);
+
+            $definition->addSetup(<<<PHP
+\$validator = ?;
+if(\$validator->entityExists(\$entityClass)) {
+    \$service->bindTypefulValidator(\$validator);
+}
+PHP, [$builder->getDefinition('typeful.validator')]);
         }
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\LeanMapper;
 
+use App\LeanMapper\Exceptions\ValidationException;
 use Dibi\Fluent;
 use Dibi\UniqueConstraintViolationException;
 use LeanMapper\Entity;
 use SeStep\EntityIds\IdGenerator;
+use SeStep\Typeful\Validation\TypefulValidator;
 
 class Repository extends \LeanMapper\Repository implements IQueryable
 {
@@ -16,6 +18,9 @@ class Repository extends \LeanMapper\Repository implements IQueryable
 
     /** @var IdGenerator */
     protected $idGenerator;
+
+    /** @var TypefulValidator */
+    protected $validator;
 
     /**
      * @param LeanQueryFilter $filter
@@ -96,6 +101,15 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         $this->events->registerCallback($this->events::EVENT_BEFORE_UPDATE, [$this, 'validateAssignedId']);
     }
 
+    public function bindTypefulValidator(TypefulValidator $validator)
+    {
+        if ($this->validator) {
+            throw new \RuntimeException('TypefulValidator already bound');
+        }
+        $this->validator = $validator;
+        $this->events->registerCallback($this->events::EVENT_BEFORE_PERSIST, [$this, 'validateEntityData']);
+    }
+
 
     public function assignId(Entity $entity)
     {
@@ -118,6 +132,19 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         }
         if ($this->idGenerator->getType($changed[$primary]) !== $type) {
             throw new \UnexpectedValueException("Id '{$changed[$primary]}' could not be validated for type '$type'");
+        }
+    }
+
+    public function validateEntityData(Entity $entity)
+    {
+        $primary = $this->mapper->getPrimaryKey($this->mapper->getTable(get_class($entity)));
+
+        $data = $entity->getData();
+        unset($data[$primary]);
+        $errors = $this->validator->validateEntity($this->getEntityClass(), $data);
+
+        if (!empty($errors)) {
+            throw ValidationException::fromTypefulValidationErrors($errors);
         }
     }
 

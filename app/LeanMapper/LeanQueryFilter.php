@@ -2,9 +2,9 @@
 
 namespace App\LeanMapper;
 
-use CP\TreasureHunt\Model\Entity\Notebook;
 use Dibi\Fluent;
 use LeanMapper\Entity;
+use LeanMapper\Exception\InvalidArgumentException;
 use LeanMapper\IMapper;
 use LeanMapper\Reflection\EntityReflection;
 
@@ -51,6 +51,9 @@ class LeanQueryFilter
             $value = $this->normalizeValue($condition);
 
             $propertyRef = $reflection->getEntityProperty($property);
+            if (!$propertyRef) {
+                throw new InvalidArgumentException("Property '$property' does not exist");
+            }
             $column = $propertyRef->getColumn();
             if (is_array($value)) {
                 $fluent->where("$column $conditions[IN] %in", $value);
