@@ -5,7 +5,7 @@ namespace CP\TreasureHunt\Components\Notebook;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
 use Nette\Application\UI;
-use SeStep\Typeful\Forms\PropertyControlFactory;
+use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
 class ChallengePage extends UI\Control
 {

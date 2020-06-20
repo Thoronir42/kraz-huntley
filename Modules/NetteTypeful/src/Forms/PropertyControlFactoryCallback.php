@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SeStep\Typeful\Forms;
+namespace SeStep\NetteTypeful\Forms;
 
 use Nette\Forms\IControl;
 

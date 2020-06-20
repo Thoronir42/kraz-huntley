@@ -1,10 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace SeStep\Typeful\Forms;
+namespace SeStep\NetteTypeful\Forms;
 
+use LeanMapper\Exception\InvalidValueException;
+use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Forms\Controls\TextArea;
 use Nette\Forms\Controls\TextInput;
+use Nette\Forms\Controls\UploadControl;
+use Nette\InvalidArgumentException;
 
 class StandardControlsFactory
 {
@@ -31,6 +35,20 @@ class StandardControlsFactory
         self::assignAttributes($control, $options, ['min', 'max', 'step']);
 
         return $control;
+    }
+
+    public static function createFile(string $name, array $options)
+    {
+        $uploadControl = new UploadControl($name);
+        if (isset($options['fileType'])) {
+            if ($options['fileType'] === 'image') {
+                $uploadControl->addRule(Form::IMAGE);
+            } else {
+                throw new InvalidArgumentException("fileType option '$options[fileType]' invalid ");
+            }
+        }
+
+        return $uploadControl;
     }
 
     private static function assignAttributes(BaseControl $control, array $options, $attributes)

@@ -31,6 +31,7 @@ extensions:
     console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
     dbCli: DatabaseCli\DatabaseCliExtension
     typeful: SeStep\Typeful\DI\TypefulExtension
+    netteTypeful: SeStep\NetteTypeful\DI\NetteTypefulExtension
     repositories: App\LeanMapper\RepositoryExtension
     idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
     appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension

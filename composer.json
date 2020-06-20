@@ -42,6 +42,7 @@
             "SeStep\\LeanExecutives\\": "Modules/LeanExecutives/src/",
             "SeStep\\NetteExecutives\\": "Modules/NetteExecutives/src/",
             "SeStep\\Typeful\\": "Modules/Typeful/src/",
+            "SeStep\\NetteTypeful\\": "Modules/NetteTypeful/src/",
 
             "Data\\Huntley\\": "data/huntley/"
         }

@@ -5,7 +5,7 @@ namespace CP\TreasureHunt\Components;
 use CP\TreasureHunt\Model\Entity\Narrative;
 use LeanMapper\IMapper;
 use Nette\Application\UI\Form;
-use SeStep\Typeful\Forms\EntityFormPopulator;
+use SeStep\NetteTypeful\Forms\EntityFormPopulator;
 
 class NarrativeFormFactory
 {

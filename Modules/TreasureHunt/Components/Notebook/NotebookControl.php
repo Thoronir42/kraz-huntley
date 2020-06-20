@@ -9,7 +9,7 @@ use Nette\Application\UI\Multiplier;
 use Nette\ComponentModel\IComponent;
 use Nette\InvalidStateException;
 use Nette\NotImplementedException;
-use SeStep\Typeful\Forms\PropertyControlFactory;
+use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
 class NotebookControl extends Control
 {

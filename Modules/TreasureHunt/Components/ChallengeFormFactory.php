@@ -5,7 +5,7 @@ namespace CP\TreasureHunt\Components;
 use Contributte\Translation\Translator;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use Nette\Application\UI\Form;
-use SeStep\Typeful\Forms\PropertyControlFactory;
+use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 use SeStep\Typeful\Service\TypeRegistry;
 
 class ChallengeFormFactory

@@ -7,8 +7,9 @@ namespace SeStep\Typeful\DI;
 use Nette\DI\ContainerBuilder;
 use Nette\Schema\ValidationException;
 use PHPUnit\Framework\TestCase;
+use SeStep\NetteTypeful\DI\NetteTypefulExtension;
 use SeStep\Typeful\Entity\GenericDescriptor;
-use SeStep\Typeful\Forms\StandardControlsFactory;
+use SeStep\NetteTypeful\Forms\StandardControlsFactory;
 use SeStep\Typeful\Types\IntType;
 use SeStep\Typeful\Types\PropertyType;
 use SeStep\Typeful\Types\TextType;
@@ -47,7 +48,7 @@ class TypefulLoaderDummyExtensionTest extends TestCase
     {
         $types = [
             'number' => ['class' => IntType::class],
-            'text' => ['class' => TextType::class, 'controlFactory' => StandardControlsFactory::class .'::createText'],
+            'text' => ['class' => TextType::class, 'netteControlFactory' => StandardControlsFactory::class .'::createText'],
         ];
 
         $builder = new ContainerBuilder();
@@ -57,7 +58,7 @@ class TypefulLoaderDummyExtensionTest extends TestCase
         $definitions = $builder->findByType(PropertyType::class);
         self::assertCount(2, $definitions);
 
-        $definitionsWithFactory = $builder->findByTag(TypefulExtension::TAG_TYPE_CONTROL_FACTORY);
+        $definitionsWithFactory = $builder->findByTag(NetteTypefulExtension::TAG_TYPE_CONTROL_FACTORY);
         self::assertCount(1, $definitionsWithFactory);
 
     }

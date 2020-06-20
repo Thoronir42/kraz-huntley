@@ -8,6 +8,7 @@ use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
+use SeStep\NetteTypeful\DI\NetteTypefulExtension;
 use SeStep\Typeful\Entity\GenericDescriptor;
 use SeStep\Typeful\Entity\Property;
 
@@ -24,8 +25,8 @@ trait TypefulLoader
             $typesSchema = Expect::arrayOf(Expect::structure([
                 'class' => Expect::string()->required(),
                 'arguments' => Expect::array(),
-                'controlFactory' => Expect::mixed(),
                 'autowired' => Expect::bool(false),
+                'netteControlFactory' => Expect::mixed(),
             ]));
             $entitiesSchema = Expect::arrayOf(Expect::structure([
                 'name' => Expect::string(),
@@ -73,8 +74,9 @@ trait TypefulLoader
                 ->setAutowired($definition->autowired)
                 ->setArguments($definition->arguments)
                 ->addTag(TypefulExtension::TAG_TYPE, $this->prefix($type));
-            if (isset($definition->controlFactory)) {
-                $typeDefinition->addTag(TypefulExtension::TAG_TYPE_CONTROL_FACTORY, $definition->controlFactory);
+
+            if (isset($definition->netteControlFactory)) {
+                $typeDefinition->addTag(NetteTypefulExtension::TAG_TYPE_CONTROL_FACTORY, $definition->netteControlFactory);
             }
         }
 

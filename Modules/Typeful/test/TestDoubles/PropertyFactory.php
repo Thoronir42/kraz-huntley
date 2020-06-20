@@ -2,8 +2,8 @@
 
 namespace SeStep\Typeful\TestDoubles;
 
-use SeStep\Typeful\Forms\PropertyControlFactory;
-use SeStep\Typeful\Forms\StandardControlsFactory;
+use SeStep\NetteTypeful\Forms\PropertyControlFactory;
+use SeStep\NetteTypeful\Forms\StandardControlsFactory;
 
 abstract class PropertyFactory
 {
