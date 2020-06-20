@@ -11,19 +11,13 @@ class GenericDescriptor implements EntityDescriptor
     private $propertyNamePrefix;
 
     /**
-     * @param Property[] $properties list of properties
+     * @param Property[] $properties associative array of properties
      * @param string $propertyNamePrefix
      */
     public function __construct(array $properties, string $propertyNamePrefix = '')
     {
         $this->propertyNamePrefix = $propertyNamePrefix;
-        foreach ($properties as $property) {
-            $name = $property->getName();
-            if (isset($this->properties[$name])) {
-                throw new \InvalidArgumentException("Can not redefine property '$name'");
-            }
-            $this->properties[$name] = $property;
-        }
+        $this->properties = $properties;
     }
 
     /** @inheritDoc */

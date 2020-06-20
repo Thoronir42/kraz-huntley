@@ -27,7 +27,8 @@ class EntityFormPopulator
         $descriptor = $this->entityDescriptorRegistry->getEntityDescriptor($entityName);
 
         foreach ($this->retrieveProperties($descriptor, $properties) as $name => $property) {
-            $form[$name] = $this->propertyControlFactory->createByProperty($property);
+            $label = $descriptor->getPropertyFullName($name);
+            $form[$name] = $this->propertyControlFactory->createByProperty($label, $property);
         }
     }
 

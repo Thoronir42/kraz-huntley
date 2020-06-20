@@ -98,14 +98,14 @@ trait TypefulLoader
             ]);
     }
 
-    protected static function getPropertiesStatement(array $properties): Statement
+    protected static function getPropertiesStatement(array $properties): array
     {
         $propertyStatements = [];
         foreach ($properties as $name => $property) {
-            $propertyStatements[] = new Statement(Property::class,
-                [$name, $property->type, $property->options ?? []]);
+            $propertyStatements[$name] = new Statement(Property::class,
+                [$property->type, $property->options ?? []]);
         }
 
-        return new Statement('[' . str_repeat('?, ', count($properties)) . ']', $propertyStatements);
+        return $propertyStatements;
     }
 }

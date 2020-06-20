@@ -19,12 +19,12 @@ class RegistryFactory
     public static function createEntityRegistry(): EntityDescriptorRegistry
     {
         $furnitureDescriptor = new GenericDescriptor([
-            new Property('class', self::TEST_TYPE_TEXT),
-            new Property('legCount', self::TEST_TYPE_INT, [
+            'class' => new Property(self::TEST_TYPE_TEXT),
+            'legCount' => new Property(self::TEST_TYPE_INT, [
                 'min' => 1,
                 'max' => 8,
             ]),
-            new Property('description', self::TEST_TYPE_TEXT, [
+            'description' => new Property(self::TEST_TYPE_TEXT, [
                 'nullable' => true,
                 'richText' => true,
             ]),

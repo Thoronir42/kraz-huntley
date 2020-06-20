@@ -43,24 +43,6 @@ class TypefulLoaderDummyExtensionTest extends TestCase
         self::assertCount(2, $definitions);
     }
 
-    public function testInitTypefulMissingEntityName()
-    {
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage("producer › name' is missing");
-
-        $containerBuilder = new ContainerBuilder();
-
-        $entities = [
-            'producer' => [
-                'properties' => [
-                    'name' => ['type' => 'text'],
-                ]
-            ],
-        ];
-
-        $this->initTypeful($containerBuilder, ['entities' => $entities]);
-    }
-
     public function testInitTypefulTypes()
     {
         $types = [
