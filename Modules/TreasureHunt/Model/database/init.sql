@@ -24,6 +24,18 @@ CREATE TABLE th__narrative
 
 );
 
+CREATE TABLE th__treasure_map
+(
+    id       varchar(24)  NOT NULL,
+    name     varchar(72)  NOT NULL,
+    filename varchar(120) NOT NULL,
+
+    tiling_x int NOT NULL DEFAULT 1,
+    tiling_y int NOT NULL DEFAULT 1,
+
+    CONSTRAINT `th__treasure_map_pk` PRIMARY KEY (id)
+);
+
 CREATE TABLE th__notebook
 (
     id              varchar(6)   NOT NULL,

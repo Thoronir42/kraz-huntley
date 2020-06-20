@@ -1,5 +1,10 @@
 narrativeNotFound: Prupovídka nenalezena
 
+map.id: Kód mapy
+map.name: Jméno mapy
+map.filename: Obrázek
+
+
 type:
     clueType: Typ nápovědy
 

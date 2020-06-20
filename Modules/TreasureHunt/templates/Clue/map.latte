@@ -37,8 +37,10 @@
 
 <script type="text/javascript" src="{$basePath}/dist/js/main.js"></script>
 {var $fileUrls = []}
-{foreach $map->files as $file}{var $fileUrls[] = $baseUrl.'/img/cache/'.$file}{/foreach}
+{var $version = $map->fileAttributes->version ?: ''}
+{foreach $map->fileAttributes->pieceFiles as $file}{var $fileUrls[] = $baseUrl.'/img/cache/'.$file.($version ? "?v=$version" : '')}{/foreach}
 
+{dump $map->getData()}
 <script>
     (function () {
         /** @type MapSpecification */
@@ -48,8 +50,8 @@
                 y: {$map->tilingY},
             },
             dimensions: {
-                width: {$map->width},
-                height: {$map->height},
+                width: {$map->fileAttributes->width},
+                height: {$map->fileAttributes->height},
             },
             imageParts: {$fileUrls},
         };

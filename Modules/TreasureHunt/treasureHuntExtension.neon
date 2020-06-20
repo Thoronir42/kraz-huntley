@@ -3,6 +3,7 @@ services:
     notebookPageRepository: CP\TreasureHunt\Model\Repository\NotebookPageRepository
     challengeRepository: CP\TreasureHunt\Model\Repository\ChallengeRepository
     narrativeRepository: CP\TreasureHunt\Model\Repository\NarrativeRepository
+    treasureMapRepository: CP\TreasureHunt\Model\Repository\TreasureMapRepository
 
     notebookService: CP\TreasureHunt\Model\Service\NotebookService
     challengesService: CP\TreasureHunt\Model\Service\ChallengesService
@@ -12,13 +13,8 @@ services:
     treasureMapsService:
         class: CP\TreasureHunt\Model\Service\TreasureMapsService
         arguments:
-            sources: League\Flysystem\Filesystem(League\Flysystem\Local\LocalFilesystemAdapter(%rootDir%/resources/maps))
-            destination: League\Flysystem\Filesystem(League\Flysystem\Local\LocalFilesystemAdapter(%wwwDir%/img/cache/))
-            maps:
-                huntleyTreasure:
-                    tilingX: 5
-                    tilingY: 3
-                    sourceFilename: Huntley.jpg
+            sources: @treasureMapsFileStorage
+            destination: @treasureMapWwwStorage
 
     registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory
     challengesGridFactory: CP\TreasureHunt\Components\ChallengesGridFactory
@@ -49,4 +45,25 @@ typeful:
                     type: 'typeful.text'
                     options:
                         richText: true
+        treasureMap:
+            name: CP\TreasureHunt\Model\Entity\TreasureMap
+            propertyNamePrefix: 'appTreasureHunt.map'
+            properties:
+                name:
+                    type: 'typeful.text'
+                file:
+                    type: 'netteTypeful.file'
+                    options:
+                        storage: @treasureMapsFileStorage
+                        fileType: 'image'
+                tilingX:
+                    type: 'typeful.int'
+                    options:
+                        min: 1
+                        max: 20
+                tilingY:
+                    type: 'typeful.int'
+                    options:
+                        min: 1
+                        max: 20
 

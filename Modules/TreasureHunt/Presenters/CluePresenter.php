@@ -22,7 +22,7 @@ class CluePresenter extends Presenter
 
     public function renderMap(string $mapId)
     {
-        $map = $this->treasureMapsService->getMap($mapId);
+        $map = $this->treasureMapsService->getMap($mapId, true);
         if (!$map) {
             throw new BadRequestException("Treasure map not found");
         }

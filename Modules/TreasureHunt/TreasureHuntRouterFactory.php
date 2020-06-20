@@ -82,6 +82,21 @@ class TreasureHuntRouterFactory
             ])
         );
 
+        $routeList->add((new RouteList())
+            ->addRoute('/manage/treasure-maps/', [
+                'presenter' => 'TreasureMaps',
+                'action' => 'index',
+            ])
+            ->addRoute('/manage/treasure-maps/create', [
+                'presenter' => 'TreasureMaps',
+                'action' => 'createNew'
+            ])
+            ->addRoute('/manage/treasure-maps/<id>', [
+                'presenter' => 'TreasureMaps',
+                'action' => 'detail'
+            ])
+        );
+
         return $routeList;
     }
 }

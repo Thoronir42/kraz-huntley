@@ -2,21 +2,20 @@
 
 namespace CP\TreasureHunt\Model\Entity;
 
+use CP\TreasureHunt\Model\Entity\Attributes\TreasureMapFileAttributes;
 use LeanMapper\Entity;
 
-class TreasureMap
+/**
+ * @property string $id
+ * @property string $name
+ * @property string $file
+ *
+ * @property int $tilingX
+ * @property int $tilingY
+ */
+class TreasureMap extends Entity
 {
-    /** @var int */
-    public $width;
-    /** @var int */
-    public $height;
-
-    /** @var int */
-    public $tilingX;
-    /** @var int */
-    public $tilingY;
-
-    /** @var string[] */
-    public $files;
+    /** @var TreasureMapFileAttributes|null */
+    public $fileAttributes;
     
 }
