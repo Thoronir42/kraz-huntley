@@ -10,4 +10,9 @@ class ManagementPresenter extends Presenter
     {
 
     }
+
+    protected function beforeRender()
+    {
+        $this->layout = 'meta';
+    }
 }

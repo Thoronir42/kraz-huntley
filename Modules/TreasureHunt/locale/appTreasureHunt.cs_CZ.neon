@@ -5,6 +5,9 @@ map.name: Jméno mapy
 map.filename: Obrázek
 
 
+management:
+    dashboard: Správa honu za pokladem
+
 type:
     clueType: Typ nápovědy
 

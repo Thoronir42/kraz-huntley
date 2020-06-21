@@ -73,6 +73,11 @@ class TreasureMapsPresenter extends Presenter
         $treasureMapForm['id']->setDisabled();
     }
 
+    protected function beforeRender()
+    {
+        $this->layout = 'meta';
+    }
+
     public function renderIndex()
     {
         $grid = $this->entityGridFactory->create(TreasureMap::class, ['name']);
