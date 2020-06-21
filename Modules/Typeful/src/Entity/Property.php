@@ -32,4 +32,9 @@ class Property
     {
         return $this->typeOptions;
     }
+
+    public function isNullable(): bool
+    {
+        return $this->typeOptions['nullable'] ?? false;
+    }
 }

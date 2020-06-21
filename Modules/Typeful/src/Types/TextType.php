@@ -2,12 +2,17 @@
 
 namespace SeStep\Typeful\Types;
 
-use Nette\Utils\Html;
+use SeStep\Typeful\Validation\ValidationError;
 
 class TextType implements PropertyType
 {
     public function renderValue($value, array $options = [])
     {
         return $value;
+    }
+
+    public function validateValue($value, array $options = []): ?ValidationError
+    {
+        return null;
     }
 }

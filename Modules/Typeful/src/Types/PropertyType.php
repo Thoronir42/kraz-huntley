@@ -3,6 +3,7 @@
 namespace SeStep\Typeful\Types;
 
 use Nette\Utils\Html;
+use SeStep\Typeful\Validation\ValidationError;
 
 interface PropertyType
 {
@@ -14,4 +15,6 @@ interface PropertyType
      * @return string|Html
      */
     public function renderValue($value, array $options = []);
+
+    public function validateValue($value, array $options = []): ?ValidationError;
 }

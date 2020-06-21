@@ -15,9 +15,7 @@ class TypeRegistry
     private $cache;
 
     /**
-     * TypeRegister constructor.
-     *
-     * @param PropertyType[] $propertyTypes
+     * @param PropertyType[] $propertyTypes associative array of types
      */
     public function __construct(array $propertyTypes)
     {

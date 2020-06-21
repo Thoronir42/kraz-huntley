@@ -4,6 +4,7 @@ namespace CP\TreasureHunt\Typeful\Types;
 
 use Nette\Localization\ITranslator;
 use SeStep\Typeful\Types\PropertyType;
+use SeStep\Typeful\Validation\ValidationError;
 
 class ClueType implements PropertyType
 {
@@ -20,6 +21,15 @@ class ClueType implements PropertyType
     public function renderValue($value, array $options = [])
     {
         return $this->translator->translate("$value");
+    }
+
+    public function validateValue($value, array $options = []): ?ValidationError
+    {
+        if (!array_key_exists($value, self::getTypes())) {
+            return new ValidationError(ValidationError::INVALID_VALUE);
+        }
+
+        return null;
     }
 
     public function getTypes(): array

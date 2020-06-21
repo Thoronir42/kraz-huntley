@@ -6,8 +6,10 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
 use SeStep\Typeful\Console\ListEntitiesCommand;
 use SeStep\Typeful\Console\ListTypesCommand;
+use SeStep\Typeful\Components;
 use SeStep\Typeful\Forms;
 use SeStep\Typeful\Service;
+use SeStep\Typeful\Validation;
 use Symfony\Component\Console\Command\Command;
 
 class TypefulExtension extends CompilerExtension
@@ -25,16 +27,16 @@ class TypefulExtension extends CompilerExtension
         $configFile = $this->loadFromFile(__DIR__ . '/typefulExtension.neon');
         $this->initTypeful($builder, $configFile['typeful']);
 
-        $builder->addDefinition($this->prefix('typeRegister'))
-            ->setType(Service\TypeRegistry::class);
+        $this->loadDefinitionsFromConfig([
+            'typeRegister' => Service\TypeRegistry::class,
+            'entityDescriptorRegister' => Service\EntityDescriptorRegistry::class,
+            'validator' => Validation\TypefulValidator::class,
 
-        $builder->addDefinition($this->prefix('entityDescriptorRegister'))
-            ->setType(Service\EntityDescriptorRegistry::class);
+            'propertyControlFactory' => Forms\PropertyControlFactory::class,
+            'formPopulator' => Forms\EntityFormPopulator::class,
 
-        $builder->addDefinition($this->prefix('propertyControlFactory'))
-            ->setType(Forms\PropertyControlFactory::class);
-        $builder->addDefinition($this->prefix('formPopulator'))
-            ->setType(Forms\EntityFormPopulator::class);
+            'entityGridFactory' => Components\EntityGridFactory::class,
+        ]);
 
 
         if (class_exists(Command::class)) {
