@@ -4,12 +4,12 @@ namespace CP\TreasureHunt\Executives\Actions;
 
 use CP\TreasureHunt\Executives\NavigationResultBuilder;
 use CP\TreasureHunt\Model\Service\NarrativesService;
+use CP\TreasureHunt\Model\Service\TreasureMapsService;
 use CP\TreasureHunt\Typeful\Types\ClueType;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use SeStep\Executives\Execution\Action;
 use SeStep\Executives\Execution\ExecutionResult;
-use SeStep\Executives\Execution\ExecutionResultBuilder;
 use SeStep\Executives\Validation\HasParamsSchema;
 use SeStep\Executives\Validation\ParamValidationError;
 use SeStep\Executives\Validation\ValidatesParams;
@@ -20,11 +20,17 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
     private $clueType;
     /** @var NarrativesService */
     private $narrativesService;
+    /** @var TreasureMapsService */
+    private $treasureMapsService;
 
-    public function __construct(ClueType $clueType, NarrativesService $narrativesService)
-    {
+    public function __construct(
+        ClueType $clueType,
+        NarrativesService $narrativesService,
+        TreasureMapsService $treasureMapsService
+    ) {
         $this->clueType = $clueType;
         $this->narrativesService = $narrativesService;
+        $this->treasureMapsService = $treasureMapsService;
     }
 
     public function execute($context, $params): ExecutionResult
@@ -50,6 +56,8 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
         switch ($clueType) {
             case ClueType::NARRATIVE:
                 return $this->validateNarrativeArgs($clueArgs);
+            case ClueType::MAP:
+                return $this->validateMapArgs($clueArgs);
 
             default:
                 return [
@@ -76,6 +84,24 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
             ];
         }
 
+        return [];
+    }
+
+    private function validateMapArgs(array $args): array
+    {
+        if (!isset($args['map'])) {
+            return [
+                'clueArgs.map' => new ParamValidationError('schema.optionMissing'),
+            ];
+        }
+
+        $map = $this->treasureMapsService->getMap($args['map']);
+        if (!$map) {
+            return [
+                'clueArgs.map' => new ParamValidationError('appTreasureHunt.mapNotFound'),
+            ];
+        }
+        
         return [];
     }
 }

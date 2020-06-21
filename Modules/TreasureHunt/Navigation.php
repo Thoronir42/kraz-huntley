@@ -15,4 +15,5 @@ class Navigation
 
     const TARGET_NOTEBOOK_PAGE = 'notebookPage';
     const TARGET_NARRATIVE = ClueType::NARRATIVE;
+    const TARGET_MAP = ClueType::MAP;
 }

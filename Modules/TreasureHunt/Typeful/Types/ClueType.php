@@ -9,6 +9,7 @@ use SeStep\Typeful\Validation\ValidationError;
 class ClueType implements PropertyType
 {
     const NARRATIVE = 'narrative';
+    const MAP = 'map';
 
     /** @var ITranslator */
     private $translator;
@@ -36,6 +37,7 @@ class ClueType implements PropertyType
     {
         return [
             self::NARRATIVE => self::NARRATIVE,
+            self::MAP => self::MAP,
         ];
     }
 }

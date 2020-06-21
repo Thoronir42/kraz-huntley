@@ -44,8 +44,17 @@ class TreasureHuntService
 
         // This is starting to get ugly
         // TODO: adjust command flow
-        if (isset($executionResult->getData()[Navigation::ADVANCE_TYPE])) {
-            return $executionResult;
+        $resultData = $executionResult->getData();
+
+        // Unpack 1 level of multi action
+        $finalResult = $executionResult;
+        if (isset($resultData['actionResults'])) {
+            $finalResult = end($resultData['actionResults']);
+            $resultData = $finalResult->getData();
+        }
+
+        if (isset($resultData[Navigation::ADVANCE_TYPE])) {
+            return $finalResult;
         }
 
         return NavigationResultBuilder::redirect(Navigation::TARGET_NOTEBOOK_PAGE)
