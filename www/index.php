@@ -2,4 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-App\Bootstrap::getApplication()->run();
+(new App\Bootstrap())
+    ->getContainer()
+    ->getByType(\Nette\Application\Application::class)
+    ->run();

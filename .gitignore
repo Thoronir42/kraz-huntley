@@ -1,8 +1,9 @@
 temp/
 logs/
 
-app/config/config.local.neon
+config/config.local.neon
 
+/resources/
 vendor/
 node_modules/
 www/dist

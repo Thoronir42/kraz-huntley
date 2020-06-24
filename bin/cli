@@ -2,4 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-exit(\App\Bootstrap::getCliApplication()->run());
+(new App\Bootstrap())
+    ->getContainer()
+    ->getByType(\Contributte\Console\Application::class)
+    ->run();

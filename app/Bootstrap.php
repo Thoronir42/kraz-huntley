@@ -3,6 +3,7 @@
 namespace App;
 
 use Contributte\Console;
+use CP\TreasureHunt\Model\Service\TreasureHuntService;
 use Nette\Application;
 use Nette\Configurator;
 use Nette\DI\Container;
@@ -10,13 +11,21 @@ use Tracy\Debugger;
 
 class Bootstrap
 {
-    /** @var Container */
-    private static $container;
+    /** @var string[] */
+    private $additionalConfigFiles;
 
-    private static function getContainer()
+    /** @var Container */
+    private $container;
+
+    public function __construct(string ...$additionalConfigFiles)
     {
-        if (self::$container) {
-            return self::$container;
+        $this->additionalConfigFiles = $additionalConfigFiles;
+    }
+
+    public function getContainer()
+    {
+        if ($this->container) {
+            return $this->container;
         }
 
         $rootDir = dirname(__DIR__);
@@ -35,26 +44,20 @@ class Bootstrap
         Debugger::$showLocation = true;
 
         $configurator->addParameters([
-            'rootDir' => dirname(__DIR__),
+            'rootDir' => $rootDir,
             'modulesDir' => __DIR__ . '/../Modules',
         ]);
 
         $configurator->setTempDirectory($rootDir . '/temp');
         $configurator->enableDebugger($rootDir . '/logs');
 
-        $configurator->addConfig(__DIR__ . '/config/app.config.neon');
-        $configurator->addConfig(__DIR__ . '/config/config.local.neon');
+        $configurator->addConfig($rootDir . '/config/app.config.neon');
+        $configurator->addConfig($rootDir . '/config/config.local.neon');
+        foreach ($this->additionalConfigFiles as $configFile) {
+            $configurator->addConfig($rootDir . '/config/' . $configFile);
+        }
 
-        return self::$container = $configurator->createContainer();
+        return $this->container = $configurator->createContainer();
     }
 
-    public static function getApplication(): Application\Application
-    {
-        return self::getContainer()->getByType(Application\Application::class);
-    }
-
-    public static function getCliApplication(): Console\Application
-    {
-        return self::getContainer()->getByType(Console\Application::class);
-    }
 }
