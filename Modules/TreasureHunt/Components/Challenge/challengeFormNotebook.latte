@@ -1,0 +1,22 @@
+<div class="challenge-form-container">
+    {form $form class => "notebook page-right"}
+        <div class="page-content">
+            <div class="navigation">
+                {input title} {label title/}
+            </div>
+            <div class="challenge-text">
+                {input description}
+            </div>
+            <div class="key">
+                <div class="input-group">
+                    {label keyType/}
+                    {input keyType}
+                </div>
+            </div>
+        </div>
+        <div class="pagination">
+            {input save}
+        </div>
+    {/form}
+    <button class="flip-page">{_'appTreasureHunt.notebook.flipPage'}</button>
+</div>

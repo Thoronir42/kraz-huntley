@@ -2,7 +2,7 @@ const gulp = require('gulp');
 
 const sassTasks = require('./gulp/sass.gulp');
 const jsSrc = require('./gulp/jsSources.gulp');
-// const vendorTasks = require('./vendor.gulp');
+const vendorTasks = require('./gulp/vendor.gulp');
 
 gulp.task('sass', sassTasks.sass);
 
@@ -21,4 +21,4 @@ gulp.task('watch', () => {
     gulp.watch(jsSrc.sources, gulp.task('js'));
 });
 
-// gulp.task('vendor', vendorTasks.copyVendor);
+gulp.task('copy-vendor', vendorTasks.copyVendor);

@@ -2,16 +2,28 @@
 <html lang="cs">
 <head>
     <title>Huntleyho poklad</title>
-    <link rel="stylesheet" href="/dist/css/huntley-meta.css">
+
+    <link rel="stylesheet" href="{$basePath}/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$basePath}/vendor/summernote/summernote.css">
+
+    <link rel="stylesheet" href="{$basePath}/dist/css/huntley.css">
+    <link rel="stylesheet" href="{$basePath}/dist/css/huntley-meta.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="breadcrumbs">
-    <ul>
+<div class="container pt-4">
+    <ul class="breadcrumb">
         <li><a n:href="Management:dashboard">{_'appTreasureHunt.management.dashboard'}</a></li>
     </ul>
+    {include content}
 </div>
-{include content}
+
+<script type="text/javascript" src="{$basePath}/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{$basePath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript" src="{$basePath}/vendor/summernote/summernote-bs4.js"></script>
+
+<script type="text/javascript" src="{$basePath}/dist/js/main.js"></script>
 </body>
 </html>

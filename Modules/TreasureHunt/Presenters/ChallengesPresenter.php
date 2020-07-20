@@ -2,7 +2,8 @@
 
 namespace CP\TreasureHunt\Presenters;
 
-use CP\TreasureHunt\Components\ChallengeFormFactory;
+use CP\TreasureHunt\Components\Challenge\ChallengeFormFactory;
+use CP\TreasureHunt\Components\Challenge\ChallengeFormNotebookRenderer;
 use CP\TreasureHunt\Components\ChallengesGridFactory;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Service\ChallengesService;
@@ -88,6 +89,9 @@ class ChallengesPresenter extends Presenter
 
     public function createComponentChallengeForm()
     {
-        return $this->challengeFormFactory->create();
+        $form = $this->challengeFormFactory->create();
+        $form->setRenderer($this->context->createInstance(ChallengeFormNotebookRenderer::class));
+
+        return $form;
     }
 }

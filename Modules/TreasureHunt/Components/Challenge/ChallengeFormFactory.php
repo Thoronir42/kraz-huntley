@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CP\TreasureHunt\Components;
+namespace CP\TreasureHunt\Components\Challenge;
 
 use Contributte\Translation\Translator;
 use CP\TreasureHunt\Model\Entity\Challenge;
@@ -37,7 +37,7 @@ class ChallengeFormFactory
         $form->addTextArea('description', 'th.challenge.description');
         $form->addSelect('keyType', 'th.challenge.keyType', $types);
 
-        $form->addSubmit('save');
+        $form->addSubmit('save', 'save');
 
         return $form;
     }

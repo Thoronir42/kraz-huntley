@@ -3,12 +3,14 @@
 namespace CP\TreasureHunt\Presenters;
 
 use App\LeanMapper\Exceptions\ValidationException;
+use CP\TreasureHunt\Model\Entity\Attributes\TreasureMapFileAttributes;
 use CP\TreasureHunt\Model\Entity\TreasureMap;
 use CP\TreasureHunt\Model\Service\TreasureMapsService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Localization\ITranslator;
+use Nette\Utils\Html;
 use SeStep\NetteTypeful\Components\EntityGridFactory;
 use SeStep\NetteTypeful\Forms\EntityFormPopulator;
 
@@ -81,17 +83,20 @@ class TreasureMapsPresenter extends Presenter
     public function renderIndex()
     {
         $grid = $this->entityGridFactory->create(TreasureMap::class, ['name']);
+
         $grid->addColumnText('filename', 'filename')
             ->setRenderer(function (TreasureMap $map) {
-                return <<<HTML
+                // todo: Provide lazy file attributes
+                $fileAttributes = $map->fileAttributes ?? new TreasureMapFileAttributes();
+                return Html::fromHtml(<<<HTML
 <div>
-  <span>{$map->filename}</span> <span class="dimensions">{$map->getWidth()}x{$map->getHeight()}</span>
+  <span>{$map->file}</span> <span class="dimensions">{$fileAttributes->width}px*{$fileAttributes->height}px</span>
 </div>
-HTML;
+HTML);
             });
         $grid->setDataSource($this->treasureMapsService->getDataSource());
 
-        $grid->setItemsPerPageList(['all']);
+        $grid->setPagination(false);
         $grid->addAction('detail', 'Upravit', 'detail');
 
         $this['treasureMapsGrid'] = $grid;

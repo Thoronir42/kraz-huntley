@@ -4,6 +4,14 @@ map.id: Kód mapy
 map.name: Jméno mapy
 map.filename: Obrázek
 
+notebook:
+    flipPage: Otočit stránku
+
+challenge.createNew: Vytvořit novou výzvu
+
+narrative.createNew: Vytvořit novou prupovídku
+
+treasureMap.createNew: Vytvořit novou mapu
 
 management:
     dashboard: Správa honu za pokladem

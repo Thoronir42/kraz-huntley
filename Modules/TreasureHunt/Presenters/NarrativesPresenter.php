@@ -64,4 +64,9 @@ class NarrativesPresenter extends Presenter
         };
     }
 
+    protected function beforeRender()
+    {
+        $this->layout = 'meta';
+    }
+
 }

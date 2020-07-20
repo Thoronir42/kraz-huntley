@@ -1,3 +1,30 @@
+.challenge-form-container {
+  background: url('/img/notebook-background.jpg') no-repeat center;
+  background-size: cover;
+
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .notebook {
+    margin-bottom: 16px;
+  }
+
+  .navigation {
+    label {
+      font-size: 0.9em;
+      color: dimgray;
+    }
+  }
+
+  .pagination {
+    flex-direction: row-reverse;
+  }
+}
+
+
 .pass-matrix {
   display: flex;
   flex-direction: column;
