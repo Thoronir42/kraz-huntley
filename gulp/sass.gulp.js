@@ -3,10 +3,10 @@ const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 
 module.exports.watch = [
-    './app/sass/*.scss',
+    './Modules/TreasureHunt/sass/*.scss',
 ];
 module.exports.files = [
-    './app/sass/*.scss',
+    './Modules/TreasureHunt/sass/*.scss',
 ];
 
 module.exports.sass = async () => {

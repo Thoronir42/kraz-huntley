@@ -7,7 +7,7 @@ const pipeline = require('readable-stream').pipeline;
 
 
 module.exports.sources = [
-    'app/js/**/*',
+    'Modules/TreasureHunt/js/**/*',
 ];
 
 module.exports.concatSources = () => {

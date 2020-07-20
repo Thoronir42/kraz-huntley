@@ -1,6 +1,7 @@
 .pass-matrix {
   display: flex;
   flex-direction: column;
+
   > div {
     display: flex;
     flex-direction: row;
@@ -27,13 +28,16 @@
       height: 2em;
       box-sizing: border-box;
     }
+
     &:hover ~ span, &:focus ~ span {
       border-width: 4px;
     }
+
     &:checked ~ span {
       background-color: greenyellow;
       border-color: transparent;
     }
+
     &:checked:hover ~ span, &:checked:focus ~ span {
       background-color: initial;
       border-color: greenyellow;
