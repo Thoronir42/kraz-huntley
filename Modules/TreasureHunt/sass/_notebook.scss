@@ -35,6 +35,10 @@
 
   .page-content {
     flex: 1;
+
+    overflow-y: scroll;
+    word-break: break-all;
+
   }
 
   .pagination {
@@ -56,6 +60,10 @@
       border-top: 1px solid;
       border-bottom: 1px solid;
       border-radius: 4px;
+    }
+
+    .key {
+      order: 2;
     }
   }
 }

@@ -18,7 +18,10 @@ services:
 
     registerFormFactory: CP\TreasureHunt\Components\RegisterFormFactory
     challengesGridFactory: CP\TreasureHunt\Components\ChallengesGridFactory
-    challengeFormFactory: CP\TreasureHunt\Components\Challenge\ChallengeFormFactory
+    challengeFormFactory:
+        class: CP\TreasureHunt\Components\Challenge\ChallengeFormFactory
+        arguments:
+            types: ['typeful.int', 'typeful.text']
 
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
     narrativeFormFactory: CP\TreasureHunt\Components\NarrativeFormFactory
