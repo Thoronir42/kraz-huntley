@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6d54c240e8932e88b0298baa44baca7",
+    "content-hash": "2a5e552a5150fc0e6bd6dd11aadeaeb7",
     "packages": [
         {
             "name": "contributte/application",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/application.git",
-                "reference": "3e93c7862c0356753b629306a17ed057e7283089"
+                "reference": "401975416fbc87b13acc66d17882c5941b3e303b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/application/zipball/3e93c7862c0356753b629306a17ed057e7283089",
-                "reference": "3e93c7862c0356753b629306a17ed057e7283089",
+                "url": "https://api.github.com/repos/contributte/application/zipball/401975416fbc87b13acc66d17882c5941b3e303b",
+                "reference": "401975416fbc87b13acc66d17882c5941b3e303b",
                 "shasum": ""
             },
             "require": {
-                "nette/application": "~3.0.0",
+                "nette/application": "^3.0.0",
                 "php": "^7.2"
             },
             "require-dev": {
@@ -39,7 +39,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-next": "0.5.x-dev"
+                    "dev-master": "0.5.x-dev"
                 }
             },
             "autoload": {
@@ -66,7 +66,7 @@
                 "nette",
                 "presenter"
             ],
-            "time": "2019-06-17T19:30:31+00:00"
+            "time": "2020-04-01T17:34:21+00:00"
         },
         {
             "name": "contributte/console",
@@ -2613,26 +2613,26 @@
         },
         {
             "name": "ublaboo/datagrid",
-            "version": "v6.2.9",
+            "version": "v6.2.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/datagrid.git",
-                "reference": "a6a9c348e87598ea940ac64f6f47dc1fb9d7b91b"
+                "reference": "790b8fa8e3d169ea66aefc871218284c742fc366"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/datagrid/zipball/a6a9c348e87598ea940ac64f6f47dc1fb9d7b91b",
-                "reference": "a6a9c348e87598ea940ac64f6f47dc1fb9d7b91b",
+                "url": "https://api.github.com/repos/contributte/datagrid/zipball/790b8fa8e3d169ea66aefc871218284c742fc366",
+                "reference": "790b8fa8e3d169ea66aefc871218284c742fc366",
                 "shasum": ""
             },
             "require": {
-                "contributte/application": "^0.4.0",
+                "contributte/application": "^0.4.1",
                 "nette/application": "^3.0.1",
                 "nette/di": "^3.0.0",
                 "nette/forms": "^3.0.1",
                 "nette/utils": "^3.0.1",
                 "php": "^7.2",
-                "symfony/property-access": "^3.0.0 || ^4.0.0"
+                "symfony/property-access": "^3.0.0 || ^4.0.0 || ^5.0.0"
             },
             "require-dev": {
                 "dibi/dibi": "^3.0.0 || ^4.0.0",
@@ -2679,7 +2679,7 @@
                 "grid",
                 "nette"
             ],
-            "time": "2020-01-22T09:15:50+00:00"
+            "time": "2020-06-30T08:41:00+00:00"
         }
     ],
     "packages-dev": [
@@ -4107,7 +4107,7 @@
         "league/flysystem": 20,
         "sestep/modular-lean-mapper": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.3",

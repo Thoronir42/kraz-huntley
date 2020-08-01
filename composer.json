@@ -9,6 +9,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.3",
         "ext-json": "*",
@@ -28,7 +29,7 @@
         "sestep/modular-lean-mapper": "dev-master",
         "tharos/leanmapper": "^3.4",
         "tracy/tracy": "^2.7",
-        "ublaboo/datagrid": "^6.2"
+        "ublaboo/datagrid": "6.2.26"
     },
     "require-dev": {
         "phpunit/phpunit": "8.0"
