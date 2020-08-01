@@ -34,10 +34,8 @@ class Bootstrap
         if (getenv('DEBUG_MODE')) {
             $configurator->setDebugMode(true);
         } else {
-            $debugList = [
-                'whoop whoop',
-                'nobody watches over me',
-            ];
+            $file = dirname(__DIR__) . '/config/debug_ips.txt';
+            $debugList = file_exists($file) ? explode("\n", file_get_contents($file)) : false;
 
             $configurator->setDebugMode($debugList);
         }
