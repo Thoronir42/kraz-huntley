@@ -16,6 +16,7 @@
     "bootstrap": "4.5",
     "jquery": "^3.5.1",
     "materialize-css": "^1.0.0-rc.2",
+    "naja": "^1.8.3",
     "summernote": "^0.8.18"
   }
 }

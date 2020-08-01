@@ -1,4 +1,6 @@
 $(function() {
+    naja.initialize();
+
     initChallengeForm();
 
     function initChallengeForm() {
@@ -17,6 +19,10 @@ $(function() {
             $notebook.toggleClass('page-right');
         })
     }
-})
 
-console.log('asd');
+    $('body').on('change', '[data-ajax-on-change]', (e) => {
+        let url = e.target.dataset['ajaxOnChange'];
+        url = url.replace('__value__', e.target.value)
+        naja.makeRequest('GET', url)
+    })
+});

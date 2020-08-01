@@ -13,6 +13,10 @@ const dependencies = [
         src: 'node_modules/summernote/dist/**/*',
         dst: 'summernote',
     },
+    {
+        src: 'node_modules/naja/dist/**/*',
+        dst: 'naja',
+    },
 ];
 
 

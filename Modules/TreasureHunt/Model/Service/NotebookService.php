@@ -4,16 +4,13 @@ namespace CP\TreasureHunt\Model\Service;
 
 use App\LeanMapper\TransactionManager;
 use App\Model\Entity\User;
-use CP\TreasureHunt\Components\Notebook\IndexPage;
 use CP\TreasureHunt\Executives\Actions\InitializeNotebookAction;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\Notebook;
-use CP\TreasureHunt\Model\Entity\NotebookPage;
 use CP\TreasureHunt\Model\Repository\NotebookPageRepository;
 use CP\TreasureHunt\Model\Repository\NotebookRepository;
-use SeStep\Executives\Execution\ActionExecutor;
+use Nette\Neon\Neon;
 use SeStep\Executives\Execution\ClassnameActionExecutor;
-use SeStep\Executives\ModuleAggregator;
 
 class NotebookService
 {
@@ -25,17 +22,21 @@ class NotebookService
     private $transactionManager;
     /** @var ClassnameActionExecutor */
     private $classnameActionExecutor;
+    /** @var string */
+    private $firstChallengeId;
 
     public function __construct(
         NotebookRepository $notebookRepository,
         NotebookPageRepository $notebookPageRepository,
         TransactionManager $transactionManager,
-        ClassnameActionExecutor $classnameActionExecutor
+        ClassnameActionExecutor $classnameActionExecutor,
+        string $firstChallengeId
     ) {
         $this->notebookRepository = $notebookRepository;
         $this->notebookPageRepository = $notebookPageRepository;
         $this->transactionManager = $transactionManager;
         $this->classnameActionExecutor = $classnameActionExecutor;
+        $this->firstChallengeId = $firstChallengeId;
     }
 
     public function getNotebook(string $id): ?Notebook
@@ -59,7 +60,7 @@ class NotebookService
             $context->notebook = $notebook;
 
             $this->classnameActionExecutor->execute(InitializeNotebookAction::class, [
-                'challengeId' => 'CZv9',
+                'challengeId' => $this->firstChallengeId,
             ], $context);
 
             return $notebook;
@@ -84,4 +85,24 @@ class NotebookService
             return $notebook->activePage;
         });
     }
+
+    /**
+     * @return string
+     */
+    public function getFirstChallengeId(): string
+    {
+        return $this->firstChallengeId;
+    }
+
+    public function setFirstChallengeId(string $id)
+    {
+        // FIXME: WOW, Ugly!
+        $file = __DIR__ . '/../../../../config/config.local.neon';
+        $neon = Neon::decode(file_get_contents($file));
+
+        $neon['parameters']['firstChallengeId'] = $id;
+
+        file_put_contents($file, Neon::encode($neon, Neon::BLOCK));
+    }
+
 }

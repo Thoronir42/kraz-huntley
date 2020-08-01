@@ -7,6 +7,7 @@ use CP\TreasureHunt\Components\Challenge\ChallengeFormNotebookRenderer;
 use CP\TreasureHunt\Components\ChallengesGridFactory;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Service\ChallengesService;
+use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
@@ -24,6 +25,8 @@ class ChallengesPresenter extends Presenter
     public $challengeFormFactory;
     /** @var ActionFormFactory @inject */
     public $actionFormFactory;
+    /** @var NotebookService @inject */
+    public $notebookService;
 
     public function actionCreateNew()
     {
@@ -93,5 +96,26 @@ class ChallengesPresenter extends Presenter
         $form->setRenderer($this->context->createInstance(ChallengeFormNotebookRenderer::class));
 
         return $form;
+    }
+
+    public function createComponentFirstChallengeSelection()
+    {
+        $form = new Form();
+        $form->setTranslator($this->context->getService('translation.translator'));
+        $firstChallenge = $form->addSelect('firstChallenge', 'appTreasureHunt.firstChallenge')
+            ->setItems($this->challengesService->getNames())
+            ->setDefaultValue($this->notebookService->getFirstChallengeId());
+
+        $firstChallenge->controlPrototype->data('ajax-on-change', $this->link('changeFirstChallenge!', ['challenge' => '__value__']));
+
+        $form->elementPrototype->class[] = 'ajax';
+
+        return $form;
+    }
+
+    public function handleChangeFirstChallenge(string $challenge)
+    {
+        $this->notebookService->setFirstChallengeId($challenge);
+        $this->redirect('this');
     }
 }
