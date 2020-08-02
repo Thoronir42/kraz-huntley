@@ -1,7 +1,15 @@
 Huntley's treasure hunt hint'n'question UI
 
 # Dev environment
+To set up environment, ensure you have a mysql user and an empty database
 ## Backend stuff
+Configure environment by providing local configuration...
+```shell script
+cp config/config.sample.neon config/config.local.neon
+```
+...and enter credentials to own database. 
+
+Install dependencies and initialize database by:
 ```shell script
 $ composer install
 
@@ -10,9 +18,11 @@ $ php bin\cli db:wipe & php bin\cli db:init -d
 ```
 
 ## Frontend and UI
+Install frontend sources and dependencies by:
 ```shell script
 $ yarn
-$ gulp watch
-# For more tasks, refer to
+$ gulp copy-vendor & gulp js & gulp sass
+
+# For more tasks, refer to:
 $ gulp --tasks
 ```

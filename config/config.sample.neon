@@ -1,0 +1,8 @@
+parameters:
+	firstChallengeId: ABCD
+	db:
+		host: localhost
+		user: huntley
+		pass: ***
+		database: huntley
+
