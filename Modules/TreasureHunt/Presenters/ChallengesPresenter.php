@@ -36,8 +36,13 @@ class ChallengesPresenter extends Presenter
         $form = $this['challengeForm'];
 
         $form->onSuccess[] = function (Form $form, $values) {
+            $isFirst = !$this->challengesService->getNames();
+
             $challenge = new Challenge($values);
             $this->challengesService->save($challenge);
+            if ($isFirst) {
+                $this->notebookService->setFirstChallengeId($challenge->id);
+            }
             $this->redirect('detail', $challenge->id);
         };
     }
@@ -81,6 +86,10 @@ class ChallengesPresenter extends Presenter
 
     public function renderIndex()
     {
+        if (!$this->challengesService->getNames()) {
+            $this->redirect('createNew');
+        }
+
         $grid = $this->challengesGridFactory->create();
         $grid->setDataSource($this->challengesService->getChallengesDataSource());
 
@@ -88,6 +97,12 @@ class ChallengesPresenter extends Presenter
         $grid->addAction('detail', 'Upravit', 'detail');
 
         $this['challengesGrid'] = $grid;
+
+        $firstChallenge = $this->notebookService->getFirstChallengeId();
+        $firstChallengeSelection = $this['firstChallengeSelection'];
+        $firstChallengeSelection->setDefaults([
+            'firstChallenge' => $firstChallenge,
+        ]);
     }
 
     public function createComponentChallengeForm()
@@ -103,10 +118,10 @@ class ChallengesPresenter extends Presenter
         $form = new Form();
         $form->setTranslator($this->context->getService('translation.translator'));
         $firstChallenge = $form->addSelect('firstChallenge', 'appTreasureHunt.firstChallenge')
-            ->setItems($this->challengesService->getNames())
-            ->setDefaultValue($this->notebookService->getFirstChallengeId());
+            ->setItems($this->challengesService->getNames());
 
-        $firstChallenge->controlPrototype->data('ajax-on-change', $this->link('changeFirstChallenge!', ['challenge' => '__value__']));
+        $firstChallenge->controlPrototype->data('ajax-on-change',
+            $this->link('changeFirstChallenge!', ['challenge' => '__value__']));
 
         $form->elementPrototype->class[] = 'ajax';
 
