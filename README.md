@@ -17,6 +17,9 @@ $ composer install
 $ php bin\cli db:wipe & php bin\cli db:init -d
 ```
 
+Note: [as per default with Nette applications](https://doc.nette.org/cs/3.0/application#toc-adresarova-struktura), your web server should have its
+document root in the folder `.../www` and should allow **mod_rewrite**.
+
 ## Frontend and UI
 Install frontend sources and dependencies by:
 ```shell script
