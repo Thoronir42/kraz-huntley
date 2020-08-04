@@ -2,9 +2,6 @@
 
 namespace App;
 
-use Contributte\Console;
-use CP\TreasureHunt\Model\Service\TreasureHuntService;
-use Nette\Application;
 use Nette\Configurator;
 use Nette\DI\Container;
 use Tracy\Debugger;
@@ -35,7 +32,7 @@ class Bootstrap
             $configurator->setDebugMode(true);
         } else {
             $file = dirname(__DIR__) . '/config/debug_ips.txt';
-            $debugList = file_exists($file) ? explode("\n", file_get_contents($file)) : false;
+            $debugList = file_exists($file) ? explode("\n", file_get_contents($file)) : [];
 
             $configurator->setDebugMode($debugList);
         }
