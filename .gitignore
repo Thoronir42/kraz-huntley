@@ -1,6 +1,6 @@
-temp/
-logs/
-
+temp/*
+logs/*
+!*/.gitkeep
 config/config.local.neon
 
 /resources/
