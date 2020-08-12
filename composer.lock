@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a5e552a5150fc0e6bd6dd11aadeaeb7",
+    "content-hash": "82c7206100c2068cee35a83320dfa367",
     "packages": [
         {
             "name": "contributte/application",
@@ -1367,12 +1367,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "566e2076ed4682b57b76b7adeaf0a891009e9f78"
+                "reference": "5e1c5ee56722394af5aef471f6be1e5ede8ce543"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/566e2076ed4682b57b76b7adeaf0a891009e9f78",
-                "reference": "566e2076ed4682b57b76b7adeaf0a891009e9f78",
+                "url": "https://api.github.com/repos/nette/schema/zipball/5e1c5ee56722394af5aef471f6be1e5ede8ce543",
+                "reference": "5e1c5ee56722394af5aef471f6be1e5ede8ce543",
                 "shasum": ""
             },
             "require": {
@@ -1417,7 +1417,7 @@
                 "config",
                 "nette"
             ],
-            "time": "2020-06-03T08:48:19+00:00"
+            "time": "2020-07-31T15:20:50+00:00"
         },
         {
             "name": "nette/security",
