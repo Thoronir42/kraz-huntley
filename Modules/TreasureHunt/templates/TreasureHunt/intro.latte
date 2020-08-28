@@ -1,5 +1,10 @@
 {block content}
 
+{foreach $flashes as $flash}
+    <div class="flash {$flash->type}">{$flash->message}</div>
+{/foreach}
+
+
 <pre>~~Šablona: /Modules/TreasureHunt/templates/TreasureHunt/intro.latte~~</pre>
 
 <p>Vítejte ve hře o poklad.</p>

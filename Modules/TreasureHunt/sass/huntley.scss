@@ -1,2 +1,8 @@
 @import "reset";
 @import "notebook";
+
+/* Nette action result messages */
+div.flash {
+    background-color: yellow;
+    font-weight:bold;
+}
