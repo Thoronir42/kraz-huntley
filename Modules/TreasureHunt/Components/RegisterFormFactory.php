@@ -10,11 +10,11 @@ class RegisterFormFactory
     public function create()
     {
         $form = new Form();
-        $form->addText('nick', 'Jméno');
-        $form['pass'] = new EmojiMatrixControl('Identifikátor');
+        $form->addText('nick', 'Uživatel. jméno');
+        $form['pass'] = new EmojiMatrixControl('Identifikátor (heslo)');
 
-        $form->addSubmit('register', 'Začít');
-        $form->addSubmit('login', 'Vrátit se do hry');
+        $form->addSubmit('register', 'Začít (Registrovat)');
+        $form->addSubmit('login', 'Vrátit se do hry (Přihlásit se)');
         return $form;
     }
 }

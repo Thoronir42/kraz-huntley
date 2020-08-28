@@ -1,0 +1,8 @@
+Treasure map of this "Treasure hunt app"
+========================================
+
+TreasureHunt:TreasureHunt:intro
+ > template:            Modules/TreasureHunt/templates/TreasureHunt/intro.latte
+ > control introForm:   Modules\TreasureHunt\Presenters\TreasureHuntPresenter.php
+   > RegisterFormFactory: Modules\TreasureHunt\Components\RegisterFormFactory.php
+     > EmojiMatrixControl: Modules\TreasureHunt\controls/EmojiMatrixControl.php

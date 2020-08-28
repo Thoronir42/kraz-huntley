@@ -38,7 +38,7 @@ class TreasureHuntPresenter extends Presenter
             if ($submitter == $form['register']) {
                 $result = $this->userManager->register($nick, $pass);
                 if (!$result) {
-                    $this->flashMessage("Adresát $nick si již zásilku převzal");
+                    $this->flashMessage("Adresát $nick si již zásilku převzal (Uživatel již existuje)");
                 }
             }
 
