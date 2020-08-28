@@ -39,9 +39,9 @@ class ChallengePage extends UI\Control
     public function createComponentKey()
     {
         $form = new UI\Form();
-        $form['value'] = $this->controlFactory->create('value', $this->challenge->keyType);
+        $form['value'] = $this->controlFactory->create('Odpověď:', $this->challenge->keyType);
 
-        $form->addSubmit('send');
+        $form->addSubmit('send', 'Odeslat');
 
         $form->onSuccess[] = function($form, $values) {
             $answer = $values['value'];
