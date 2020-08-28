@@ -6,3 +6,22 @@ TreasureHunt:TreasureHunt:intro
  > control introForm:   Modules\TreasureHunt\Presenters\TreasureHuntPresenter.php
    > RegisterFormFactory: Modules\TreasureHunt\Components\RegisterFormFactory.php
      > EmojiMatrixControl: Modules\TreasureHunt\controls/EmojiMatrixControl.php
+     
+TreasureHunt:Notebook::page
+    Modules\TreasureHunt\Presenters\NotebookPresenter.php ~ defines onAnswerSubmit
+    > Modules\TreasureHunt\Model\Service\NotebookService.php
+    > Modules\TreasureHunt\Components\Notebook\NotebookControl.php
+      ~ createComponentPage() ~ passes onAnswerSubmit
+        > IndexPage.php/latte
+        > ChallengePage.php/latte
+          ~ Submit answer button ==> onAnswerSubmit() ==> treasureHuntService->triggerSubmitAnswer()
+            > object: Modules\TreasureHunt\Executives\Triggers\AnswerSubmitted.php
+            > receiver: Modules\TreasureHunt\Model\Service\TreasureHuntService.php
+    > Modules\TreasureHunt\Components\Notebook\NotebookControlFactory.php ~ interface only
+
+  [page 1]
+     Modules\TreasureHunt\Components\Notebook\IndexPage.php
+     Modules\TreasureHunt\Components\Notebook\indexPage.latte
+  [page 2+]
+     Modules\TreasureHunt\Components\Notebook\ChallengePage.php
+     Modules\TreasureHunt\Components\Notebook\challengePage.latte
