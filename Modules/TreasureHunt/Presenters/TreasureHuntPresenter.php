@@ -31,14 +31,20 @@ class TreasureHuntPresenter extends Presenter
     {
         $form = $this->registerFormFactory->create();
         $form->onSuccess[] = function (Form $form, $values) {
+            // $values come in trimmed :)
             $nick = $values['nick'];
             $pass = implode('-', $values['pass']);
 
             $submitter = $form->isSubmitted();
             if ($submitter == $form['register']) {
-                $result = $this->userManager->register($nick, $pass);
-                if (!$result) {
-                    $this->flashMessage("Adresát $nick si již zásilku převzal (Uživatel již existuje)");
+                if ($nick == "") {
+                    $this->flashMessage("Pro registraci zadejte uživatel. jméno");
+                }
+                else {
+                    $result = $this->userManager->register($nick, $pass);
+                    if (!$result) {
+                        $this->flashMessage("Adresát $nick si již zásilku převzal (Uživatel již existuje)");
+                    }
                 }
             }
 
