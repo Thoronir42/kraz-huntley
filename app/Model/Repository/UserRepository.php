@@ -13,7 +13,7 @@ use App\LeanMapper\Repository;
  */
 class UserRepository extends Repository
 {
-    public function findByNick(string $nick): User
+    public function findByNick(string $nick): ?User // Nullable return type, needs PHP 7.1, see https://www.php.net/manual/en/functions.returning-values.php
     {
         return $this->findOneBy([
             'nick' => $nick,
