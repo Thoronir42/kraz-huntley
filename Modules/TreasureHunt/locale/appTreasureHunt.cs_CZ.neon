@@ -9,6 +9,8 @@ notebook:
 
 challenge.createNew: Vytvořit novou výzvu
 
+narrative.title: Název průpovídky
+narrative.content: Text průpovídky
 narrative.createNew: Vytvořit novou prupovídku
 
 treasureMap.createNew: Vytvořit novou mapu

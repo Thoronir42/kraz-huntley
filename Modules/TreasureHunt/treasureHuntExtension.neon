@@ -24,7 +24,7 @@ services:
             types: ['typeful.int', 'typeful.text']
 
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
-    narrativeFormFactory: CP\TreasureHunt\Components\NarrativeFormFactory
+    narrativeFormFactory: CP\TreasureHunt\Components\Narrative\NarrativeFormFactory
 
     notebookControlFactory: CP\TreasureHunt\Components\Notebook\NotebookControlFactory
 
@@ -41,13 +41,14 @@ typeful:
     entities:
         narrative:
             name: CP\TreasureHunt\Model\Entity\Narrative
+            propertyNamePrefix: 'appTreasureHunt.narrative'
             properties:
                 title:
                     type: 'typeful.text'
                 content:
                     type: 'typeful.text'
                     options:
-                        richText: true
+                        richText: 'wysiwyg'
         treasureMap:
             name: CP\TreasureHunt\Model\Entity\TreasureMap
             propertyNamePrefix: 'appTreasureHunt.map'

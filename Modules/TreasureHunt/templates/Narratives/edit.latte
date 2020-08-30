@@ -1,3 +1,21 @@
 {block content}
 
-{control narrativeForm}
+{form narrativeForm}
+    <ul class="list-group">
+        <li n:foreach="$form->errors as $error" class="list-group-item list-group-item-warning">{$error}</li>
+    </ul>
+
+    <div class="input-pair narrative-title">
+        {label title/}
+        {input title, class => 'form-control'}
+    </div>
+
+    <div class="input-pair input-pair-wysiwyg">
+        {label content/}
+        {input content}
+    </div>
+
+    <div class="form-actions">
+        {input save, class => 'btn btn-primary'}
+    </div>
+{/form}

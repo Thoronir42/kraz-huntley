@@ -38,7 +38,8 @@ class ChallengeFormFactory
         $types = array_intersect_key($this->typeRegistry->getTypesLocalized(), array_flip($this->types));
 
         $form->addText('title', 'th.challenge.title');
-        $form->addTextArea('description', 'th.challenge.description');
+        $form->addTextArea('description', 'th.challenge.description')
+            ->controlPrototype->class[] = 'wysiwyg';
         $form->addSelect('keyType', 'th.challenge.keyType', $types);
 
         $form->addSubmit('save', 'save');

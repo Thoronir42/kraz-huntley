@@ -2,7 +2,7 @@
 
 namespace CP\TreasureHunt\Presenters;
 
-use CP\TreasureHunt\Components\NarrativeFormFactory;
+use CP\TreasureHunt\Components\Narrative\NarrativeFormFactory;
 use CP\TreasureHunt\Components\NarrativesGridFactory;
 use CP\TreasureHunt\Model\Entity\Narrative;
 use CP\TreasureHunt\Model\Service\NarrativesService;

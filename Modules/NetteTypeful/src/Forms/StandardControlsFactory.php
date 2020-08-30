@@ -14,9 +14,10 @@ class StandardControlsFactory
 {
     public static function createText(string $name, array $options)
     {
-        if (isset($options['richText'])) {
+        if (isset($options['richText']) && $options['richText']) {
+            $richText = $options['richText'];
             $control = new TextArea($name);
-            $control->getControlPrototype()->class[] = 'richtext';
+            $control->getControlPrototype()->class[] = $richText === true ? 'richtext' : $richText;
         } else {
             $control = new TextInput($name);
         }
