@@ -7,6 +7,7 @@ use Dibi\Fluent;
 use Dibi\UniqueConstraintViolationException;
 use LeanMapper\Entity;
 use SeStep\EntityIds\IdGenerator;
+use SeStep\Typeful\Entity\TypefulEntity;
 use SeStep\Typeful\Validation\TypefulValidator;
 
 class Repository extends \LeanMapper\Repository implements IQueryable
@@ -107,7 +108,7 @@ class Repository extends \LeanMapper\Repository implements IQueryable
             throw new \RuntimeException('TypefulValidator already bound');
         }
         $this->validator = $validator;
-        $this->events->registerCallback($this->events::EVENT_BEFORE_PERSIST, [$this, 'validateEntityData']);
+        $this->events->registerCallback($this->events::EVENT_BEFORE_PERSIST, [$this, 'validateTypefulData']);
     }
 
 
@@ -135,13 +136,18 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         }
     }
 
-    public function validateEntityData(Entity $entity)
+    /**
+     * Validates typeful data
+     *
+     * Only called when typeful validator is bound.
+     *
+     * @param Entity&TypefulEntity $entity
+     *
+     * @throws ValidationException
+     */
+    public function validateTypefulData(Entity $entity): void
     {
-        $primary = $this->mapper->getPrimaryKey($this->mapper->getTable(get_class($entity)));
-
-        $data = $entity->getData();
-        unset($data[$primary]);
-        $errors = $this->validator->validateEntity($this->getEntityClass(), $data);
+        $errors = $this->validator->validateEntity($this->getEntityClass(), $entity);
 
         if (!empty($errors)) {
             throw ValidationException::fromTypefulValidationErrors($errors);

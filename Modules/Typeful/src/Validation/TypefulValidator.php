@@ -2,6 +2,7 @@
 
 namespace SeStep\Typeful\Validation;
 
+use SeStep\Typeful\Entity\TypefulEntity;
 use SeStep\Typeful\Service\EntityDescriptorRegistry;
 use SeStep\Typeful\Service\TypeRegistry;
 
@@ -25,16 +26,21 @@ class TypefulValidator
 
     /**
      * @param string $entity
-     * @param $propertyData
+     * @param mixed[]|TypefulEntity $propertyData
      *
      * @return ValidationError[]
      */
     public function validateEntity(string $entity, $propertyData): array
     {
         $descriptor = $this->entityDescriptorRegistry->getEntityDescriptor($entity, true);
+        $properties = $descriptor->getProperties();
+
+        // todo: actually use the type TypefulEntity
+        if (is_object($propertyData)) {
+            $propertyData = $propertyData->getData(array_keys($properties));
+        }
 
         $errors = [];
-        $properties = $descriptor->getProperties();
         if (!empty($surplusProperties = array_diff_key($propertyData, $properties))) {
             foreach (array_keys($surplusProperties) as $property) {
                 $errors[$property] = new ValidationError(ValidationError::SURPLUS_FIELD);
