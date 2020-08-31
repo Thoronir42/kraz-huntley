@@ -10,6 +10,8 @@ use Nette\InvalidArgumentException;
  * Aggregates Actions and Conditions of given modules
  *
  * Retrieves Action and Condition and lists of their FQNs or I18N placeholders
+ *
+ * TODO: rename to ExecutivesRegistry
  */
 class ModuleAggregator
 {
@@ -42,6 +44,17 @@ class ModuleAggregator
         }
 
         return $action;
+    }
+
+    public function getActionTypeByClass(string $className): string
+    {
+        foreach ($this->getActions() as $type => $action) {
+            if ($className === $action) {
+                return $type;
+            }
+        }
+
+        throw new InvalidArgumentException("Action class '$className' is not recognized");
     }
 
     /**

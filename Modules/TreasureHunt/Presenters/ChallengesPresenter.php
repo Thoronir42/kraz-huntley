@@ -12,7 +12,7 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use SeStep\Executives\Model\ActionData;
-use SeStep\NetteExecutives\Components\ActionForm\ActionFormFactory;
+use CP\TreasureHunt\Components\Challenge\OnSubmitActionsFormFactory;
 
 class ChallengesPresenter extends Presenter
 {
@@ -23,7 +23,7 @@ class ChallengesPresenter extends Presenter
     public $challengesGridFactory;
     /** @var ChallengeFormFactory @inject */
     public $challengeFormFactory;
-    /** @var ActionFormFactory @inject */
+    /** @var OnSubmitActionsFormFactory @inject */
     public $actionFormFactory;
     /** @var NotebookService @inject */
     public $notebookService;

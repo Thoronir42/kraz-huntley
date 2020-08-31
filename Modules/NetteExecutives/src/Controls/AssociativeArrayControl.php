@@ -6,6 +6,8 @@ use Nette\Forms\Controls\TextArea;
 use Nette\Forms\Form;
 use Nette\InvalidArgumentException;
 use Nette\Neon\Neon;
+use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 
 class AssociativeArrayControl extends TextArea
 {
@@ -13,7 +15,7 @@ class AssociativeArrayControl extends TextArea
     {
         parent::__construct($label);
 
-        $this->controlPrototype->class[] = 'neon';
+        $this->controlPrototype->class[] = 'executives-config';
     }
 
     public function setValue($value)
@@ -44,12 +46,16 @@ class AssociativeArrayControl extends TextArea
     {
         $httpData = $this->getHttpData(Form::DATA_TEXT);
 
-        $this->setValue(Neon::decode($httpData));
+        try {
+            $this->setValue(Json::decode($httpData, Json::FORCE_ARRAY));
+        } catch (JsonException $ex) {
+            $this->addError('JSON parse failed', false);
+        }
     }
 
     protected function getRenderedValue(): ?string
     {
-        return str_replace("\t", '  ', Neon::encode($this->value, Neon::BLOCK));
+        return str_replace("\t", '  ', Json::encode($this->value, Json::PRETTY));
     }
 
 

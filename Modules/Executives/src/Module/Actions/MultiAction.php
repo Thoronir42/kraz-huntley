@@ -66,12 +66,12 @@ class MultiAction implements Action, HasParamsSchema, ValidatesParams
 
         // TODO: See if there is better way of composing error list
         foreach ($params['actions'] as $iAct => $action) {
-            $actionValidator = $this->validator->withPath((string)$iAct);
+            $actionValidator = $this->validator->withPath("actions[$iAct]");
             $actionErrors = iterator_to_array($actionValidator->validateActionData($action));
             $result += $actionErrors;
 
             foreach ($action['conditions'] ?? [] as $iCond => $conditionData) {
-                $conditionValidator = $actionValidator->withPath("conditions.$iCond");
+                $conditionValidator = $actionValidator->withPath("conditions[$iCond]");
                 $result += iterator_to_array($conditionValidator->validateConditionData($conditionData));
             }
         }

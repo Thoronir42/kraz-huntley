@@ -9,14 +9,6 @@ use SeStep\NetteExecutives\Latte\ExecutivesLatteFilters;
 
 class NetteExecutivesExtension extends CompilerExtension
 {
-    public function loadConfiguration()
-    {
-        $this->loadDefinitionsFromConfig([
-            'actionFormFactory' => Components\ActionForm\ActionFormFactory::class,
-            'actionParamsControlFactory' => Controls\ActionParamsControlFactory::class,
-        ]);
-    }
-
     public function beforeCompile()
     {
         $builder = $this->getContainerBuilder();

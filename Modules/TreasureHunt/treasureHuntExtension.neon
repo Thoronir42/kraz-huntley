@@ -22,6 +22,7 @@ services:
         class: CP\TreasureHunt\Components\Challenge\ChallengeFormFactory
         arguments:
             types: ['typeful.int', 'typeful.text']
+    challengeOnSubmitActionsFormFactory: CP\TreasureHunt\Components\Challenge\OnSubmitActionsFormFactory
 
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
     narrativeFormFactory: CP\TreasureHunt\Components\Narrative\NarrativeFormFactory

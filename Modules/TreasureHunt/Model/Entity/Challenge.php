@@ -18,4 +18,8 @@ use SeStep\LeanExecutives\Entity\Action;
  */
 class Challenge extends Entity
 {
+    protected function initDefaults()
+    {
+        $this->onSubmit = null;
+    }
 }

@@ -98,7 +98,7 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
         $map = $this->treasureMapsService->getMap($args['map']);
         if (!$map) {
             return [
-                'clueArgs.map' => new ParamValidationError('appTreasureHunt.mapNotFound'),
+                'clueArgs.map' => new ParamValidationError('appTreasureHunt.treasureMap.notFound'),
             ];
         }
         

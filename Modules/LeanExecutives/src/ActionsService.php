@@ -4,6 +4,7 @@ namespace SeStep\LeanExecutives;
 
 use App\LeanMapper\TransactionManager;
 use SeStep\Executives\ExecutivesLocalization;
+use SeStep\Executives\ModuleAggregator;
 use SeStep\LeanExecutives\Entity\Action;
 use SeStep\LeanExecutives\Entity\Condition;
 use SeStep\LeanExecutives\Repository\ActionRepository;
@@ -19,23 +20,28 @@ class ActionsService
     private $transactionManager;
     /** * @var ExecutivesLocalization */
     private $executivesLocalization;
+    /** @var ModuleAggregator */
+    private $executivesRegistry;
 
     /**
      * @param ActionRepository $actionRepository
      * @param ConditionRepository $conditionRepository
      * @param TransactionManager $transactionManager
      * @param ExecutivesLocalization $executivesLocalization
+     * @param ModuleAggregator $executivesRegistry
      */
     public function __construct(
         ActionRepository $actionRepository,
         ConditionRepository $conditionRepository,
         TransactionManager $transactionManager,
-        ExecutivesLocalization $executivesLocalization
+        ExecutivesLocalization $executivesLocalization,
+        ModuleAggregator $executivesRegistry
     ) {
         $this->actionRepository = $actionRepository;
         $this->conditionRepository = $conditionRepository;
         $this->transactionManager = $transactionManager;
         $this->executivesLocalization = $executivesLocalization;
+        $this->executivesRegistry = $executivesRegistry;
     }
 
 
@@ -71,6 +77,17 @@ class ActionsService
             $action->addToConditions($conditionsEntities);
             $this->actionRepository->persist($action);
         });
+    }
+
+    public function createActionByClass(string $class, array $params = []): Action
+    {
+        $action = new Action();
+        $action->type = $this->executivesRegistry->getActionTypeByClass($class);
+        $action->params = $params;
+
+        $this->actionRepository->persist($action);
+
+        return $action;
     }
 
 }

@@ -79,8 +79,18 @@
 
 }
 
-textarea.neon {
-  min-height: 320px;
-  min-width: 720px;
-}
+.on-submit-actions-form {
+  display: flex;
+  flex-direction: column;
 
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea.executives-config {
+    flex: 1;
+    resize: none;
+  }
+}

@@ -6,6 +6,8 @@ use App\LeanMapper\TransactionManager;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Repository\ChallengeRepository;
 use SeStep\Executives\Model\ActionData;
+use SeStep\Executives\Module\Actions\MultiAction;
+use SeStep\Executives\Module\Actions\Strategy\MultiActionStrategy;
 use SeStep\LeanExecutives\ActionsService;
 use SeStep\LeanExecutives\Entity\Action;
 use Ublaboo\DataGrid\DataSource\IDataSource;
@@ -42,6 +44,13 @@ class ChallengesService
     public function save(Challenge $challenge)
     {
         $this->transactionManager->execute(function () use ($challenge) {
+            if (!$challenge->onSubmit) {
+                $challenge->onSubmit = $this->actionsService->createActionByClass(MultiAction::class, [
+                    'strategy' => 'returnOnFirstPass',
+                    'actions' => [],
+                ]);
+            }
+
             $this->challengeRepository->persist($challenge);
         });
 

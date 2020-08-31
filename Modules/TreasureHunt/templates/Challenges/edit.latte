@@ -1,7 +1,22 @@
 {block content}
 
-{control challengeForm}
+<div class="row">
+    <div class="col-md-6">
+        {control challengeForm}
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+            {ifset $challenge}
+                {control actionForm}
+            {else}
+                <div>Nastavení akci bude zpřístupněno po vytvoření výzvy</div>
+            {/ifset}
+            </div>
 
-{*{ifset $challenge}
-    {control actionForm}
-{/ifset}*}
+        </div>
+
+    </div>
+</div>
+
+

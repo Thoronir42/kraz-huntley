@@ -1,27 +1,28 @@
 <?php declare(strict_types=1);
 
-namespace SeStep\NetteExecutives\Components\ActionForm;
+namespace CP\TreasureHunt\Components\Challenge;
 
-use Contributte\FormMultiplier\Multiplier;
+
 use Contributte\Translation\Translator;
+use Nette\InvalidArgumentException;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
+use SeStep\Executives\Module\Actions\MultiAction;
 use SeStep\Executives\Validation\ExecutivesValidator;
 use SeStep\LeanExecutives\Entity\Action;
 use SeStep\LeanExecutives\Entity\Condition;
 use Nette\Application\UI;
 use Nette\Application\UI\Form;
-use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
 use SeStep\Executives\ModuleAggregator;
-use SeStep\NetteExecutives\Controls\ActionParamsControlFactory;
+use SeStep\NetteExecutives\Controls\AssociativeArrayControl;
 
 /**
  * Class ActionForm
  *
  * @method onSave(Form $form, ActionData $action, Condition[] $conditions)
  */
-class ActionForm extends UI\Component
+class OnSubmitActionsForm extends UI\Control
 {
     public $onSave = [];
 
@@ -32,21 +33,17 @@ class ActionForm extends UI\Component
     private $executivesModules;
     /** @var Translator */
     private $translator;
-    /** @var ActionParamsControlFactory */
-    private $actionParamsControlFactory;
     /** @var ExecutivesValidator */
     private $executivesValidator;
 
     public function __construct(
         ModuleAggregator $executivesModules,
         Translator $translator,
-        ActionParamsControlFactory $actionParamsControlFactory,
         ExecutivesValidator $executivesValidator,
         ActionData $action = null
     ) {
         $this->executivesModules = $executivesModules;
         $this->translator = $translator;
-        $this->actionParamsControlFactory = $actionParamsControlFactory;
         $this->executivesValidator = $executivesValidator;
 
         $this->setAction($action);
@@ -54,30 +51,35 @@ class ActionForm extends UI\Component
 
     public function render()
     {
-        $form = $this['form'];
-
-        $form->render();
+        $this['form']['params']->controlPrototype->class[] = 'form-control';
+        $this->template->setFile(__DIR__ . '/onSubmitActionsForm.latte');
+        $this->template->render();
     }
 
     public function setAction(?ActionData $action)
     {
+        $multiActionType = $this->executivesModules->getActionTypeByClass(MultiAction::class);
+
+        if (!$action) {
+            $action = new GenericActionData($multiActionType, [
+                'strategy' => 'returnOnFirstPass',
+                'actions' => [],
+            ]);
+        }
+
         $this->action = $action;
 
         /** @var Form $form */
         $form = $this['form'];
 
         if ($action) {
+            if ($action->getType() !== 'exe.multiAction') {
+                throw new InvalidArgumentException("Only multiaction actions are supported");
+            }
+
             $data = [
-                'type' => $action->getType(),
                 'params' => $action->getParams(),
             ];
-
-            $data['conditions'] = array_map(function ($c) {
-                return [
-                    'type' => $c->getType(),
-                    'params' => $c->getParams(),
-                ];
-            }, $action->getConditions());
 
             $form->setDefaults($data);
         }
@@ -92,29 +94,14 @@ class ActionForm extends UI\Component
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        $form->addGroup('exe.action');
-        $form->addSelect('type', 'exe.actionType', $this->executivesModules->getActionsPlaceholders());
-        $params = $form['params'] = $this->actionParamsControlFactory->create(null, 'exe.actionParams');
+        $params = $form['params'] = new AssociativeArrayControl('appTreasureHunt.challenge.onSubmitActionsList');
 
-        $form->addGroup('exe.actionConditions');
-        $form['conditions'] = $conditions = new Multiplier(function (Container $container) {
-            $container->addSelect('type', 'exe.condition', $this->executivesModules->getConditionsPlaceholders());
-            $container->addText('params', 'exe.conditionParams');
-            $container->addHidden('id');
-        }, 0, 5);
-        $conditions->setResetKeys(false);
-        $conditions->addCreateButton('exe.actionForm.addCondition');
-        $conditions->addRemoveButton('exe.actionForm.removeCondition');
-
-        $form->addGroup();
-        $form->addSubmit('save');
+        $form->addSubmit('save', 'messages.set');
 
         $form->onValidate[] = [$this, 'normalizeParams'];
 
         $form->onSuccess[] = function (Form $form) {
             $values = $form->getValues();
-            $conditions = (array)$values['conditions'];
-            unset($values['conditions']);
 
             if ($this->action instanceof Action) {
                 $action = $this->action;
@@ -123,7 +110,7 @@ class ActionForm extends UI\Component
                 $action = new GenericActionData($values['type'], $values['params']);
             }
 
-            $this->onSave($form, $action, $conditions);
+            $this->onSave($form, $action, []);
         };
 
         return $form;
@@ -133,7 +120,7 @@ class ActionForm extends UI\Component
     {
         $values = $form->getValues('array');
 
-        $errors = $this->executivesValidator->validateActionParams($values['type'], $values['params'], true);
+        $errors = $this->executivesValidator->validateActionParams($this->action->getType(), $values['params'], true);
         if (!empty($errors)) {
             foreach ($errors as $field => $error) {
                 $errorType = $error->getErrorType();
@@ -144,7 +131,7 @@ class ActionForm extends UI\Component
                     continue;
                 }
 
-                $form->addError($this->translator->translate($error->getErrorType(), $errorData), false);
+                $form->addError("$field: " . $this->translator->translate($error->getErrorType(), $errorData), false);
             }
         }
 
