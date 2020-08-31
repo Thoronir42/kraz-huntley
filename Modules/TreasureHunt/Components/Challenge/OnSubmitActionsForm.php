@@ -8,6 +8,7 @@ use Nette\InvalidArgumentException;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
 use SeStep\Executives\Module\Actions\MultiAction;
+use SeStep\Executives\Module\MultiActionStrategyFactory;
 use SeStep\Executives\Validation\ExecutivesValidator;
 use SeStep\LeanExecutives\Entity\Action;
 use SeStep\LeanExecutives\Entity\Condition;
@@ -35,16 +36,20 @@ class OnSubmitActionsForm extends UI\Control
     private $translator;
     /** @var ExecutivesValidator */
     private $executivesValidator;
+    /** @var MultiActionStrategyFactory */
+    private $multiActionStrategyFactory;
 
     public function __construct(
         ModuleAggregator $executivesModules,
         Translator $translator,
         ExecutivesValidator $executivesValidator,
+        MultiActionStrategyFactory $multiActionStrategyFactory,
         ActionData $action = null
     ) {
         $this->executivesModules = $executivesModules;
         $this->translator = $translator;
         $this->executivesValidator = $executivesValidator;
+        $this->multiActionStrategyFactory = $multiActionStrategyFactory;
 
         $this->setAction($action);
     }
@@ -52,7 +57,11 @@ class OnSubmitActionsForm extends UI\Control
     public function render()
     {
         $this['form']['params']->controlPrototype->class[] = 'form-control';
+
         $this->template->setFile(__DIR__ . '/onSubmitActionsForm.latte');
+        $this->template->actions = $this->executivesModules->getActionsPlaceholders();
+        $this->template->multiActionStrategies = $this->multiActionStrategyFactory->listStrategies();
+
         $this->template->render();
     }
 

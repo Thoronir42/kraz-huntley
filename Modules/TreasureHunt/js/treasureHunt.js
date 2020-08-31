@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     naja.initialize();
 
     initChallengeForm();
@@ -9,17 +9,17 @@ $(function() {
         let $challengeFormContainer = $('.challenge-form-container');
         let $description = $challengeFormContainer.find('[name="description"]');
 
-        $challengeFormContainer.on('click', '.flip-page', function() {
+        $challengeFormContainer.on('click', '.flip-page', function () {
             let $notebook = $(this).closest('.challenge-form-container').find('.notebook');
 
             $notebook.toggleClass('page-left');
             $notebook.toggleClass('page-right');
-        })
+        });
     }
 
     function initSummernote() {
 
-        $('textarea.wysiwyg').each(function() {
+        $('textarea.wysiwyg').each(function () {
             let $el = $(this);
             let summernoteOptions = $el.data('summernoteOptions');
 
@@ -31,5 +31,32 @@ $(function() {
         let url = e.target.dataset['ajaxOnChange'];
         url = url.replace('__value__', e.target.value)
         naja.makeRequest('GET', url)
+    });
+
+    $('[data-toggle="popover"]').each(function () {
+        let $el = $(this);
+        let popoverOptions = {};
+
+        let contentElSelector = $el.data('contentEl');
+        if (contentElSelector) {
+            let $content = $(contentElSelector);
+            $content.detach();
+            $content.removeClass('d-none');
+
+            popoverOptions.content = $content;
+            popoverOptions.html = true;
+        }
+
+        if ($el.data('templateName') === 'popover-large') {
+            popoverOptions.template = '<div class="popover popover-large" role="tooltip">' +
+                '<div class="arrow"></div>' +
+                '<h3 class="popover-header"></h3>' +
+                '<div class="popover-body"></div>' +
+                '</div>'
+        }
+
+        console.log(contentElSelector, popoverOptions)
+
+        $el.popover(popoverOptions);
     });
 });

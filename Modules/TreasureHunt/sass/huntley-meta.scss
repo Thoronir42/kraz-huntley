@@ -83,7 +83,7 @@
   display: flex;
   flex-direction: column;
 
-  .form-group {
+  .form-group.params-group {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -93,4 +93,9 @@
     flex: 1;
     resize: none;
   }
+}
+
+.popover-large {
+  max-width: initial;
+  width: 420px;
 }
