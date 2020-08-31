@@ -18,6 +18,9 @@
         <li class="list-group-item"><a n:href="Narratives:index">Prupovídky</a></li>
         <li class="list-group-item"><a n:href="TreasureMaps:index">Mapy</a></li>
     </ul>
+    <div class="alert alert-light" n:foreach="$flashes as $flash">
+        {$flash->message}
+    </div>
     {include content}
 </div>
 

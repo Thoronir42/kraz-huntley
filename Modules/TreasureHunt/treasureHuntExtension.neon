@@ -52,23 +52,28 @@ typeful:
                         richText: 'wysiwyg'
         treasureMap:
             name: CP\TreasureHunt\Model\Entity\TreasureMap
-            propertyNamePrefix: 'appTreasureHunt.map'
+            propertyNamePrefix: 'appTreasureHunt.treasureMap'
             properties:
                 name:
                     type: 'typeful.text'
+                    options:
+                        required: true
                 file:
                     type: 'netteTypeful.file'
                     options:
+                        required: true
                         storage: @treasureMapsFileStorage
                         fileType: 'image'
                 tilingX:
                     type: 'typeful.int'
                     options:
+                        required: true
                         min: 1
                         max: 20
                 tilingY:
                     type: 'typeful.int'
                     options:
+                        required: true
                         min: 1
                         max: 20
 

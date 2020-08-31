@@ -1,2 +1,47 @@
 {block content}
-{control treasureMapForm}
+
+
+{form treasureMapForm}
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-warning" n:if="$form->errors">
+                <p n:foreach="$form->errors as $error">{$error}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label id/}
+                        {input id, class => 'form-control'}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label name/}
+                        {input name, class => 'form-control'}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label file/}
+                        {input file, class => 'form-control-file'}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label tilingX}Počet dílů (řádky x sloupce){/label}
+                        <div class="input-group">
+                            {input tilingX, class => 'form-control'}
+                            {input tilingY, class => 'form-control'}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {input save, class => 'btn btn-primary'}
+
+            <a n:href="previewMap!" class="btn btn-outline-secondary" n:ifset="$map">Zobrazit náhled</a>
+        </div>
+    </div>
+{/form}
+

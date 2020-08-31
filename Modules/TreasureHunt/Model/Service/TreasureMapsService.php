@@ -59,7 +59,7 @@ class TreasureMapsService
      */
     public function create($values)
     {
-        $values['file'] = $this->saveMapFile($values['file']);
+        $values['file'] = $this->saveMapFile($values['id'], $values['file']);
 
         $map = new TreasureMap($values);
         $this->treasureMapRepository->persist($map);

@@ -11,6 +11,7 @@ use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Localization\ITranslator;
 use Nette\Utils\Html;
+use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
 use SeStep\NetteTypeful\Components\EntityGridFactory;
 use SeStep\NetteTypeful\Forms\EntityFormPopulator;
 
@@ -24,6 +25,10 @@ class TreasureMapsPresenter extends Presenter
 
     /** @var TreasureMapsService @inject */
     public $treasureMapsService;
+
+    /** @var TreasureMap */
+    private $map;
+
 
     public function actionCreateNew()
     {
@@ -47,7 +52,7 @@ class TreasureMapsPresenter extends Presenter
 
     public function actionDetail(string $id)
     {
-        $map = $this->treasureMapsService->getMap($id);
+        $this->map = $map = $this->treasureMapsService->getMap($id);
 
         if (!$map) {
             throw new BadRequestException();
@@ -72,7 +77,9 @@ class TreasureMapsPresenter extends Presenter
         };
 
         $treasureMapForm->setDefaults($map->getData());
-        $treasureMapForm['id']->setDisabled();
+        $treasureMapForm['id']->setOmitted()->controlPrototype->readonly(true);
+
+        $this->template->map = $map;
     }
 
     protected function beforeRender()
@@ -105,12 +112,18 @@ HTML);
     public function createComponentTreasureMapForm()
     {
         $form = new Form();
-        $form->addText('id', 'appTreasureHunt.map.id');
+        $form->addText('id', 'appTreasureHunt.treasureMap.id');
         $this->entityFormPopulator->fillFromReflection($form, TreasureMap::class);
 
         $form->addSubmit('save', 'messages.save');
         $form->setTranslator($this->context->getByType(ITranslator::class));
+        $form->setRenderer(new Bs4FormRenderer());
 
         return $form;
+    }
+
+    public function handlePreviewMap()
+    {
+        $this->forward('Clue:map', $this->map->id);
     }
 }

@@ -1,9 +1,5 @@
 narrativeNotFound: Prupovídka nenalezena
 
-map.id: Kód mapy
-map.name: Jméno mapy
-map.filename: Obrázek
-
 notebook:
     flipPage: Otočit stránku
 
@@ -13,6 +9,13 @@ challenge.onSubmitActionsList: Akce po odeslání odpovědi
 narrative.title: Název průpovídky
 narrative.content: Text průpovídky
 narrative.createNew: Vytvořit novou prupovídku
+
+treasureMap:
+    id: Kód mapy
+    name: Jméno mapy
+    file: Obrázek mapy
+    tilingX: Sloupců
+    tiningY: Řádků
 
 treasureMap.createNew: Vytvořit novou mapu
 
