@@ -13,7 +13,7 @@ use App\LeanMapper\Repository;
  */
 class UserRepository extends Repository
 {
-    public function findByNick(string $nick): User
+    public function findByNick(string $nick): ?User
     {
         return $this->findOneBy([
             'nick' => $nick,
