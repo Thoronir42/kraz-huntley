@@ -9,8 +9,8 @@ $(function () {
         let $challengeFormContainer = $('.challenge-form-container');
         let $description = $challengeFormContainer.find('[name="description"]');
 
-        $challengeFormContainer.on('click', '.flip-page', function () {
-            let $notebook = $(this).closest('.challenge-form-container').find('.notebook');
+        $challengeFormContainer.on('click', '.flip-page', function (e) {
+            let $notebook = $('.challenge-form-container').find('.notebook');
 
             $notebook.toggleClass('page-left');
             $notebook.toggleClass('page-right');

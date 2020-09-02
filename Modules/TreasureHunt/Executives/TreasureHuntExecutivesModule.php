@@ -2,17 +2,18 @@
 
 namespace CP\TreasureHunt\Executives;
 
-use CP\TreasureHunt\Executives as THExecutives;
+
 use SeStep\Executives\ExecutivesModule;
 
 class TreasureHuntExecutivesModule implements ExecutivesModule
 {
     private const ACTIONS = [
-        'activateChallenge' => THExecutives\Actions\ActivateChallengeAction::class,
-        'revealClue' => THExecutives\Actions\ShowClueAction::class,
+        'activateChallenge' => Actions\ActivateChallengeAction::class,
+        'revealClue' => Actions\ShowClueAction::class,
     ];
     private const CONDITIONS = [
-        'answerEquals' => THExecutives\Conditions\AnswerEquals::class,
+        'answerEquals' => Conditions\AnswerEquals::class,
+        'answerCorrect' => Conditions\AnswerCorrect::class,
     ];
 
     public function getLocalizationName(): string

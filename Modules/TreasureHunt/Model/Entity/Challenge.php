@@ -12,6 +12,7 @@ use SeStep\LeanExecutives\Entity\Action;
  * @property string $title
  * @property string $description
  * @property string $keyType
+ * @property string $correctAnswer
  *
  * @property Action|null $onSubmit m:hasOne(on_submit)
  *

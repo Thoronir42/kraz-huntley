@@ -33,3 +33,6 @@ executives:
     action:
         activateChallenge: Aktivovat výzvu
         revealClue: Odhalit nápovědu
+    condition:
+        answerEquals: Odpověď je rovna
+        answerCorrect: Správná odpověď

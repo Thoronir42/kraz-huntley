@@ -41,6 +41,8 @@ class ChallengeFormFactory
         $form->addTextArea('description', 'th.challenge.description')
             ->controlPrototype->class[] = 'wysiwyg';
         $form->addSelect('keyType', 'th.challenge.keyType', $types);
+        $form['correctAnswer'] = $this->controlFactory->create('appTreasureHunt.challenge.correctAnswer',
+            'typeful.text');
 
         $form->addSubmit('save', 'save');
 

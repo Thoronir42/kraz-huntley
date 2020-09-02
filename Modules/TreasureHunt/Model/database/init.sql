@@ -1,10 +1,11 @@
 CREATE TABLE th__challenge
 (
-    id          varchar(4)  NOT NULL,
-    title       varchar(72) NOT NULL,
-    description text        NOT NULL,
-    key_type    varchar(92) NOT NULL,
-    on_submit   varchar(4)  NULL,
+    id             varchar(4)   NOT NULL,
+    title          varchar(72)  NOT NULL,
+    description    text         NOT NULL,
+    key_type       varchar(92)  NOT NULL,
+    on_submit      varchar(4)   NULL,
+    correct_answer varchar(256) NOT NULL,
 
     CONSTRAINT `th__challenge_pk` PRIMARY KEY (id),
     CONSTRAINT `th__challenge_script_fk` FOREIGN KEY
@@ -30,8 +31,8 @@ CREATE TABLE th__treasure_map
     name     varchar(72)  NOT NULL,
     filename varchar(120) NOT NULL,
 
-    tiling_x int NOT NULL DEFAULT 1,
-    tiling_y int NOT NULL DEFAULT 1,
+    tiling_x int          NOT NULL DEFAULT 1,
+    tiling_y int          NOT NULL DEFAULT 1,
 
     CONSTRAINT `th__treasure_map_pk` PRIMARY KEY (id)
 );
