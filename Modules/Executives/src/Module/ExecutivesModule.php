@@ -2,7 +2,6 @@
 
 namespace SeStep\Executives\Module;
 
-use SeStep\Executives\Module\Actions\MultiAction;
 
 class ExecutivesModule implements \SeStep\Executives\ExecutivesModule
 {
@@ -14,12 +13,14 @@ class ExecutivesModule implements \SeStep\Executives\ExecutivesModule
     public function getActions(): array
     {
         return [
-            'multiAction' => MultiAction::class,
+            'multiAction' => Actions\MultiAction::class,
         ];
     }
 
     public function getConditions(): array
     {
-        return [];
+        return [
+            'variableEquals' => Conditions\VariableEquals::class,
+        ];
     }
 }

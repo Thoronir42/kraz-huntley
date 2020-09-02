@@ -23,3 +23,5 @@ validation:
 executives:
     action:
         multiAction: Skupina akcí
+    condition:
+        variableEquals: Proměnná je rovna
