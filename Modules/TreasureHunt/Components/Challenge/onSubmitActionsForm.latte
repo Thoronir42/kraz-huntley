@@ -11,19 +11,19 @@
         <div class="popover-content d-none" id="action-help">
             <h3>Dostupné akce</h3>
             <div class="card" n:foreach="$actions as $actionName => $actionPlaceholder">
-                <div class="card-header" id="heading-{$iterator->counter}">
+                <div class="card-header" id="heading-action-{$iterator->counter}">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-{$iterator->counter}"
-                                aria-expanded="true" aria-controls="collapse-{$iterator->counter}">
+                        <button class="btn btn-link" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-action-{$iterator->counter}"
+                                aria-expanded="true" aria-controls="collapse-action-{$iterator->counter}">
                             <span>{_$actionPlaceholder}</span>
                         </button>
                     </h5>
                 </div>
 
-                <div id="collapse-{$iterator->counter}" class="collapse" aria-labelledby="heading-{$iterator->counter}"
+                <div id="collapse-action-{$iterator->counter}" class="collapse" aria-labelledby="heading-action-{$iterator->counter}"
                      data-parent="#action-help">
                     <div class="card-body">
-                        <em>{$actionName}</em>
+                        "type": "{$actionName}"
                         <p>
                             TODO: visualise params schema
                         </p>
@@ -36,10 +36,39 @@
             </div>
         </div>
 
-        <a href="#" class="btn btn-sm btn-link"
+        <div class="popover-content d-none" id="condition-help">
+            <h3>Dostupné akce</h3>
+            <div class="card" n:foreach="$conditions as $conditionName => $conditionPlaceholder">
+                <div class="card-header" id="heading-condition-{$iterator->counter}">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-condition-{$iterator->counter}"
+                                aria-expanded="true" aria-controls="collapse-condition-{$iterator->counter}">
+                            <span>{_$conditionPlaceholder}</span>
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapse-condition-{$iterator->counter}" class="collapse" aria-labelledby="heading-condition-{$iterator->counter}"
+                     data-parent="#condition-help">
+                    <div class="card-body">
+                        "type": "<em>{$conditionName}</em>"
+                        <p>
+                            TODO: visualise params schema
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="btn btn-sm btn-outline-secondary"
            data-toggle="popover" data-content-el="#action-help"
            data-template-name="popover-large"
-        >Nápověda k akcím</a>
+        >Akce</a>
+        <a href="#" class="btn btn-sm btn-outline-secondary"
+           data-toggle="popover" data-content-el="#condition-help"
+           data-template-name="popover-large"
+        >Podmínky</a>
     </div>
     <div class="form-group params-group">
         {label params/}

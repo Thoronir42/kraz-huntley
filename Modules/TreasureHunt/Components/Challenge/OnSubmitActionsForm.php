@@ -60,6 +60,7 @@ class OnSubmitActionsForm extends UI\Control
 
         $this->template->setFile(__DIR__ . '/onSubmitActionsForm.latte');
         $this->template->actions = $this->executivesModules->getActionsPlaceholders();
+        $this->template->conditions = $this->executivesModules->getConditionsPlaceholders();
         $this->template->multiActionStrategies = $this->multiActionStrategyFactory->listStrategies();
 
         $this->template->render();
