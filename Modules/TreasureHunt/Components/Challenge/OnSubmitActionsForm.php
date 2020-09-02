@@ -131,6 +131,7 @@ class OnSubmitActionsForm extends UI\Control
 
         $errors = $this->executivesValidator->validateActionParams($this->action->getType(), $values['params'], true);
         if (!empty($errors)) {
+            $trimStart = mb_strlen('params.');
             foreach ($errors as $field => $error) {
                 $errorType = $error->getErrorType();
                 $errorData = $error->getErrorData();
@@ -139,6 +140,9 @@ class OnSubmitActionsForm extends UI\Control
                     $form->addError($errorData['message'], false);
                     continue;
                 }
+
+                // since the form displays just params of a multiAction, all paths start by 'params.' - trim it
+                $field = mb_substr($field, $trimStart);
 
                 $form->addError("$field: " . $this->translator->translate($error->getErrorType(), $errorData), false);
             }

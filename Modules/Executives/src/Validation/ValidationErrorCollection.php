@@ -2,6 +2,7 @@
 
 namespace SeStep\Executives\Validation;
 
+
 class ValidationErrorCollection implements \Iterator, \Countable
 {
     private $errors;
@@ -61,5 +62,22 @@ class ValidationErrorCollection implements \Iterator, \Countable
     public function count()
     {
         return count($this->errors);
+    }
+
+    /**
+     * @param ParamValidationError[]|ParamValidationError[][] $errors
+     * @param string $prefix
+     * @return ValidationErrorCollection
+     */
+    public static function prefix(array $errors, string $prefix): ValidationErrorCollection
+    {
+        $prefix = $prefix ? (rtrim($prefix, '.') . '.') : '';
+
+        $prefixedErrors = [];
+        foreach ($errors as $field => $error) {
+            $prefixedErrors["$prefix$field"] = $error;
+        }
+
+        return new ValidationErrorCollection($prefixedErrors);
     }
 }

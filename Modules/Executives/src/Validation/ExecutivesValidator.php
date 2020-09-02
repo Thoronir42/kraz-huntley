@@ -32,8 +32,7 @@ class ExecutivesValidator
 
     public function withPath(string $path)
     {
-        $prefix = ($this->pathPrefix ? $this->pathPrefix . '.' : '') . $path;
-        return new self($this->executivesLocator, $prefix);
+        return new self($this->executivesLocator, $this->path($path));
     }
 
     /**
@@ -48,17 +47,17 @@ class ExecutivesValidator
             $params = $actionData->getParams();
         } else {
             if (!isset($actionData['type'])) {
-                return new ValidationErrorCollection($this->prefixErrors([
+                return ValidationErrorCollection::prefix([
                     'type' => new ParamValidationError('exe.validation.missingField'),
-                ], $this->pathPrefix));
+                ], $this->pathPrefix);
             }
 
             $type = $actionData['type'];
             $params = $actionData['params'] ?? [];
             if (!is_array($params)) {
-                return new ValidationErrorCollection($this->prefixErrors([
-                    $this->path('params') => new ParamValidationError('exe.validation.unexpectedTypeInField'),
-                ], $this->pathPrefix));
+                return ValidationErrorCollection::prefix([
+                    'params' => new ParamValidationError('exe.validation.unexpectedTypeInField'),
+                ], $this->pathPrefix);
             }
         }
 
@@ -97,9 +96,9 @@ class ExecutivesValidator
         try {
             $action = $this->executivesLocator->getAction($type);
         } catch (InvalidArgumentException $exception) {
-            return new ValidationErrorCollection($this->prefixErrors([
+            return ValidationErrorCollection::prefix([
                 'type' => new ParamValidationError('exe.validation.unknownValue', ['value' => $type]),
-            ], $this->pathPrefix));
+            ], $this->pathPrefix);
         }
 
         return $this->runValidations($action, $params, $normalize);
@@ -118,14 +117,14 @@ class ExecutivesValidator
         bool $normalize = false
     ): ValidationErrorCollection {
         try {
-            $action = $this->executivesLocator->getCondition($type);
+            $condition = $this->executivesLocator->getCondition($type);
         } catch (InvalidArgumentException $exception) {
-            return new ValidationErrorCollection($this->prefixErrors([
+            return ValidationErrorCollection::prefix([
                 'type' => new ParamValidationError('exe.validation.unknownValue', ['value' => $type]),
-            ], $this->pathPrefix));
+            ], $this->pathPrefix);
         }
 
-        return $this->runValidations($action, $params, $normalize);
+        return $this->runValidations($condition, $params, $normalize);
     }
 
     /**
@@ -159,7 +158,7 @@ class ExecutivesValidator
             }
         }
 
-        return new ValidationErrorCollection($this->prefixErrors($errors, $this->pathPrefix));
+        return ValidationErrorCollection::prefix($errors, $this->path('params'));
     }
 
     private function processParamsBySchema(Schema $schema, array &$params, bool $normalize)
@@ -194,19 +193,5 @@ class ExecutivesValidator
     private function path(string $path): string
     {
         return ($this->pathPrefix ? $this->pathPrefix . '.' : '') . $path;
-    }
-
-    private function prefixErrors(array $errors, string $pathPrefix)
-    {
-        if ($pathPrefix) {
-            $pathPrefix = rtrim($pathPrefix, '.') . '.';
-        }
-
-        $prefixedErrors = [];
-        foreach ($errors as $field => $error) {
-            $prefixedErrors["$pathPrefix$field"] = $error;
-        }
-
-        return $prefixedErrors;
     }
 }

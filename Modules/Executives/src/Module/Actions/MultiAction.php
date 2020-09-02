@@ -56,7 +56,14 @@ class MultiAction implements Action, HasParamsSchema, ValidatesParams
     {
         return Expect::structure([
             'strategy' => Expect::anyOf(...$this->strategyFactory->listStrategies()),
-            'actions' => Expect::listOf(Expect::array())->required(),
+            'actions' => Expect::listOf(Expect::structure([
+                'type' => Expect::string()->required(),
+                'params' => Expect::array([]),
+                'conditions' => Expect::listOf(Expect::structure([
+                    'type' => Expect::string()->required(),
+                    'params' => Expect::array([]),
+                ])->castTo('array')),
+            ])->castTo('array'))->required(),
         ]);
     }
 

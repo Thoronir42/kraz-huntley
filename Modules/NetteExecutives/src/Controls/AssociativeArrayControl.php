@@ -11,6 +11,9 @@ use Nette\Utils\JsonException;
 
 class AssociativeArrayControl extends TextArea
 {
+    /** @var string */
+    private $invalidValue;
+
     public function __construct($label = null)
     {
         parent::__construct($label);
@@ -49,13 +52,17 @@ class AssociativeArrayControl extends TextArea
         try {
             $this->setValue(Json::decode($httpData, Json::FORCE_ARRAY));
         } catch (JsonException $ex) {
+            $this->invalidValue = $httpData;
             $this->addError('JSON parse failed', false);
         }
     }
 
     protected function getRenderedValue(): ?string
     {
-        return str_replace("\t", '  ', Json::encode($this->value, Json::PRETTY));
+        if ($this->invalidValue) {
+            return $this->invalidValue;
+        }
+        return Json::encode($this->value, Json::PRETTY);
     }
 
 

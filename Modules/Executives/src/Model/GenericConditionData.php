@@ -39,7 +39,7 @@ class GenericConditionData implements ConditionData
     {
         $conditions = [];
         foreach ($data as $i => $condition) {
-            $conditions[$i] = new GenericConditionData($condition['type'], $condition['params']);
+            $conditions[$i] = new GenericConditionData($condition['type'], $condition['params'] ?? []);
         }
 
         return $conditions;
