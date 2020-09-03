@@ -7,6 +7,9 @@ application:
 services:
     authenticator: App\Security\UserManager
     router: @routerFactory::create
+    latte.latteFactory:
+        setup:
+            - addFilter('json', App\Latte\LatteFilters::json)
     routerFactory:
         class: App\Router\RouterFactory
         arguments:

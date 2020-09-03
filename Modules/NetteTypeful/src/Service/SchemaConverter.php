@@ -92,9 +92,16 @@ class SchemaConverter
                     'type' => 'typeful.text',
                     'options' => [],
                 ];
+
+            case 'mixed':
+                // returns unspecified type
+                break;
+
+            default:
+                trigger_error("Unrecognized type: " . $scalarType);
+                break;
         }
 
-        trigger_error("Unrecognized type: " . $scalarType);
         return $this->getUnspecifiedType();
     }
 

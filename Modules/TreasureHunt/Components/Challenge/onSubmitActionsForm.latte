@@ -10,12 +10,13 @@
     <div class="form-group">
         <div class="popover-content d-none" id="action-help">
             <h3>Dostupné akce</h3>
-            <div class="card" n:foreach="$actions as $actionName => $actionPlaceholder">
+            <div class="card" n:foreach="$actions as $actionType => $action">
                 <div class="card-header" id="heading-action-{$iterator->counter}">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-action-{$iterator->counter}"
+                        <button class="btn btn-link executives-hint-header" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-action-{$iterator->counter}"
                                 aria-expanded="true" aria-controls="collapse-action-{$iterator->counter}">
-                            <span>{_$actionPlaceholder}</span>
+                            <span>{_$action['placeholder']}</span>
+                            <small>"type": "{$actionType}"</small>
                         </button>
                     </h5>
                 </div>
@@ -23,11 +24,15 @@
                 <div id="collapse-action-{$iterator->counter}" class="collapse" aria-labelledby="heading-action-{$iterator->counter}"
                      data-parent="#action-help">
                     <div class="card-body">
-                        "type": "{$actionName}"
-                        <p>
-                            TODO: visualise params schema
-                        </p>
-                        {if $actionName === 'exe.multiAction'}
+                        {ifset $action['schema']}
+                        <code>
+                            <pre>{$action['schema']|json}</pre>
+                        </code>
+                        {else}
+                        No schema available
+                        {/ifset}
+
+                        {if $actionType === 'exe.multiAction'}
                             <em>Dostupné strategie</em>
                             <p>{implode(', ', $multiActionStrategies)}</p>
                         {/if}
@@ -38,12 +43,14 @@
 
         <div class="popover-content d-none" id="condition-help">
             <h3>Dostupné akce</h3>
-            <div class="card" n:foreach="$conditions as $conditionName => $conditionPlaceholder">
+            <div class="card" n:foreach="$conditions as $conditionType => $condition">
                 <div class="card-header" id="heading-condition-{$iterator->counter}">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-condition-{$iterator->counter}"
+                        <button class="btn btn-link executives-hint-header" data-toggle="collapse" data-trigger="focus" tabindex="1" data-target="#collapse-condition-{$iterator->counter}"
                                 aria-expanded="true" aria-controls="collapse-condition-{$iterator->counter}">
-                            <span>{_$conditionPlaceholder}</span>
+                            <span>{_$condition['placeholder']}</span>
+                            <br/>
+                            <small>"type": "{$conditionType}"</small>
                         </button>
                     </h5>
                 </div>
@@ -51,11 +58,13 @@
                 <div id="collapse-condition-{$iterator->counter}" class="collapse" aria-labelledby="heading-condition-{$iterator->counter}"
                      data-parent="#condition-help">
                     <div class="card-body">
-                        "type": "<em>{$conditionName}</em>"
-                        <p>
-                            TODO: visualise params schema
-                        </p>
-
+                        {ifset $condition['schema']}
+                            <code>
+                                <pre>{$condition['schema']|json}</pre>
+                            </code>
+                        {else}
+                            No schema available
+                        {/ifset}
                     </div>
                 </div>
             </div>

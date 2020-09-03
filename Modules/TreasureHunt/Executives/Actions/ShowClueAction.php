@@ -44,7 +44,7 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
     {
         return Expect::structure([
             'clueType' => Expect::anyOf(...array_keys($this->clueType->getTypes()))->required(),
-            'clueArgs' => Expect::array()->required(),
+            'clueArgs' => Expect::structure([])->otherItems()->required(),
         ]);
     }
 

@@ -5,11 +5,13 @@ namespace CP\TreasureHunt\Components\Challenge;
 
 use Contributte\Translation\Translator;
 use Nette\InvalidArgumentException;
+use SeStep\Executives\Execution\ExecutivesLocator;
 use SeStep\Executives\Model\ActionData;
 use SeStep\Executives\Model\GenericActionData;
 use SeStep\Executives\Module\Actions\MultiAction;
 use SeStep\Executives\Module\MultiActionStrategyFactory;
 use SeStep\Executives\Validation\ExecutivesValidator;
+use SeStep\Executives\Validation\HasParamsSchema;
 use SeStep\LeanExecutives\Entity\Action;
 use SeStep\LeanExecutives\Entity\Condition;
 use Nette\Application\UI;
@@ -17,6 +19,7 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use SeStep\Executives\ModuleAggregator;
 use SeStep\NetteExecutives\Controls\AssociativeArrayControl;
+use SeStep\NetteTypeful\Service\SchemaConverter;
 
 /**
  * Class ActionForm
@@ -32,6 +35,10 @@ class OnSubmitActionsForm extends UI\Control
 
     /** @var ModuleAggregator */
     private $executivesModules;
+    /** @var SchemaConverter */
+    private $schemaConverter;
+    /** @var ExecutivesLocator */
+    private $executivesLocator;
     /** @var Translator */
     private $translator;
     /** @var ExecutivesValidator */
@@ -41,12 +48,16 @@ class OnSubmitActionsForm extends UI\Control
 
     public function __construct(
         ModuleAggregator $executivesModules,
+        SchemaConverter $schemaConverter,
+        ExecutivesLocator $executivesLocator,
         Translator $translator,
         ExecutivesValidator $executivesValidator,
         MultiActionStrategyFactory $multiActionStrategyFactory,
         ActionData $action = null
     ) {
         $this->executivesModules = $executivesModules;
+        $this->schemaConverter = $schemaConverter;
+        $this->executivesLocator = $executivesLocator;
         $this->translator = $translator;
         $this->executivesValidator = $executivesValidator;
         $this->multiActionStrategyFactory = $multiActionStrategyFactory;
@@ -59,8 +70,20 @@ class OnSubmitActionsForm extends UI\Control
         $this['form']['params']->controlPrototype->class[] = 'form-control';
 
         $this->template->setFile(__DIR__ . '/onSubmitActionsForm.latte');
-        $this->template->actions = $this->executivesModules->getActionsPlaceholders();
-        $this->template->conditions = $this->executivesModules->getConditionsPlaceholders();
+        $this->template->actions = $this->getActionsWithSchemas();
+        $this->template->conditions = $this->getConditionsWithSchemas();
+
+        $conditionParamsSchemas = [];
+        foreach ($this->executivesModules->getConditions() as $conditionType => $actionClass) {
+            $condition = $this->executivesLocator->getCondition($conditionType);
+            if (!($condition instanceof HasParamsSchema)) {
+                continue;
+            }
+
+            $conditionParamsSchemas[$conditionType] = $this->schemaConverter->schemaToTypeful($condition->getParamsSchema());
+        }
+        $this->template->conditionParamsSchemas = $conditionParamsSchemas;
+
         $this->template->multiActionStrategies = $this->multiActionStrategyFactory->listStrategies();
 
         $this->template->render();
@@ -150,6 +173,46 @@ class OnSubmitActionsForm extends UI\Control
         }
 
         $form->setValues($values);
+    }
+
+    private function getActionsWithSchemas()
+    {
+        $result = [];
+        foreach ($this->executivesModules->getActionsPlaceholders() as $actionType => $actionPlaceholder) {
+            $item = ['placeholder' => $actionPlaceholder];
+
+            $action = $this->executivesLocator->getAction($actionType);
+            if ($action instanceof HasParamsSchema) {
+                $item['schema'] = [
+                    'type' => $actionType,
+                    'params' => $this->schemaConverter->schemaToTypeful($action->getParamsSchema()),
+                ];
+            }
+
+            $result[$actionType] = $item;
+        }
+
+        return $result;
+    }
+
+    private function getConditionsWithSchemas()
+    {
+        $result = [];
+        foreach ($this->executivesModules->getConditionsPlaceholders() as $conditionType => $conditionsPlaceholder) {
+            $item = ['placeholder' => $conditionsPlaceholder];
+
+            $condition = $this->executivesLocator->getCondition($conditionType);
+            if ($condition instanceof HasParamsSchema) {
+                $item['schema'] = [
+                    'type' => $conditionType,
+                    'params' => $this->schemaConverter->schemaToTypeful($condition->getParamsSchema())
+                ];
+            }
+
+            $result[$conditionType] = $item;
+        }
+
+        return $result;
     }
 
 }

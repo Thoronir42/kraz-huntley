@@ -17,7 +17,7 @@ actionForm:
 
 validation:
     missingField: Chybí hodnota '%field%'
-    unexpectedTypeInField: Nečekaná hodnota v '%%field'
+    unexpectedTypeInField: Nečekaná hodnota v '%field%'
     unknownValue: Neznámá hodnota '%value%'
 
 executives:
