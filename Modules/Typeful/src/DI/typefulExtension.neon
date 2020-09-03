@@ -10,5 +10,5 @@ typeful:
             class: SeStep\Typeful\Types\DateType
         dateTime:
             class: SeStep\Typeful\Types\DateTimeType
-
-
+        selection:
+            class: SeStep\Typeful\Types\SelectionType

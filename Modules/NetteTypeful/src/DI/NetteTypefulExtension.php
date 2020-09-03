@@ -3,12 +3,12 @@
 namespace SeStep\NetteTypeful\DI;
 
 use Nette\DI\CompilerExtension;
-use Nette\DI\Definitions\ServiceDefinition;
 use Nette\InvalidStateException;
 use SeStep\Typeful\DI\TypefulExtension;
 use SeStep\Typeful\DI\TypefulLoader;
-use SeStep\NetteTypeful\Forms;
 use SeStep\NetteTypeful\Components;
+use SeStep\NetteTypeful\Forms;
+use SeStep\NetteTypeful\Service;
 
 class NetteTypefulExtension extends CompilerExtension
 {
@@ -26,6 +26,7 @@ class NetteTypefulExtension extends CompilerExtension
             'propertyControlFactory' => Forms\PropertyControlFactory::class,
             'formPopulator' => Forms\EntityFormPopulator::class,
             'entityGridFactory' => Components\EntityGridFactory::class,
+            'schemaConverter' => Service\SchemaConverter::class,
         ]);
     }
 
