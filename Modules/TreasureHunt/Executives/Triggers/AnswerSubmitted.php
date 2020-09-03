@@ -4,6 +4,7 @@ namespace CP\TreasureHunt\Executives\Triggers;
 
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\Notebook;
+use CP\TreasureHunt\Model\Entity\NotebookPage;
 
 class AnswerSubmitted
 {
@@ -11,13 +12,16 @@ class AnswerSubmitted
     private $notebook;
     /** @var Challenge */
     private $challenge;
+    /** @var NotebookPage */
+    private $currentPage;
     /** @var mixed */
     private $answer;
 
-    public function __construct(Notebook $notebook, Challenge $challenge, $answer)
+    public function __construct(Notebook $notebook, Challenge $challenge, NotebookPage $currentPage, $answer)
     {
         $this->notebook = $notebook;
         $this->challenge = $challenge;
+        $this->currentPage = $currentPage;
         $this->answer = $answer;
     }
 
@@ -29,6 +33,11 @@ class AnswerSubmitted
     public function getChallenge(): Challenge
     {
         return $this->challenge;
+    }
+
+    public function getCurrentPage(): NotebookPage
+    {
+        return $this->currentPage;
     }
 
     public function getAnswer()

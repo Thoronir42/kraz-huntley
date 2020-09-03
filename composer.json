@@ -50,9 +50,10 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "CP\\TreasureHunt\\": "tests/Modules/TreasureHunt",
             "SeStep\\Executives\\": "Modules/Executives/test/",
             "SeStep\\Typeful\\": "Modules/Typeful/test/",
-            "SeStep\\NetteTypeful\\": "Modules/NetteTypeful/test/",
+            "SeStep\\NetteTypeful\\": "Modules/NetteTypeful/test/"
         }
     },
     "config": {

@@ -62,3 +62,15 @@ CREATE TABLE th__notebook_page
         (notebook_id) REFERENCES th__notebook (id),
     CONSTRAINT `th__notebook_page_unique` UNIQUE (notebook_id, page_number)
 );
+
+CREATE TABLE th__input_ban
+(
+    id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    notebook_page_id varchar(6)   NOT NULL,
+    active_until     DATETIME     NOT NULL,
+
+    CONSTRAINT `th__input_ban_pk` PRIMARY KEY (id),
+    CONSTRAINT `th__input_ban_to_notebook_page_fk` FOREIGN KEY
+        (notebook_page_id) REFERENCES th__notebook_page (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);

@@ -10,6 +10,7 @@ class TreasureHuntExecutivesModule implements ExecutivesModule
     private const ACTIONS = [
         'activateChallenge' => Actions\ActivateChallengeAction::class,
         'revealClue' => Actions\ShowClueAction::class,
+        'banAnswerSubmission' => Actions\BanAnswerSubmission::class,
     ];
     private const CONDITIONS = [
         'answerEquals' => Conditions\AnswerEquals::class,

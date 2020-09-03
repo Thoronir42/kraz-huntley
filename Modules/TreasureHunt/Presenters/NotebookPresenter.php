@@ -10,6 +10,7 @@ use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use CP\TreasureHunt\Model\Service\TreasureHuntService;
 use Nette\Application\UI\Presenter;
+use Nette\Localization\ITranslator;
 
 class NotebookPresenter extends Presenter
 {
@@ -26,6 +27,9 @@ class NotebookPresenter extends Presenter
 
     /** @var TreasureHuntService @inject */
     public $treasureHuntService;
+
+    /** @var ITranslator @inject */
+    public $translator;
 
     public function checkRequirements($element): void
     {
@@ -50,8 +54,10 @@ class NotebookPresenter extends Presenter
             $this->redirect('this', ['page' => 1]);
         }
 
-        $notebookControl->onAnswerSubmit[] = function (Challenge $challenge, $answer) use ($notebook) {
-            $trigger = new AnswerSubmitted($notebook, $challenge, $answer);
+        $notebookControl->onAnswerSubmit[] = function (Challenge $challenge, $answer) use ($notebook, $page) {
+            $currentPage = $notebook->getPage($page, true);
+
+            $trigger = new AnswerSubmitted($notebook, $challenge, $currentPage, $answer);
             $result = $this->treasureHuntService->triggerSubmitAnswer($trigger);
 
             $this->checkAdvance($result);

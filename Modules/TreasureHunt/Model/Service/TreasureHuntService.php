@@ -35,6 +35,7 @@ class TreasureHuntService
         $context = new stdClass();
         $context->notebook = $trigger->getNotebook();
         $context->challenge = $trigger->getChallenge();
+        $context->currentPage = $trigger->getCurrentPage();
         $context->answer = $trigger->getAnswer();
 
         $executionResult = $this->actionExecutor->execute($challenge->onSubmit, $context);

@@ -6,9 +6,13 @@ use App\LeanMapper\TransactionManager;
 use App\Model\Entity\User;
 use CP\TreasureHunt\Executives\Actions\InitializeNotebookAction;
 use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Entity\InputBan;
 use CP\TreasureHunt\Model\Entity\Notebook;
+use CP\TreasureHunt\Model\Entity\NotebookPage;
+use CP\TreasureHunt\Model\Repository\InputBanRepository;
 use CP\TreasureHunt\Model\Repository\NotebookPageRepository;
 use CP\TreasureHunt\Model\Repository\NotebookRepository;
+use DateTime;
 use Nette\Neon\Neon;
 use SeStep\Executives\Execution\ClassnameActionExecutor;
 
@@ -18,6 +22,8 @@ class NotebookService
     private $notebookRepository;
     /** @var NotebookPageRepository */
     private $notebookPageRepository;
+    /** @var InputBanRepository */
+    private $inputBanRepository;
     /** @var TransactionManager */
     private $transactionManager;
     /** @var ClassnameActionExecutor */
@@ -28,12 +34,14 @@ class NotebookService
     public function __construct(
         NotebookRepository $notebookRepository,
         NotebookPageRepository $notebookPageRepository,
+        InputBanRepository $inputBanRepository,
         TransactionManager $transactionManager,
         ClassnameActionExecutor $classnameActionExecutor,
         string $firstChallengeId
     ) {
         $this->notebookRepository = $notebookRepository;
         $this->notebookPageRepository = $notebookPageRepository;
+        $this->inputBanRepository = $inputBanRepository;
         $this->transactionManager = $transactionManager;
         $this->classnameActionExecutor = $classnameActionExecutor;
         $this->firstChallengeId = $firstChallengeId;
@@ -103,6 +111,17 @@ class NotebookService
         $neon['parameters']['firstChallengeId'] = $id;
 
         file_put_contents($file, Neon::encode($neon, Neon::BLOCK));
+    }
+
+    public function addInputBan(NotebookPage $page, DateTime $activeUntil): InputBan
+    {
+        $inputBan = new InputBan();
+        $inputBan->notebookPage = $page;
+        $inputBan->activeUntil = $activeUntil;
+
+        $this->inputBanRepository->persist($inputBan);
+
+        return $inputBan;
     }
 
 }

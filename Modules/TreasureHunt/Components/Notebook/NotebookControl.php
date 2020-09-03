@@ -8,6 +8,7 @@ use Nette\Application\UI\Control;
 use Nette\Application\UI\Multiplier;
 use Nette\ComponentModel\IComponent;
 use Nette\InvalidStateException;
+use Nette\Localization\ITranslator;
 use Nette\NotImplementedException;
 use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
@@ -24,17 +25,21 @@ class NotebookControl extends Control
     private $challengesService;
     /** @var PropertyControlFactory */
     private $propertyControlFactory;
+    /** @var ITranslator */
+    private $translator;
 
     public function __construct(
         Entity\Notebook $notebook,
         int $minPageCount,
         ChallengesService $challengesService,
-        PropertyControlFactory $propertyControlFactory
+        PropertyControlFactory $propertyControlFactory,
+        ITranslator $translator
     ) {
         $this->notebook = $notebook;
         $this->minPageCount = $minPageCount;
         $this->challengesService = $challengesService;
         $this->propertyControlFactory = $propertyControlFactory;
+        $this->translator = $translator;
     }
 
     public function render(int $page)
@@ -54,7 +59,7 @@ class NotebookControl extends Control
     {
         return new Multiplier(function ($pageNumber) {
             $page = $this->notebook->getPage((int)$pageNumber);
-            if(!$page) {
+            if (!$page) {
                 return new EmptyPage();
             }
 
@@ -67,7 +72,8 @@ class NotebookControl extends Control
                     /** @var Entity\NotebookPageChallenge $page */
                     $challengePage = new ChallengePage($page,
                         $this->challengesService->getChallenge($page->getChallengeId()),
-                        $this->propertyControlFactory);
+                        $this->propertyControlFactory,
+                        $this->translator);
                     $challengePage->onAnswerSubmit = &$this->onAnswerSubmit;
 
                     return $challengePage;

@@ -12,6 +12,8 @@ use LeanMapper\Entity;
  * @property int $pageNumber
  * @property string $type m:enum(self::TYPE_*)
  * @property array $params
+ *
+ * @property InputBan[] $inputBans m:belongsToMany(notebook_page_id)
  */
 class NotebookPage extends Entity
 {
@@ -42,5 +44,16 @@ class NotebookPage extends Entity
         return $this;
     }
 
+    public function hasActiveInputBan(\DateTime $now)
+    {
+        // TODO: Use query instead of for-cycle
+        foreach ($this->inputBans as $ban) {
+            if ($ban->activeUntil > $now) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }
