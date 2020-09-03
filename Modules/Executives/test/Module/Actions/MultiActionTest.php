@@ -78,8 +78,8 @@ class MultiActionTest extends TestCase
             [10, $exeOk, [$exeOk], 9, 'returnOnFirstPass'],
             [4, $exeOk, [$exeOk], 3, 'returnOnFirstPass'],
 
-            [6, $exeOk, [$exeOk, $exeOk, $exeOk], 9, 'failOnFirstFail'],
-            [5, $exeFail, [$exeOk, $condFail], 4, 'failOnFirstFail'],
+            [6, $exeOk, [$exeOk, $exeOk, $exeOk], 9, 'executeUntilFirstFail'],
+            [5, $exeFail, [$exeOk, $condFail], 4, 'executeUntilFirstFail'],
         ];
     }
 
@@ -138,7 +138,7 @@ class MultiActionTest extends TestCase
         return [
             [7, $exeOk, [$exeOk, $exeErr, $exeOk], 'executeAll'],
             [6, $exeOk, [$exeOk], 'returnOnFirstPass'],
-            [6, $exeErr, [$exeOk, $exeErr], 'failOnFirstFail'],
+            [6, $exeErr, [$exeOk, $exeErr], 'executeUntilFirstFail'],
         ];
     }
 

@@ -13,7 +13,7 @@ use SeStep\Executives\Execution\ExecutionResult;
  * Execution fails on first unsuccessful action result and if there are no more
  * actions, overall execution results in success.
  */
-class StopOnFirstFail implements MultiActionStrategy
+class ExecuteUntilFirstFail implements MultiActionStrategy
 {
     public function onPartialResult(ExecutionResult $result, array $intermediateResults): ?ExecutionResult
     {

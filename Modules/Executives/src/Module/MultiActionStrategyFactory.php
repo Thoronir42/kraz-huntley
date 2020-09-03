@@ -17,7 +17,7 @@ class MultiActionStrategyFactory
     {
         $this->strategies = [
             'returnOnFirstPass' => Strategy\EndOnFirstSuccess::class,
-            'failOnFirstFail' => Strategy\StopOnFirstFail::class,
+            'executeUntilFirstFail' => Strategy\ExecuteUntilFirstFail::class,
             'executeAll' => Strategy\ExecuteAll::class,
         ];
     }
