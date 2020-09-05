@@ -14,14 +14,15 @@ CREATE TABLE th__challenge
 
 CREATE TABLE th__narrative
 (
-    id           varchar(6)  NOT NULL,
-    title        varchar(72) NOT NULL,
-    content      text        NOT NULL,
-    condition_id varchar(6)  NULL,
+    id                     varchar(6)  NOT NULL,
+    title                  varchar(72) NOT NULL,
+    content                text        NOT NULL,
+    following_challenge_id varchar(4)  NULL,
 
     CONSTRAINT `th__narrative_pk` PRIMARY KEY (id),
-    CONSTRAINT `th__narrative_condition_fk` FOREIGN KEY
-        (condition_id) REFERENCES exe__condition (id) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `th__narrative_following_challenge_fk` FOREIGN KEY
+        (following_challenge_id) REFERENCES th__challenge (id)
+        ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 

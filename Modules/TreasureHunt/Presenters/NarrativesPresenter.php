@@ -5,6 +5,7 @@ namespace CP\TreasureHunt\Presenters;
 use CP\TreasureHunt\Components\Narrative\NarrativeFormFactory;
 use CP\TreasureHunt\Components\NarrativesGridFactory;
 use CP\TreasureHunt\Model\Entity\Narrative;
+use CP\TreasureHunt\Model\Service\ChallengesService;
 use CP\TreasureHunt\Model\Service\NarrativesService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -14,6 +15,8 @@ class NarrativesPresenter extends Presenter
 {
     /** @var NarrativesService @inject */
     public $narrativesService;
+    /** @var ChallengesService @inject */
+    public $challengesService;
 
     /** @var NarrativesGridFactory @inject */
     public $gridFactory;
@@ -37,6 +40,7 @@ class NarrativesPresenter extends Presenter
         $form = $this['narrativeForm'] = $this->narrativeFormFactory->create();
 
         $form->onSuccess[] = function (Form $form, $values) {
+            $values['followingChallenge'] = $this->challengesService->getChallenge($values['followingChallenge']);
             $narrative = new Narrative();
             $narrative->assign($values);
 
@@ -54,7 +58,10 @@ class NarrativesPresenter extends Presenter
 
         $form = $this['narrativeForm'] = $this->narrativeFormFactory->create(false);
 
-        $form->setDefaults($narrative->getData());
+        $data = $narrative->getData();
+        $data['followingChallenge'] = $data['followingChallenge']->id;
+
+        $form->setDefaults($data);
 
         $form->onSuccess[] = function (Form $form, $values) use ($narrative) {
             $narrative->assign($values);

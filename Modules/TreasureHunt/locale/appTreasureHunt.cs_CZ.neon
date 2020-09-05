@@ -8,6 +8,7 @@ challenge.onSubmitActionsList: Akce po odeslání odpovědi
 
 narrative.title: Název průpovídky
 narrative.content: Text průpovídky
+narrative.followingChallenge: Následující výzva
 narrative.createNew: Vytvořit novou prupovídku
 
 treasureMap:

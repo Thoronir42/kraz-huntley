@@ -5,12 +5,23 @@
         <li n:foreach="$form->errors as $error" class="list-group-item list-group-item-warning">{$error}</li>
     </ul>
 
-    <div class="input-pair narrative-title">
-        {label title/}
-        {input title, class => 'form-control'}
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group narrative-title">
+                {label title/}
+                {input title, class => 'form-control'}
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group following-challenge">
+                {label followingChallenge/}
+                {input followingChallenge, class => 'form-control'}
+            </div>
+        </div>
     </div>
 
-    <div class="input-pair input-pair-wysiwyg">
+
+    <div class="form-group input-pair-wysiwyg">
         {label content/}
         {input content}
     </div>

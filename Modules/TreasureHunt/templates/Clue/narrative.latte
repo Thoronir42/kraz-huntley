@@ -4,8 +4,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{$narrative->title}</title>
+
+    <link rel="stylesheet" href="{$basePath}/vendor/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{$basePath}/dist/css/huntley.css">
+    <link rel="stylesheet" href="{$basePath}/dist/css/huntley-meta.css">
 </head>
 <body>
-<p>{$narrative->content|breaklines}</p>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>{$narrative->title}</h1>
+        </div>
+        <div class="card-body narrative-text">
+            {$narrative->content|noescape}
+        </div>
+        <div class="card-footer text-center">
+            <a n:href="continueToNextChallenge!" class="btn btn-outline-primary">Pokračovat v dekódování deníku</a>
+        </div>
+    </div>
+</div>
+
+<p></p>
 </body>
 </html>

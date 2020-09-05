@@ -10,6 +10,7 @@ class NarrativesGridFactory
     {
         $grid = new DataGrid();
 
+        $grid->addColumnText('id', 'ID');
         $grid->addColumnText('title', 'Název');
 
         $grid->setPagination(false);

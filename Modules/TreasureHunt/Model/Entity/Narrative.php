@@ -9,7 +9,8 @@ use SeStep\LeanExecutives\Entity\Condition;
  * @property string $id
  * @property string $title
  * @property string $content
- * @property Condition|null $condition m:hasOne(condition_id)
+ *
+ * @property Challenge|null $followingChallenge m:hasOne(following_challenge_id)
  */
 class Narrative extends Entity
 {
