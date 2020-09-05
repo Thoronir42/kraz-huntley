@@ -44,16 +44,4 @@ class NotebookPage extends Entity
         return $this;
     }
 
-    public function hasActiveInputBan(\DateTime $now)
-    {
-        // TODO: Use query instead of for-cycle
-        foreach ($this->inputBans as $ban) {
-            if ($ban->activeUntil > $now) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 }

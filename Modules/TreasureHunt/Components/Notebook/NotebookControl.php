@@ -4,6 +4,7 @@ namespace CP\TreasureHunt\Components\Notebook;
 
 use CP\TreasureHunt\Model\Entity;
 use CP\TreasureHunt\Model\Service\ChallengesService;
+use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Multiplier;
 use Nette\ComponentModel\IComponent;
@@ -15,6 +16,7 @@ use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 class NotebookControl extends Control
 {
     public $onAnswerSubmit = [];
+    public $onFollowRevelation = [];
 
     /** @var Entity\Notebook */
     private $notebook;
@@ -27,19 +29,24 @@ class NotebookControl extends Control
     private $propertyControlFactory;
     /** @var ITranslator */
     private $translator;
+    /** @var NotebookService */
+    private $notebookService;
 
+    // FIXME: Passing dependencies of individual pages is not optimal
     public function __construct(
         Entity\Notebook $notebook,
         int $minPageCount,
         ChallengesService $challengesService,
         PropertyControlFactory $propertyControlFactory,
-        ITranslator $translator
+        ITranslator $translator,
+        NotebookService $notebookService
     ) {
         $this->notebook = $notebook;
         $this->minPageCount = $minPageCount;
         $this->challengesService = $challengesService;
         $this->propertyControlFactory = $propertyControlFactory;
         $this->translator = $translator;
+        $this->notebookService = $notebookService;
     }
 
     public function render(int $page)
@@ -73,8 +80,11 @@ class NotebookControl extends Control
                     $challengePage = new ChallengePage($page,
                         $this->challengesService->getChallenge($page->getChallengeId()),
                         $this->propertyControlFactory,
-                        $this->translator);
+                        $this->translator,
+                        $this->notebookService,
+                    );
                     $challengePage->onAnswerSubmit = &$this->onAnswerSubmit;
+                    $challengePage->onFollowRevelation = &$this->onFollowRevelation;
 
                     return $challengePage;
 

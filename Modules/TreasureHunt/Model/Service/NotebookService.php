@@ -6,13 +6,16 @@ use App\LeanMapper\TransactionManager;
 use App\Model\Entity\User;
 use CP\TreasureHunt\Executives\Actions\InitializeNotebookAction;
 use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Entity\ClueRevelation;
 use CP\TreasureHunt\Model\Entity\InputBan;
 use CP\TreasureHunt\Model\Entity\Notebook;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
+use CP\TreasureHunt\Model\Repository\ClueRevelationRepository;
 use CP\TreasureHunt\Model\Repository\InputBanRepository;
 use CP\TreasureHunt\Model\Repository\NotebookPageRepository;
 use CP\TreasureHunt\Model\Repository\NotebookRepository;
 use DateTime;
+use Dibi\Expression;
 use Nette\Neon\Neon;
 use SeStep\Executives\Execution\ClassnameActionExecutor;
 
@@ -22,6 +25,8 @@ class NotebookService
     private $notebookRepository;
     /** @var NotebookPageRepository */
     private $notebookPageRepository;
+    /** @var ClueRevelationRepository */
+    private $clueRevelationRepository;
     /** @var InputBanRepository */
     private $inputBanRepository;
     /** @var TransactionManager */
@@ -34,6 +39,7 @@ class NotebookService
     public function __construct(
         NotebookRepository $notebookRepository,
         NotebookPageRepository $notebookPageRepository,
+        ClueRevelationRepository $clueRevelationRepository,
         InputBanRepository $inputBanRepository,
         TransactionManager $transactionManager,
         ClassnameActionExecutor $classnameActionExecutor,
@@ -41,6 +47,7 @@ class NotebookService
     ) {
         $this->notebookRepository = $notebookRepository;
         $this->notebookPageRepository = $notebookPageRepository;
+        $this->clueRevelationRepository = $clueRevelationRepository;
         $this->inputBanRepository = $inputBanRepository;
         $this->transactionManager = $transactionManager;
         $this->classnameActionExecutor = $classnameActionExecutor;
@@ -113,6 +120,28 @@ class NotebookService
         file_put_contents($file, Neon::encode($neon, Neon::BLOCK));
     }
 
+    public function addClueRevelation(NotebookPage $page, string $clueType, array $clueArgs, DateTime $expiresOn = null)
+    {
+        $revelation = new ClueRevelation();
+        $revelation->notebookPage = $page;
+        $revelation->clueType = $clueType;
+        $revelation->clueArgs = $clueArgs;
+        $revelation->expiresOn = $expiresOn;
+
+        $revelation->dateCreated = new DateTime();
+
+        $this->clueRevelationRepository->persist($revelation);
+
+        return $revelation;
+    }
+
+    public function getCLueRevelations(NotebookPage $page)
+    {
+        return $this->clueRevelationRepository->findBy([
+            'notebookPage' => $page,
+        ], ['dateCreated']);
+    }
+
     public function addInputBan(NotebookPage $page, DateTime $activeUntil): InputBan
     {
         $inputBan = new InputBan();
@@ -122,6 +151,14 @@ class NotebookService
         $this->inputBanRepository->persist($inputBan);
 
         return $inputBan;
+    }
+
+    public function findActiveInputBan(NotebookPage $page): ?InputBan
+    {
+        return $this->inputBanRepository->findOneBy([
+            'notebookPage' => $page,
+            'activeUntil' => new Expression('>= ?', new DateTime()),
+        ]);
     }
 
 }

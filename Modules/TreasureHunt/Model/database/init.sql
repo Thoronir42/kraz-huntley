@@ -63,6 +63,21 @@ CREATE TABLE th__notebook_page
     CONSTRAINT `th__notebook_page_unique` UNIQUE (notebook_id, page_number)
 );
 
+CREATE TABLE th__clue_revelation
+(
+    id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    notebook_page_id VARCHAR(6)   NOT NULL,
+    expires_on       DATETIME     NULL,
+    clue_type        VARCHAR(24)  NOT NULL,
+    clue_args        TEXT         NOT NULL,
+    date_created     DATETIME     NOT NULL,
+
+    CONSTRAINT `th__clue_revelation_pk` PRIMARY KEY (id),
+    CONSTRAINT `th__clue_revelation_to_notebook_page_fk` FOREIGN KEY
+        (notebook_page_id) REFERENCES th__notebook_page (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE th__input_ban
 (
     id               INT UNSIGNED NOT NULL AUTO_INCREMENT,

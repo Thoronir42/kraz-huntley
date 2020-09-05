@@ -4,6 +4,7 @@ services:
     challengeRepository: CP\TreasureHunt\Model\Repository\ChallengeRepository
     narrativeRepository: CP\TreasureHunt\Model\Repository\NarrativeRepository
     treasureMapRepository: CP\TreasureHunt\Model\Repository\TreasureMapRepository
+    clueRevelationRepository: CP\TreasureHunt\Model\Repository\ClueRevelationRepository
     inputBanRepository: CP\TreasureHunt\Model\Repository\InputBanRepository
 
     notebookService: CP\TreasureHunt\Model\Service\NotebookService

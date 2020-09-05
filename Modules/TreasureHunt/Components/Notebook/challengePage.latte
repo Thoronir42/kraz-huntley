@@ -12,7 +12,30 @@
         {$challenge->description|noescape}
     </div>
 
-    <div class="key">
-        {control key}
+    <div class="revelations">
+        {var $activeRevelationExists = false}
+        {foreach $revelations as $revelation}
+            {if $revelation->expiresOn === null || $revelation->expiresOn > $now}
+                {var $activeRevelationExists = true}
+                <a n:href="followRevelation! $iterator->counter">
+                    Na něco jsem přišel...
+                </a>
+            {else}
+                <span class="revelation">Na něco jsem přišel. Nač, si již nevzpomenu.</span>
+            {/if}
+        {/foreach}
     </div>
+
+    {if $inputBan}
+        <div class="key">
+            {_'appTreasureHunt.inputBanActive'}
+        </div>
+    {elseif !$activeRevelationExists}
+        {form keyForm, class => 'key'}
+            {label key/}
+            {input key}
+
+            {input send}
+        {/form}
+    {/if}
 </div>

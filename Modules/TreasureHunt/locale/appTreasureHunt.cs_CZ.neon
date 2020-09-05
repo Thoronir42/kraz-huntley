@@ -23,8 +23,9 @@ treasureMap.notFound: Mapa nebyla nalezena
 
 firstChallenge: První výzva
 
+challenge.answer: Odpověď
 tryAnswer: Vyzkoušet
-inputBanActive: Stále se hledám cestu zpět
+inputBanActive: Stále jsem na cestě zpět
 
 management:
     dashboard: Správa honu za pokladem

@@ -4,9 +4,11 @@ namespace CP\TreasureHunt\Presenters;
 
 use App\Security\HasAppUser;
 use CP\TreasureHunt\Components\Notebook\NotebookControlFactory;
+use CP\TreasureHunt\Executives\NavigationResultBuilder;
 use CP\TreasureHunt\Executives\Triggers\AnswerSubmitted;
 use CP\TreasureHunt\HandleNavigationAdvance;
 use CP\TreasureHunt\Model\Entity\Challenge;
+use CP\TreasureHunt\Model\Entity\ClueRevelation;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use CP\TreasureHunt\Model\Service\TreasureHuntService;
 use Nette\Application\UI\Presenter;
@@ -61,6 +63,14 @@ class NotebookPresenter extends Presenter
             $result = $this->treasureHuntService->triggerSubmitAnswer($trigger);
 
             $this->checkAdvance($result);
+        };
+        
+        $notebookControl->onFollowRevelation[] = function (ClueRevelation $revelation) {
+            $navigation = NavigationResultBuilder::forward($revelation->clueType)
+                ->withArg('clueArgs', $revelation->clueArgs)
+                ->build();
+
+            $this->checkAdvance($navigation);
         };
     }
 
