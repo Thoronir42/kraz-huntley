@@ -14,7 +14,7 @@ narrative.createNew: Vytvořit novou prupovídku
 treasureMap:
     id: Kód mapy
     name: Jméno mapy
-    file: Obrázek mapy
+    filename: Obrázek mapy
     tilingX: Sloupců
     tiningY: Řádků
 

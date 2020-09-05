@@ -73,11 +73,11 @@ class TreasureMapsService
             unset($values['id']);
         }
 
-        if (isset($values['file'])) {
-            if ($file = $this->saveMapFile($map->id, $values['file'])) {
-                $values['file'] = $file;
+        if (isset($values['filename'])) {
+            if ($file = $this->saveMapFile($map->id, $values['filename'])) {
+                $values['filename'] = $file;
             } else {
-                unset($values['file']);
+                unset($values['filename']);
             }
         }
 

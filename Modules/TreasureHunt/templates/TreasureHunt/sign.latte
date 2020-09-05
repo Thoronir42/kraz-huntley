@@ -1,8 +1,15 @@
+{block metaNavigation}
+{/block}
+
 {block content}
 
-    <h1>Vítejte ve hře o poklad.</h1>
-    <p>Formulářem níže se zaregistrujte nebo přihlašte.</p>
-    <p>Jako heslo vyberte libovolnou kombinaci symbolů. :)</p>
+    {if !$user->isLoggedIn()}
+        <h1>Vítejte ve hře o poklad.</h1>
+        <p>Formulářem níže se zaregistrujte nebo přihlašte.</p>
+        <p>Jako heslo vyberte libovolnou kombinaci symbolů. :)</p>
+    {else}
+        <h1>Vítej zpět</h1>
+    {/if}
 
 
     <div class="row">

@@ -11,7 +11,6 @@ use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Localization\ITranslator;
 use Nette\Utils\Html;
-use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
 use SeStep\NetteTypeful\Components\EntityGridFactory;
 use SeStep\NetteTypeful\Forms\EntityFormPopulator;
 
@@ -25,6 +24,9 @@ class TreasureMapsPresenter extends Presenter
 
     /** @var TreasureMapsService @inject */
     public $treasureMapsService;
+
+    /** @var ITranslator @inject */
+    public $translator;
 
     /** @var TreasureMap */
     private $map;
@@ -61,6 +63,8 @@ class TreasureMapsPresenter extends Presenter
         /** @var Form $treasureMapForm */
         $treasureMapForm = $this['treasureMapForm'];
 
+        $treasureMapForm['filename']->setRequired(false);
+
         $treasureMapForm->onSuccess[] = function (Form $form, $values) use ($map) {
             unset($values['id']);
             try {
@@ -90,8 +94,9 @@ class TreasureMapsPresenter extends Presenter
     public function renderIndex()
     {
         $grid = $this->entityGridFactory->create(TreasureMap::class, ['name']);
+        $grid->setTranslator($this->translator);
 
-        $grid->addColumnText('filename', 'filename')
+        $grid->addColumnText('filename', 'appTreasureHunt.treasureMap.filename')
             ->setRenderer(function (TreasureMap $map) {
                 // todo: Provide lazy file attributes
                 $fileAttributes = $map->fileAttributes ?? new TreasureMapFileAttributes();
@@ -104,7 +109,7 @@ HTML);
         $grid->setDataSource($this->treasureMapsService->getDataSource());
 
         $grid->setPagination(false);
-        $grid->addAction('detail', 'Upravit', 'detail');
+        $grid->addAction('detail', 'messages.edit', 'detail');
 
         $this['treasureMapsGrid'] = $grid;
     }
@@ -116,7 +121,7 @@ HTML);
         $this->entityFormPopulator->fillFromReflection($form, TreasureMap::class);
 
         $form->addSubmit('save', 'messages.save');
-        $form->setTranslator($this->context->getByType(ITranslator::class));
+        $form->setTranslator($this->translator);
 
         return $form;
     }
