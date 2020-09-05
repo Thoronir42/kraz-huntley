@@ -15,22 +15,21 @@ class TreasureHuntRouterFactory
                 'presenter' => 'Notebook',
                 'action' => 'page',
                 'page' => 1,
-            ])
-            ->addRoute('/narratives/<id>', [
-                'presenter' => 'Narratives',
-                'action' => 'view',
-            ])
-            ->addRoute('/clues/map/<mapId>', [ // temporary route for map debugging, TODO: Remove
-                'presenter' => 'Clue',
-                'action' => 'map',
             ]);
 
         $router->add(self::getManagementRoutes());
 
-        $router->addRoute('/', [
+        $router->addRoute('/intro', [
             'presenter' => 'TreasureHunt',
             'action' => 'intro',
         ]);
+
+        $router->addRoute('/', [
+            'presenter' => 'TreasureHunt',
+            'action' => 'sign',
+        ]);
+
+
 
         return $router;
     }
@@ -55,14 +54,6 @@ class TreasureHuntRouterFactory
             ])
             ->addRoute('/manage/challenges/<id>', [
                 'presenter' => 'Challenges',
-                'action' => 'detail',
-            ])
-            ->addRoute('/manage/challenges/<challengeId>/addAction', [
-                'presenter' => 'ChallengeAction',
-                'action' => 'add',
-            ])
-            ->addRoute('/manage/challenges/<challengeId>/actions/<actionId>', [
-                'presenter' => 'ChallengeAction',
                 'action' => 'detail',
             ])
         );

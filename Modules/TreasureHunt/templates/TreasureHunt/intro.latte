@@ -1,11 +1,63 @@
 {block content}
 
-<h1>Vítejte ve hře o poklad.</h1>
-<p>Formulářem níže se zaregistrujte nebo přihlašte.</p>
-<p>Jako heslo vyberte libovolnou kombinaci symbolů. :)</p>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8 intro-text">
+                    <p>
+                        Dovolte, abych se představil. Mé jméno je George Huntley a jsem majitel Huntleyovy ropné těžební
+                        společnosti.
+                    </p>
+                    <p>
+                        Jak jistě víte, blíží se městská slavnost ke kulatému výročí založení města, a při této
+                        příležitosti bych rád nechal odhalit na náměstí sochu mého předka Cassidiho Huntleye,
+                        který se do historie města zapsal jako dobrodinec a nezištný filantrop.
+                    </p>
+                    <p>
+                        Proto jsem si Vás pozval do tohoto města, neb jsem slyšel, že patříte mezi nejznámější a
+                        nejlepší
+                        dobrodruhy a hledače pokladů.
+                    </p>
+                    <p>
+                        Tímto Vám nabízím možnost podílet se na odhalení příběhu mého předka, a když uspějete, můžete si
+                        ponechat legendární poklad, který měl můj předek nalézt a část z něj opět ukrýt.
+                    </p>
+                    <p>
+                        Proto Vám předkládám deník, který patřil mému předkovi, je ale celý zašifrován.
+                        Vlastním výzkumem a bádáním se mi podařilo zjistit, že heslem pro první část deníku je
+                        <span n:tag-if="$highlightPass" class="highlight">Lucy</span>.
+                    </p>
+                    <p>
+                        Zbytek ponechávám na vás, přeji vám hodně zdaru.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://i0.kym-cdn.com/photos/images/original/000/039/357/Awesome2.jpg"
+                         alt="George Huntley" title="George Huntley" style="max-width: 100%">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {form introForm}
+                <p>
+                    Deník je opravdu zašifrovaný, pro rozklíčování budu muset použít Georgovo heslo...
+                </p>
+                <p n:foreach="$form->errors as $error">
+                    {$error}
+                </p>
+                <div class="form-inline">
+                    <div class="form-group">
+                        {label key, class => 'sr-only'/}
+                        {input key, class => 'form-control'}
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        {input send, class => 'btn btn-primary'}
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
 
 
-{* introForm:  \Modules\TreasureHunt\Presenters\TreasureHuntPresenter.php *}
-{control introForm}
 {/block}
 

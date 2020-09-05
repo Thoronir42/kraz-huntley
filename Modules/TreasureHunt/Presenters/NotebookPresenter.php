@@ -46,7 +46,8 @@ class NotebookPresenter extends Presenter
     {
         $notebook = $this->notebookService->getNotebookByUser($this->appUser);
         if (!$notebook) {
-            $notebook = $this->notebookService->createNotebook($this->appUser);
+            $this->redirect('TreasureHunt:intro');
+            return;
         }
 
         $this['notebook'] = $notebookControl = $this->notebookControlFactory->create($notebook, self::MIN_PAGE_COUNT);

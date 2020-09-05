@@ -23,8 +23,10 @@ treasureMap.notFound: Mapa nebyla nalezena
 
 firstChallenge: První výzva
 
+challenge.password: Heslo
 challenge.answer: Odpověď
-tryAnswer: Vyzkoušet
+
+tryAnswer: Zkusit heslo
 inputBanActive: Stále jsem na cestě zpět
 
 management:
