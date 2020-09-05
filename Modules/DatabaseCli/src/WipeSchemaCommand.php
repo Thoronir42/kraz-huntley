@@ -37,6 +37,11 @@ class WipeSchemaCommand extends Command
         )
             ->fetchPairs();
 
+        if (empty($tables)) {
+            $output->writeln("Nothing to remove in schema {$this->schemaName}");
+            return;
+        }
+
         $output->writeln('Removing ' . count($tables) . ' tables');
         try {
             $output->writeln("Disabling foreign key checks");
