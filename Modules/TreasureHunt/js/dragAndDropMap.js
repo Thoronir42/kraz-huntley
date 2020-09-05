@@ -204,8 +204,14 @@
                 rd.offset.y + highlight.y * rd.tileSize.height,
                 rd.tileSize.width, rd.tileSize.height);
         }
-
     }
+
+    DragAndDropMap.prototype.download = function(fileName) {
+        var link = document.createElement('a');
+        link.download = fileName || 'image.png';
+        link.href = this.layers.image.canvas.toDataURL()
+        link.click();
+    };
 
     /**
      *
