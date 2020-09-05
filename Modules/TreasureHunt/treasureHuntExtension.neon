@@ -60,7 +60,7 @@ typeful:
                     type: 'typeful.text'
                     options:
                         required: true
-                file:
+                filename:
                     type: 'netteTypeful.file'
                     options:
                         required: true

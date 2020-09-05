@@ -97,7 +97,7 @@ class TreasureMapsPresenter extends Presenter
                 $fileAttributes = $map->fileAttributes ?? new TreasureMapFileAttributes();
                 return Html::fromHtml(<<<HTML
 <div>
-  <span>{$map->file}</span> <span class="dimensions">{$fileAttributes->width}px*{$fileAttributes->height}px</span>
+  <span>{$map->filename}</span> <span class="dimensions">{$fileAttributes->width}px*{$fileAttributes->height}px</span>
 </div>
 HTML);
             });

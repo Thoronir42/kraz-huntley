@@ -8,7 +8,7 @@ use LeanMapper\Entity;
 /**
  * @property string $id
  * @property string $name
- * @property string $file
+ * @property string $filename
  *
  * @property int $tilingX
  * @property int $tilingY

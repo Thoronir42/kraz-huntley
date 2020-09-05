@@ -38,7 +38,7 @@ class TreasureMapsService
             return null;
         }
 
-        if (!$this->sources->fileExists($map->file)) {
+        if (!$this->sources->fileExists($map->filename)) {
             throw new InvalidStateException("Invalid filename for map '$id'");
         }
 
@@ -59,7 +59,7 @@ class TreasureMapsService
      */
     public function create($values)
     {
-        $values['file'] = $this->saveMapFile($values['id'], $values['file']);
+        $values['filename'] = $this->saveMapFile($values['id'], $values['filename']);
 
         $map = new TreasureMap($values);
         $this->treasureMapRepository->persist($map);
@@ -104,14 +104,14 @@ class TreasureMapsService
 
     private function initializeFileAttributes(TreasureMap $map, bool $shuffleFiles): TreasureMapFileAttributes
     {
-        $image = Image::fromString($this->sources->read($map->file));
+        $image = Image::fromString($this->sources->read($map->filename));
 
         $mapFileAttributes = new TreasureMapFileAttributes();
 
         $mapFileAttributes->width = $image->width;
         $mapFileAttributes->height = $image->height;
         $mapFileAttributes->pieceFiles = $this->chopMap($image, $map->id, $map->tilingX, $map->tilingY);
-        $hash = md5($this->sources->lastModified($map->file) . "-{$map->tilingX}-{$map->tilingY}");
+        $hash = md5($this->sources->lastModified($map->filename) . "-{$map->tilingX}-{$map->tilingY}");
         $mapFileAttributes->version = substr($hash, 0, 6);
 
         if ($shuffleFiles) {
