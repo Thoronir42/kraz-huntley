@@ -2,11 +2,13 @@
 
 namespace App\LeanMapper;
 
+use Dibi\Expression;
 use Dibi\Fluent;
 use LeanMapper\Entity;
 use LeanMapper\Exception\InvalidArgumentException;
 use LeanMapper\IMapper;
 use LeanMapper\Reflection\EntityReflection;
+use Nette\Utils\Arrays;
 
 class LeanQueryFilter
 {
@@ -48,13 +50,19 @@ class LeanQueryFilter
             } else {
                 $conditions = &self::$CONDITIONS[true];
             }
-            $value = $this->normalizeValue($condition);
 
             $propertyRef = $reflection->getEntityProperty($property);
             if (!$propertyRef) {
                 throw new InvalidArgumentException("Property '$property' does not exist");
             }
             $column = $propertyRef->getColumn();
+
+            if ($condition instanceof Expression) {
+                $fluent->where($column, $condition);
+                continue;
+            }
+
+            $value = $this->normalizeValue($condition);
             if (is_array($value)) {
                 $fluent->where("$column $conditions[IN] %in", $value);
             } elseif (is_null($value)) {
@@ -64,6 +72,35 @@ class LeanQueryFilter
             } else {
                 $fluent->where("$column $conditions[EQ] %s", $value);
             }
+        }
+    }
+
+    public function order(Fluent $fluent, array $order, string $entityClass)
+    {
+        if (empty($order)) {
+            return;
+        }
+
+        /** @var EntityReflection $reflection */
+        $reflection = $entityClass::getReflection($this->mapper);
+
+        foreach ($order as $property => $direction) {
+            if (is_int($property)) {
+                $property = $direction;
+                $direction = 'ASC';
+            }
+
+            $propertyReflection = $reflection->getEntityProperty($property);
+            if (!$propertyReflection) {
+                throw new InvalidArgumentException("Property '$property' does not exist");
+            }
+            if ($propertyReflection->hasRelationship()) {
+                throw new InvalidArgumentException("Property '$property' has a relationship and cannot be" .
+                    " used for ordering");
+            }
+
+            $column = $propertyReflection->getColumn();
+            $fluent->orderBy("$column $direction");
         }
     }
 

@@ -45,10 +45,11 @@ class Repository extends \LeanMapper\Repository implements IQueryable
 
     public function findBy(array $conditions, array $order = [], int $limit = null, int $offset = null)
     {
-        /** @var Fluent $fluent */
         $fluent = $this->select();
 
-        $this->filter->apply($fluent, $conditions, $this->mapper->getEntityClass($this->getTable()));
+        $entityClass = $this->mapper->getEntityClass($this->getTable());
+        $this->filter->apply($fluent, $conditions, $entityClass);
+        $this->filter->order($fluent, $order, $entityClass);
 
         if (is_integer($limit)) {
             $fluent->limit($limit);
@@ -56,10 +57,6 @@ class Repository extends \LeanMapper\Repository implements IQueryable
 
         if (is_integer($offset)) {
             $fluent->offset($offset);
-        }
-
-        if ($order) {
-            $fluent->orderBy($order);
         }
 
         return $this->createEntities($fluent->fetchAll());
