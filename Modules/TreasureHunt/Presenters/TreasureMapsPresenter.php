@@ -117,7 +117,6 @@ HTML);
 
         $form->addSubmit('save', 'messages.save');
         $form->setTranslator($this->context->getByType(ITranslator::class));
-        $form->setRenderer(new Bs4FormRenderer());
 
         return $form;
     }
