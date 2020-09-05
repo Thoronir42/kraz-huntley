@@ -43,7 +43,7 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
 
     public function execute($context, $params): ExecutionResult
     {
-        $persist = $params['persist'];
+        $persist = $params['persist'] ?? false;
         $clueType = $params['clueType'];
         $clueArgs = $params['clueArgs'];
 
@@ -73,10 +73,11 @@ class ShowClueAction implements Action, HasParamsSchema, ValidatesParams
         $clueArgs = $params['clueArgs'];
 
         $errors = [];
-        if ($params['persist'] && $params['persist'] !== true) {
-            if ($this->getDateFrom($params['persist']) === null) {
+        $persist = $params['persist'] ?? false;
+        if ($persist && $persist !== true) {
+            if ($this->getDateFrom($persist) === null) {
                 $errors['persist'] = new ParamValidationError('invalidValue', [
-                    'value' => $params['persist'],
+                    'value' => $persist,
                 ]);
             }
         }
