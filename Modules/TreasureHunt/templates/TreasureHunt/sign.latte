@@ -14,23 +14,28 @@
                             {label nick/}
                             {input nick, class => 'form-control'}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" n:if="!$user->isLoggedIn()">
                             {label pass/}
                             {input pass}
                         </div>
                     </div>
-                    <div class="card-footer text-center">
-                        {input login, class => 'btn btn-dark'}
-                        {input register, class => 'btn btn-dark'}
-                    </div>
+                    {if !$user->isLoggedIn()}
+                        <div class="card-footer text-center">
+                            <div class="">
+                                {input login, class => 'btn btn-dark'}
+                                {input register, class => 'btn btn-dark'}
+                            </div>
+                            <span class="text-danger" n:foreach="$form->errors as $error">{$error}</span>
+                        </div>
+                    {else}
+                        <div class="card-footer text-center">
+                            <a n:href="Notebook:page" class="btn btn-primary">Pokračovat v lovu</a>
+                            <a n:href="signOut" class="btn btn-dark">Odhlásit se</a>
+                        </div>
+                    {/if}
                 </div>
             {/form}
         </div>
     </div>
 
-    </div>
-    </div>
-
-
 {/block}
-

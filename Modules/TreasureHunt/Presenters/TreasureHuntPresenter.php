@@ -30,6 +30,21 @@ class TreasureHuntPresenter extends Presenter
     public function renderSign()
     {
         $this->layout = 'meta';
+        $this->template->appUser = $this->appUser;
+
+        if ($this->user->isLoggedIn()) {
+            $signForm = $this['signForm'];
+            $signForm['nick']->controlPrototype->readonly = true;
+            $signForm->setDefaults([
+                'nick' => $this->appUser->nick,
+            ]);
+        }
+    }
+
+    public function actionSignOut()
+    {
+        $this->user->logout(true);
+        $this->redirect('sign');
     }
 
     public function actionIntro()
@@ -85,7 +100,7 @@ class TreasureHuntPresenter extends Presenter
                     $this->user->login($nick, $pass);
                     $this->redirect('Notebook:page');
                 } catch (AuthenticationException $exception) {
-                    $this->flashMessage("Nedaří se nám ověřit vaši identitu, zkuste to, prosíme, znovu");
+                    $form->addError("Nedaří se nám ověřit vaši identitu, zkuste to, prosíme, znovu");
                 }
             }
         };

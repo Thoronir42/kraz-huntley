@@ -24,6 +24,8 @@ class TreasureHuntRouterFactory
             'action' => 'intro',
         ]);
 
+        $router->addRoute('/sign-out', 'TreasureHunt:signOut');
+
         $router->addRoute('/', [
             'presenter' => 'TreasureHunt',
             'action' => 'sign',

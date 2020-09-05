@@ -10,7 +10,7 @@ class RegisterFormFactory
     public function create()
     {
         $form = new Form();
-        $form->addText('nick', 'Uživatel. jméno')
+        $form->addText('nick', 'Uživatelské jméno')
              ->setRequired();
         $form['pass'] = new EmojiMatrixControl('Heslo');
 
