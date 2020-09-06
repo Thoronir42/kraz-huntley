@@ -26,7 +26,12 @@
         {/foreach}
     </div>
 
-    {if $inputBan}
+    {if $activePageNumber !== $currentPageNumber}
+        <p class="text-challenge-inactive">
+            Zde nic dalšího nevymyslím.
+            <a href="{plink 'Notebook:page', $activePageNumber }">Aktuálně si lámu hlavu s jiným oříškem</a>.
+        </p>
+    {elseif $inputBan}
         <div class="key">
             {_'appTreasureHunt.inputBanActive'}
         </div>

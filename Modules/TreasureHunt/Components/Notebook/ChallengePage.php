@@ -25,15 +25,21 @@ class ChallengePage extends UI\Control
     /** @var NotebookService */
     private $notebookService;
 
+    /** @var int */
+    private $activePage = -1;
+
     public function __construct(
         NotebookPageChallenge $page,
         Challenge $challenge,
+        int $activePageNumber,
         PropertyControlFactory $controlFactory,
         ITranslator $translator,
         NotebookService $notebookService
     ) {
         $this->page = $page;
         $this->challenge = $challenge;
+        $this->activePage = $activePageNumber;
+
         $this->controlFactory = $controlFactory;
         $this->translator = $translator;
         $this->notebookService = $notebookService;
@@ -47,6 +53,9 @@ class ChallengePage extends UI\Control
         $template->now = new \DateTime();
         $template->revelations = $this->notebookService->getCLueRevelations($this->page);
         $template->inputBan = $this->notebookService->findActiveInputBan($this->page);
+
+        $this->template->currentPageNumber = $this->page->pageNumber;
+        $this->template->activePageNumber = $this->activePage;
 
         $template->render();
     }

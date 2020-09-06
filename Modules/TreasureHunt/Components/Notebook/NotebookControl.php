@@ -79,6 +79,7 @@ class NotebookControl extends Control
                     /** @var Entity\NotebookPageChallenge $page */
                     $challengePage = new ChallengePage($page,
                         $this->challengesService->getChallenge($page->getChallengeId()),
+                        $this->notebook->activePage,
                         $this->propertyControlFactory,
                         $this->translator,
                         $this->notebookService,
