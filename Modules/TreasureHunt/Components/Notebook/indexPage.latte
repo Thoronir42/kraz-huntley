@@ -1,12 +1,9 @@
 <div class="index">
-    Sexy deník
+    <h1>Deník dobrodruha</h1>
     <ul>
-        <li n:foreach="$indexEntries as $indexEntry">
-            {dump $indexEntry}
-            <a href="{plink page $indexEntry->pageNumber}">
-                <span>{$indexEntry|pageTitle}</span>...<span>{$indexEntry->pageNumber}</span>
-            </a>
+        <li n:foreach="$indexPairs as $pair">
+            {$pair[0]->pageNumber} ...
+            <a href="{plink page $pair[0]->pageNumber}">{$pair[1]}</a>
         </li>
-
     </ul>
 </div>
