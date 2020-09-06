@@ -2,6 +2,7 @@
 
 namespace CP\TreasureHunt\Components\Notebook;
 
+use CP\TreasureHunt\Model\Service\ChallengesService;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
 use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
 use CP\TreasureHunt\Model\Entity\NotebookPageIndex;
@@ -14,26 +15,39 @@ class IndexPage extends UI\Control
     private $page;
     /** @var int */
     private $activePage;
+    
+    private $challengesService;
 
-    public function __construct(NotebookPageIndex $page, int $activePage)
+    public function __construct(NotebookPageIndex $page, int $activePage, ChallengesService $challengesServ)
     {
         $this->page = $page;
         $this->activePage = $activePage;
+        $this->challengesService = $challengesServ;
     }
 
     public function render()
     {
-        $this->template->indexEntries = $this->filterPages($this->page->getPages());
-        $this->template->addFilter('pageTitle', function (NotebookPage $page) {
-            // todo: polish title retrieving
+        // Fetch pages
+        $pages = $this->filterPages($this->page->getPages());
+
+        // Create array of [page, title] pairs
+        $pairs = [];
+        foreach ($pages as $page) {
+            $title = "?";
             if ($page->type === NotebookPage::TYPE_CHALLENGE) {
-                /** @var NotebookPageChallenge $page */
-                return 'Challenge ' . $page->getChallengeId();
+                $challenge = $this->challengesService->getChallenge($page->getChallengeId());
+                if ($challenge != null) {
+                    $title = $challenge->getTitle();
+                }
             }
+            
+            $pairs[] = [$page, $title];
+        }
 
-            return '?? ???';
-        });
+        // Fill template data
+        $this->template->indexPairs = $pairs;
 
+        // Render template
         $this->template->render(__DIR__ . '/indexPage.latte');
     }
 

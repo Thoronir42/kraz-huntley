@@ -73,7 +73,7 @@ class NotebookControl extends Control
             switch ($page->type) {
                 case Entity\NotebookPage::TYPE_INDEX:
                     /** @var Entity\NotebookPageIndex $page */
-                    return new IndexPage($page, $this->notebook->activePage);
+                    return new IndexPage($page, $this->notebook->activePage, $this->challengesService);
 
                 case Entity\NotebookPage::TYPE_CHALLENGE:
                     /** @var Entity\NotebookPageChallenge $page */
