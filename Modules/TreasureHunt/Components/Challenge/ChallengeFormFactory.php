@@ -47,14 +47,15 @@ class ChallengeFormFactory
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        $form->addText('title', 'th.challenge.title');
-        $form->addTextArea('description', 'th.challenge.description')
+        $form->addText('code', 'appTreasureHunt.challenge.code');
+        $form->addText('title', 'appTreasureHunt.challenge.title');
+        $form->addTextArea('description', 'appTreasureHunt.challenge.description')
             ->controlPrototype->class[] = 'wysiwyg';
 
-        $form->addSelect('keyType', 'th.challenge.keyType', $this->types);
+        $form->addSelect('keyType', 'appTreasureHunt.challenge.keyType', $this->types);
         // TODO: Add option to edit options
 
-        $form->addSubmit('save', 'save');
+        $form->addSubmit('save', 'messages.save');
 
         return $form;
     }

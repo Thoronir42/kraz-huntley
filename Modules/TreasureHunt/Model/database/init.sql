@@ -1,6 +1,7 @@
 CREATE TABLE th__challenge
 (
     id               varchar(4)   NOT NULL,
+    code             varchar(8)   NULL,
     title            varchar(72)  NOT NULL,
     description      text         NOT NULL,
     key_type         varchar(92)  NOT NULL,

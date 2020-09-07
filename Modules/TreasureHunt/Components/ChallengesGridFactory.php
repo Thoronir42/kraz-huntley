@@ -10,6 +10,7 @@ class ChallengesGridFactory
     {
         $grid = new DataGrid();
         $grid->addColumnText('id', 'ID');
+        $grid->addColumnText('code', 'Kód')->setSortable();
         $grid->addColumnText('title', 'Název');
 
         $grid->setPagination(false);

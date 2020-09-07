@@ -24,6 +24,17 @@
   }
 }
 
+.card-challenge-meta {
+  > .card-body {
+    display: flex;
+    flex-direction: column;
+
+    > :nth-child(2) {
+      flex: 1;
+    }
+  }
+}
+
 
 .pass-matrix {
   display: flex;

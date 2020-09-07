@@ -1,29 +1,50 @@
 {form $form class => ""}
-<div class="challenge-form-container">
-    <div class="notebook page-right">
-        <div class="page-content">
-            <div class="navigation">
-                {input title} {label title/}
+    <div class="challenge-form-container">
+        <div class="notebook page-right">
+            <div class="page-content">
+                <div class="navigation container">
+                    ...
+                </div>
+                <div class="challenge-text">
+                    {input description, 'data-summernote-options' => ['airMode' => true, 'placeholder' => 'Text výzvy']}
+                </div>
             </div>
-            <div class="challenge-text">
-                {input description, 'data-summernote-options' => ['airMode' => true, 'placeholder' => 'Text výzvy']}
+            <div class="pagination">
+                <a href="#" class="btn btn-sm btn-outline-dark flip-page">{_'appTreasureHunt.notebook.flipPage'}</a>
             </div>
-        </div>
-        <div class="pagination">
-            <a href="#" class="btn btn-sm btn-outline-dark flip-page">{_'appTreasureHunt.notebook.flipPage'}</a>
         </div>
     </div>
-</div>
 
-<div class="card">
-    <div class="card-body">
-        <div class="input-group">
-            {label keyType/}
-            {input keyType}
+    <div class="card">
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            {label code/}
+                            {input code, class => 'form-control form-control-sm'}
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="form-group">
+                            {label title/}
+                            {input title, class => 'form-control form-control-sm'}
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="form-group">
+                            {label keyType/}
+                            {input keyType class => 'form-control form-control-sm'}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            {input save, class => 'btn btn-primary'}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        {input save, class => 'btn btn-primary'}
     </div>
-</div>
 
 {/form}

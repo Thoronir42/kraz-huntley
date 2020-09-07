@@ -6,6 +6,13 @@ notebook:
 challenge.createNew: Vytvořit novou výzvu
 challenge.onSubmitActionsList: Akce po odeslání odpovědi
 challenge.correctAnswer: Správná odpověď
+challenge:
+    code: Kód
+    title: Název
+    description: Výzva
+    keyType: Typ klíče
+    onSubmitActions: Akce po odpovědi
+
 
 narrative.title: Název průpovídky
 narrative.content: Text průpovídky
@@ -37,10 +44,14 @@ management:
 type:
     clueType: Typ nápovědy
 
+pictureSelection_bottles: Lahvičky
+pictureSelection_mount: Jazyk-Symboly
+
 executives:
     action:
         activateChallenge: Aktivovat výzvu
         revealClue: Odhalit nápovědu
+        banAnswerSubmission: Zablokovat hádání
     condition:
         answerEquals: Odpověď je rovna
         answerCorrect: Správná odpověď

@@ -9,6 +9,7 @@ use SeStep\LeanExecutives\Entity\Action;
  * Class Challenge
  *
  * @property string $id
+ * @property string|null $code
  * @property string $title
  * @property string $description
  * @property string $keyType

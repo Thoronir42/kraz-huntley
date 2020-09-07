@@ -107,19 +107,22 @@ class ChallengesPresenter extends Presenter
             $this->redirect('createNew');
         }
 
+        $firstChallenge = $this->notebookService->getFirstChallengeId();
+        $firstChallengeSelection = $this['firstChallengeSelection'];
+        $firstChallengeSelection->setDefaults([
+            'firstChallenge' => $firstChallenge,
+        ]);
+    }
+
+    public function createComponentChallengesGrid()
+    {
         $grid = $this->challengesGridFactory->create();
         $grid->setDataSource($this->challengesService->getChallengesDataSource());
 
         $grid->setItemsPerPageList(['all']);
         $grid->addAction('detail', 'Upravit', 'detail');
 
-        $this['challengesGrid'] = $grid;
-
-        $firstChallenge = $this->notebookService->getFirstChallengeId();
-        $firstChallengeSelection = $this['firstChallengeSelection'];
-        $firstChallengeSelection->setDefaults([
-            'firstChallenge' => $firstChallenge,
-        ]);
+        return $grid;
     }
 
     public function createComponentChallengeForm()
