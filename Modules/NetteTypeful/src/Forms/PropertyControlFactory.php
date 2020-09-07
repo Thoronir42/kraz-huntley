@@ -6,17 +6,22 @@ use Nette\Forms\IControl;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use SeStep\Typeful\Entity\Property;
+use SeStep\Typeful\Service\TypeRegistry;
 
 class PropertyControlFactory
 {
     /** @var callable[] */
     private $typeToControlFactory = [];
+    /** @var TypeRegistry */
+    private $typeRegistry;
 
     /**
+     * @param TypeRegistry $typeRegistry
      * @param callable[] $typeMap associative map of type to factory callback
      */
-    public function __construct(array $typeMap)
+    public function __construct(TypeRegistry $typeRegistry, array $typeMap)
     {
+        $this->typeRegistry = $typeRegistry;
         foreach ($typeMap as $type => $callback) {
             $this->registerTypeFactoryCallback($type, $callback);
         }
@@ -51,8 +56,10 @@ class PropertyControlFactory
         if (!$controlFactory) {
             throw new InvalidStateException("Type '$type' does not have a factory associated");
         }
+        
+        $typeInstance = $this->typeRegistry->getType($type);
 
-        return $controlFactory($label, $typeOptions);
+        return $controlFactory($label, $typeInstance, $typeOptions);
     }
 
     public function createByProperty(string $label, Property $property): IControl

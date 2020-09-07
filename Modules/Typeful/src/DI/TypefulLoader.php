@@ -22,24 +22,32 @@ trait TypefulLoader
     private static function getTypefulSchema()
     {
         if (!self::$typefulSchema) {
-            $typesSchema = Expect::arrayOf(Expect::structure([
-                'class' => Expect::string()->required(),
-                'arguments' => Expect::array(),
-                'autowired' => Expect::bool(false),
-                'netteControlFactory' => Expect::mixed(),
-            ]));
-            $entitiesSchema = Expect::arrayOf(Expect::structure([
+            $typeSchema = Expect::anyOf(
+                Expect::structure([
+                    'class' => Expect::string()->required(),
+                    'arguments' => Expect::array(),
+                    'autowired' => Expect::bool(false),
+                    'netteControlFactory' => Expect::mixed(),
+                ]),
+                Expect::structure([
+                    'service' => Expect::string()->assert(function ($value) {
+                        return mb_substr($value, 0, 1) === '@';
+                    }, 'String is in a service reference format'),
+                    'netteControlFactory' => Expect::mixed(),
+                ]),
+            );
+            $entitySchema = Expect::structure([
                 'name' => Expect::string(),
                 'propertyNamePrefix' => Expect::string(),
                 'properties' => Expect::arrayOf(Expect::structure([
                     'type' => Expect::string()->required(),
                     'options' => Expect::array(),
                 ]))->min(1.0)
-            ]));
+            ]);
 
             self::$typefulSchema = Expect::structure([
-                'types' => $typesSchema,
-                'entities' => $entitiesSchema,
+                'types' => Expect::arrayOf($typeSchema),
+                'entities' => Expect::arrayOf($entitySchema),
             ]);
         }
 
@@ -69,14 +77,20 @@ trait TypefulLoader
         $config = self::processConfig($typeful);
 
         foreach ($config->types as $type => $definition) {
-            $typeDefinition = $builder->addDefinition($this->prefix("type.$type"))
-                ->setType($definition->class)
-                ->setAutowired($definition->autowired)
-                ->setArguments($definition->arguments)
-                ->addTag(TypefulExtension::TAG_TYPE, $this->prefix($type));
+            if (isset($definition->service)) {
+                $service = mb_substr($definition->service, 1);
+                $typeDefinition = $builder->getDefinition($service);
+            } else {
+                $typeDefinition = $builder->addDefinition($this->prefix("type.$type"))
+                    ->setType($definition->class)
+                    ->setAutowired($definition->autowired)
+                    ->setArguments($definition->arguments);
+            }
+            $typeDefinition->addTag(TypefulExtension::TAG_TYPE, $this->prefix($type));
 
             if (isset($definition->netteControlFactory)) {
-                $typeDefinition->addTag(NetteTypefulExtension::TAG_TYPE_CONTROL_FACTORY, $definition->netteControlFactory);
+                $typeDefinition->addTag(NetteTypefulExtension::TAG_TYPE_CONTROL_FACTORY,
+                    $definition->netteControlFactory);
             }
         }
 
