@@ -1,3 +1,10 @@
+parameters:
+    th:
+        bottle:
+            publicUrlDir: '/img/treasureHunt/bottle/'
+            items: '%wwwDir%/img/treasureHunt/bottle/'
+
+
 services:
     notebookRepository: CP\TreasureHunt\Model\Repository\NotebookRepository
     notebookPageRepository: CP\TreasureHunt\Model\Repository\NotebookPageRepository
@@ -23,7 +30,10 @@ services:
     challengeFormFactory:
         class: CP\TreasureHunt\Components\Challenge\ChallengeFormFactory
         arguments:
-            types: ['typeful.int', 'typeful.text']
+            types:
+                - 'typeful.int'
+                - 'typeful.text'
+                - 'appTreasureHunt.pictureSelection_bottles'
     challengeOnSubmitActionsFormFactory: CP\TreasureHunt\Components\Challenge\OnSubmitActionsFormFactory
 
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
@@ -36,11 +46,27 @@ services:
         tags:
             executivesModule: th
 
+    pictureSelectionBottlesStorage: League\Flysystem\Filesystem(League\Flysystem\Local\LocalFilesystemAdapter('%wwwDir%/img/treasureHunt/bottle'))
+
+    pictureSelectionBottles:
+        class: CP\TreasureHunt\Typeful\Types\PictureSelection
+        arguments:
+            slots: 5
+            pictureStorage: @appTreasureHunt.pictureSelectionBottlesStorage
+            baseDirectory: '/img/treasureHunt/bottle/'
+
+
 typeful:
     types:
         clueType:
              class: CP\TreasureHunt\Typeful\Types\ClueType
              autowired: true
+        pictureSelection_bottles:
+            service: @appTreasureHunt.pictureSelectionBottles
+            netteControlFactory: CP\TreasureHunt\Controls\PictureSelectionControl::create
+
+
+
     entities:
         narrative:
             name: CP\TreasureHunt\Model\Entity\Narrative

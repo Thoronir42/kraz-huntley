@@ -27,6 +27,15 @@ $(function () {
         })
     }
 
+    (function initPictureSelection() {
+        $('.picture-selection').each((i, el) => {
+            let pictureSelection = new PictureSelection($(el));
+
+            pictureSelection.onReady()
+                .then((i) => console.log("Picture selection ready", i));
+        });
+    })();
+
     $('body').on('change', '[data-ajax-on-change]', (e) => {
         let url = e.target.dataset['ajaxOnChange'];
         url = url.replace('__value__', e.target.value)
@@ -54,8 +63,6 @@ $(function () {
                 '<div class="popover-body"></div>' +
                 '</div>'
         }
-
-        console.log(contentElSelector, popoverOptions)
 
         $el.popover(popoverOptions);
     });
