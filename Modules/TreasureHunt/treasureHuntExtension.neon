@@ -34,6 +34,8 @@ services:
                 - 'typeful.int'
                 - 'typeful.text'
                 - 'appTreasureHunt.pictureSelection_bottles'
+                - 'appTreasureHunt.pictureSelection_mount'
+
     challengeOnSubmitActionsFormFactory: CP\TreasureHunt\Components\Challenge\OnSubmitActionsFormFactory
 
     narrativesGridFactory: CP\TreasureHunt\Components\NarrativesGridFactory
@@ -55,6 +57,15 @@ services:
             pictureStorage: @appTreasureHunt.pictureSelectionBottlesStorage
             baseDirectory: '/img/treasureHunt/bottle/'
 
+    pictureSelectionMountStorage: League\Flysystem\Filesystem(League\Flysystem\Local\LocalFilesystemAdapter('%wwwDir%/img/treasureHunt/mount'))
+
+    pictureSelectionMount:
+        class: CP\TreasureHunt\Typeful\Types\PictureSelection
+        arguments:
+            slots: 4
+            pictureStorage: @appTreasureHunt.pictureSelectionMountStorage
+            baseDirectory: '/img/treasureHunt/mount/'
+
 
 typeful:
     types:
@@ -63,6 +74,9 @@ typeful:
              autowired: true
         pictureSelection_bottles:
             service: @appTreasureHunt.pictureSelectionBottles
+            netteControlFactory: CP\TreasureHunt\Controls\PictureSelectionControl::create
+        pictureSelection_mount:
+            service: @appTreasureHunt.pictureSelectionMount
             netteControlFactory: CP\TreasureHunt\Controls\PictureSelectionControl::create
 
 
