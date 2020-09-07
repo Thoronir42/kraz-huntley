@@ -14,8 +14,7 @@ class AnswerEquals implements Condition, HasParamsSchema
 {
     public function evaluate($context, $params): ?ExecutionResult
     {
-        // todo: try to use === or verify validity of ==
-        if ($context->answer != $params['value']) {
+        if (strcasecmp($context->answer, $params['value']) != 0) {
             return ExecutionResultBuilder::fail(ExecutionResult::CODE_CONDITION_FAILED, 'valueMismatch')
                 ->create();
         }
