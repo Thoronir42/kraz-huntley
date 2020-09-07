@@ -28,21 +28,31 @@ class ChallengeFormFactory
         $this->typeRegistry = $typeRegistry;
         $this->controlFactory = $controlFactory;
         $this->translator = $translator;
-        $this->types = $types;
+
+        $requestedTypes = array_flip($types);
+        $typesLocalized = $this->typeRegistry->getTypesLocalized();
+
+        $missingTypes = array_diff_key($requestedTypes, $typesLocalized);
+
+        if (!empty($missingTypes)) {
+            $missingTypesStr = implode("', '", array_keys($missingTypes));
+            throw new \InvalidArgumentException("These types are invalid: ['$missingTypesStr']");
+        }
+
+        $this->types = array_intersect_key($typesLocalized, $requestedTypes);
     }
 
     public function create()
     {
         $form = new Form();
         $form->setTranslator($this->translator);
-        $types = array_intersect_key($this->typeRegistry->getTypesLocalized(), array_flip($this->types));
 
         $form->addText('title', 'th.challenge.title');
         $form->addTextArea('description', 'th.challenge.description')
             ->controlPrototype->class[] = 'wysiwyg';
-        $form->addSelect('keyType', 'th.challenge.keyType', $types);
-        $form['correctAnswer'] = $this->controlFactory->create('appTreasureHunt.challenge.correctAnswer',
-            'typeful.text');
+
+        $form->addSelect('keyType', 'th.challenge.keyType', $this->types);
+        // TODO: Add option to edit options
 
         $form->addSubmit('save', 'save');
 

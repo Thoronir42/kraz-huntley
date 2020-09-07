@@ -11,8 +11,10 @@ use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
+use Nette\Localization\ITranslator;
 use SeStep\Executives\Model\ActionData;
 use CP\TreasureHunt\Components\Challenge\OnSubmitActionsFormFactory;
+use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
 class ChallengesPresenter extends Presenter
 {
@@ -27,6 +29,11 @@ class ChallengesPresenter extends Presenter
     public $actionFormFactory;
     /** @var NotebookService @inject */
     public $notebookService;
+
+    /** @var ITranslator @inject */
+    public $translator;
+    /** @var PropertyControlFactory @inject */
+    public $propertyControlFactory;
 
     public function actionCreateNew()
     {
@@ -76,6 +83,16 @@ class ChallengesPresenter extends Presenter
 
         $this['actionForm'] = $actionForm;
 
+        $correctAnswerForm = $this['correctAnswerForm'] = $this->createCorrectAnswerForm($challenge);
+        $correctAnswerForm->setDefaults([
+            'correctAnswer' => $challenge->correctAnswer,
+        ]);
+        $correctAnswerForm->onSuccess[] = function ($form, $values) use ($challenge) {
+            $challenge->correctAnswer = $values['correctAnswer'];
+            $this->challengesService->save($challenge);
+
+            $this->redirect('this');
+        };
     }
 
     protected function beforeRender()
@@ -132,5 +149,22 @@ class ChallengesPresenter extends Presenter
     {
         $this->notebookService->setFirstChallengeId($challenge);
         $this->redirect('this');
+    }
+
+    private function createCorrectAnswerForm(Challenge $challenge)
+    {
+        $form = new Form();
+        $form->setTranslator($this->translator);
+
+        $control = $form['correctAnswer'] = $this->propertyControlFactory->create('appTreasureHunt.challenge.correctAnswer',
+            $challenge->keyType, $challenge->keyTypeOptions);
+
+        if ($control->controlPrototype->name === 'input') {
+            $control->controlPrototype->class[] = 'form-control';
+        }
+
+        $form->addSubmit('save', 'messages.save');
+
+        return $form;
     }
 }

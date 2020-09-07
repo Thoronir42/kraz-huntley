@@ -1,11 +1,12 @@
 CREATE TABLE th__challenge
 (
-    id             varchar(4)   NOT NULL,
-    title          varchar(72)  NOT NULL,
-    description    text         NOT NULL,
-    key_type       varchar(92)  NOT NULL,
-    on_submit      varchar(4)   NULL,
-    correct_answer varchar(256) NOT NULL,
+    id               varchar(4)   NOT NULL,
+    title            varchar(72)  NOT NULL,
+    description      text         NOT NULL,
+    key_type         varchar(92)  NOT NULL,
+    key_type_options text         NOT NULL,
+    on_submit        varchar(4)   NULL,
+    correct_answer   varchar(256) NOT NULL,
 
     CONSTRAINT `th__challenge_pk` PRIMARY KEY (id),
     CONSTRAINT `th__challenge_script_fk` FOREIGN KEY

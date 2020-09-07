@@ -5,6 +5,7 @@ notebook:
 
 challenge.createNew: Vytvořit novou výzvu
 challenge.onSubmitActionsList: Akce po odeslání odpovědi
+challenge.correctAnswer: Správná odpověď
 
 narrative.title: Název průpovídky
 narrative.content: Text průpovídky
