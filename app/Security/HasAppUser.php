@@ -21,6 +21,10 @@ trait HasAppUser
     {
         if ($this->user->isLoggedIn()) {
             $this->appUser = $userRepository->findOneBy(['id' => $this->user->id]);
+            if (!$this->appUser) {
+                $this->user->logout(true);
+                $this->redirect('this');
+            }
         }
     }
 }
