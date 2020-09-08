@@ -48,6 +48,7 @@ extensions:
     executives: SeStep\Executives\DI\ExecutivesExtension
     leanExecutives: SeStep\LeanExecutives\DI\LeanExecutivesExtension
     netteExecutives: SeStep\NetteExecutives\NetteExecutivesExtension
+    bustCache: Nepada\Bridges\BustCacheDI\BustCacheExtension(%wwwDir%, %debugMode%)
 
 leanMapper:
     db:

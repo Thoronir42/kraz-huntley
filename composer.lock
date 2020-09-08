@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82c7206100c2068cee35a83320dfa367",
+    "content-hash": "83bf589ec54654472d105f2bb39dd0b8",
     "packages": [
         {
             "name": "contributte/application",
@@ -555,6 +555,77 @@
             ],
             "description": "Mime-type detection for Flysystem",
             "time": "2020-04-04T15:43:58+00:00"
+        },
+        {
+            "name": "nepada/bust-cache",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nepada/bust-cache.git",
+                "reference": "a03b20216fa10461ae5ec8a7a3a7b62909517c27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nepada/bust-cache/zipball/a03b20216fa10461ae5ec8a7a3a7b62909517c27",
+                "reference": "a03b20216fa10461ae5ec8a7a3a7b62909517c27",
+                "shasum": ""
+            },
+            "require": {
+                "latte/latte": "^2.5@dev",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "damejidlo/phpstan-nette-tester": "^0.2.0",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "nepada/coding-standard": "^6.3.0",
+                "nette/application": "^3.0@dev",
+                "nette/bootstrap": "^3.0@dev",
+                "nette/component-model": "^3.0@dev",
+                "nette/di": "^3.0.1@dev",
+                "nette/http": "^3.0@dev",
+                "nette/tester": "^2.3.1",
+                "nette/utils": "^3.0@dev",
+                "pepakriz/phpstan-exception-rules": "^0.10.1",
+                "phpstan/phpstan": "^0.12.3",
+                "phpstan/phpstan-nette": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0"
+            },
+            "suggest": {
+                "nette/di": "for integration with Nette DI container"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nepada\\Bridges\\": "src/Bridges/",
+                    "Nepada\\BustCache\\": "src/BustCache/"
+                },
+                "classmap": [
+                    "src/BustCache/exceptions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Petr Morávek",
+                    "email": "petr@pada.cz"
+                }
+            ],
+            "description": "Cache busting macro for Latte.",
+            "keywords": [
+                "bust",
+                "cache",
+                "latte",
+                "nette"
+            ],
+            "time": "2019-12-21T18:12:09+00:00"
         },
         {
             "name": "nette/application",
@@ -3357,6 +3428,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -4111,6 +4183,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.3",
+        "ext-gd": "*",
         "ext-json": "*"
     },
     "platform-dev": []
