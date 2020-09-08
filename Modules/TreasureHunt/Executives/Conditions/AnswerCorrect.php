@@ -15,7 +15,7 @@ class AnswerCorrect implements Condition, HasParamsSchema
 
     public function evaluate($context, $params): ?ExecutionResult
     {
-        return $this->isEqual($context->answer, $context->challenge->correctAnswer);
+        return $this->isLooselyEqual($context->answer, $context->challenge->correctAnswer);
     }
 
     public function getParamsSchema(): Schema

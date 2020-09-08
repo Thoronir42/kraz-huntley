@@ -20,7 +20,13 @@ trait ConditionScalarComparison
 
     protected function isLooselyEqual($actual, $expected)
     {
-        if ($actual != $expected) {
+        if (is_string($actual) && is_string($expected)) {
+            $equal = strcasecmp($actual, $expected) === 0;
+        } else {
+            $equal = $actual != $expected;
+        }
+
+        if (!$equal) {
             return ExecutionResultBuilder::fail(ExecutionResult::CODE_CONDITION_FAILED, 'valueMismatch')
                 ->create();
         }
