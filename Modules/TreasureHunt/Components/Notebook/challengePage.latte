@@ -36,12 +36,22 @@
         </div>
     {elseif !$activeRevelationExists}
         {form keyForm, class => 'key'}
-            {if isset($form['key'])}
+            {if $inlineInput}
                 {label key/}
-                {input key}
-            {/if}
+                <div class="input-group input-group-sm">
+                    {input key, class => 'form-control'}
+                    <div class="input-group-append">
+                        {input send, class => 'btn btn-primary'}
+                    </div>
+                </div>
+            {else}
+                {if isset($form['key'])}
+                    {label key/}
+                    {input key}
+                {/if}
 
-            {input send}
+                {input send, class => 'btn btn-primary'}
+            {/if}
         {/form}
     {/if}
 </div>

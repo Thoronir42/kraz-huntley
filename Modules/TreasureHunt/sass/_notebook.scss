@@ -1,3 +1,5 @@
+@import "notebookTheme";
+
 .container-notebook {
   height: 100vh;
   width: 100vw;
@@ -16,32 +18,16 @@
 
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-
-  &.page-left {
-    background-image: url("/img/diary_left.png");
-    padding-left: 36px;
-    padding-right: 12px;
-  }
-
-  &.page-right {
-    background-image: url("/img/diary_right.png");
-  }
-
-  height: 650px;
-  width: 420px;
-
-  padding: 24px;
+  background-size: cover;
 
   .page-content {
     flex: 1;
 
     overflow-y: scroll;
     word-break: break-word;
-
   }
 
-  .pagination {
+  .notebook-pagination {
     align-self: stretch;
     justify-self: end;
 
@@ -52,8 +38,9 @@
     a {
       display: block;
       text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.25);
     }
-    .page-link {
+    .nb-page-link {
       display: inline-flex;
       width: 3em;
       justify-content: center;
@@ -68,6 +55,8 @@
   }
 }
 
+@include notebookTheme('flat');
+
 .challenge {
   display: flex;
   flex-direction: column;
@@ -77,12 +66,14 @@
     flex-direction: row;
 
     .task {
+      font-size: 1.75em;
+      font-weight: bold;
       display: flex;
       flex-direction: column;
-
-      .challenge-sequence {
-        font-size: 0.85em;
-      }
     }
+  }
+
+  .key {
+    margin-bottom: 1em;
   }
 }

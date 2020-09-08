@@ -1,0 +1,43 @@
+@mixin notebookTheme($notebookTheme) {
+  $notebookHeight: initial;
+  $notebookWidth: initial;
+
+  $leftPagePadding: initial;
+  $rightPagePadding: initial;
+
+  @if $notebookTheme == 'base' {
+    $notebookHeight: 650px;
+    $notebookWidth: 420px;
+
+    $leftPagePadding: 24px 6px 24px 30px;
+    $rightPagePadding: 18px 20px 16px 12px;
+
+  } @else if $notebookTheme == 'flat' {
+    $notebookHeight: 720px;
+    $notebookWidth: 503px;
+    $leftPagePadding: 20px 4px 20px 56px;
+    $rightPagePadding: 20px 64px 20px 12px;
+  } @else {
+    @error "Notebook theme #{theme} not recognized";
+  }
+
+  .container-notebook {
+    min-height: $notebookHeight + 60px;
+    min-width: $notebookWidth + 60px;
+  }
+
+  .notebook {
+    height: $notebookHeight;
+    width: $notebookWidth;
+
+    &.page-left {
+      background-image: url("/img/diary/" + $notebookTheme + "/left.png");
+      padding: $leftPagePadding;
+    }
+
+    &.page-right {
+      background-image: url("/img/diary/" + $notebookTheme + "/right.png");
+      padding: $rightPagePadding;
+    }
+  }
+}

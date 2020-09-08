@@ -6,6 +6,7 @@ use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\UI;
+use Nette\Forms\Controls\TextBase;
 use Nette\Localization\ITranslator;
 use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
@@ -56,6 +57,11 @@ class ChallengePage extends UI\Control
 
         $this->template->currentPageNumber = $this->page->pageNumber;
         $this->template->activePageNumber = $this->activePage;
+
+        $this->template->inlineInput = in_array($this->challenge->keyType, [
+            'typeful.int',
+            'typeful.text',
+        ]);
 
         $template->render();
     }
