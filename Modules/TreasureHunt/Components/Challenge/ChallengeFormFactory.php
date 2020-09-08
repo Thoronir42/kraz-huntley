@@ -52,7 +52,11 @@ class ChallengeFormFactory
         $form->addTextArea('description', 'appTreasureHunt.challenge.description')
             ->controlPrototype->class[] = 'wysiwyg';
 
-        $form->addSelect('keyType', 'appTreasureHunt.challenge.keyType', $this->types);
+        $types = array_merge([
+            '' => 'appTreasureHunt.noKey'
+        ], $this->types);
+
+        $form->addSelect('keyType', 'appTreasureHunt.challenge.keyType', $types);
         // TODO: Add option to edit options
 
         $form->addSubmit('save', 'messages.save');

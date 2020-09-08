@@ -13,6 +13,8 @@ challenge:
     keyType: Typ klíče
     onSubmitActions: Akce po odpovědi
 
+noKey: Bez klíče
+
 
 narrative.title: Název průpovídky
 narrative.content: Text průpovídky
@@ -36,6 +38,7 @@ challenge.password: Heslo
 challenge.answer: Odpověď
 
 tryAnswer: Zkusit heslo
+continue: Pokračovat
 inputBanActive: Stále jsem na cestě zpět
 
 management:

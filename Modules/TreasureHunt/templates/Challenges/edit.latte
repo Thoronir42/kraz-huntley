@@ -8,24 +8,25 @@
         <div class="card h-100 card-challenge-meta">
             <div class="card-body">
                 {ifset $challenge}
-                    {form correctAnswerForm}
-                        <div class="row">
-                            <div class="offset-md-1 col-md-8">
-                                <div class="form-group">
-                                    {label correctAnswer/}
-                                    {input correctAnswer}
+                    {if $challenge->keyType}
+                        {form correctAnswerForm}
+                            <div class="row">
+                                <div class="offset-md-1 col-md-8">
+                                    <div class="form-group">
+                                        {label correctAnswer/}
+                                        {input correctAnswer}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        {input save, class => 'btn btn-outline-primary float-right'}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    {input save, class => 'btn btn-outline-primary float-right'}
-                                </div>
-                            </div>
-                        </div>
-                    {/form}
+                        {/form}
 
-                    <hr/>
-
+                        <hr/>
+                    {/if}
                 {control actionForm}
                 {else}
                     <div>Nastavení akci bude zpřístupněno po vytvoření výzvy</div>

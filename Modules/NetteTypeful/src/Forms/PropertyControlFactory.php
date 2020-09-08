@@ -2,6 +2,7 @@
 
 namespace SeStep\NetteTypeful\Forms;
 
+use Nette\Forms\Controls\HiddenField;
 use Nette\Forms\IControl;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
@@ -52,11 +53,15 @@ class PropertyControlFactory
 
     public function create(string $label, string $type, array $typeOptions = []): IControl
     {
+        if (!$type) {
+            return new HiddenField();
+        }
+
         $controlFactory = $this->typeToControlFactory[$type] ?? null;
         if (!$controlFactory) {
             throw new InvalidStateException("Type '$type' does not have a factory associated");
         }
-        
+
         $typeInstance = $this->typeRegistry->getType($type);
 
         return $controlFactory($label, $typeInstance, $typeOptions);

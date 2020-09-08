@@ -64,14 +64,22 @@ class ChallengePage extends UI\Control
     {
         $form = new UI\Form();
         $form->setTranslator($this->translator);
-        $form['key'] = $this->controlFactory->create('appTreasureHunt.challenge.answer',
-            $this->challenge->keyType,
-            $this->challenge->keyTypeOptions,
-        );
-        $form->addSubmit('send', 'appTreasureHunt.tryAnswer');
 
-        $form->onSuccess[] = function ($form, $values) {
-            $answer = $values['key'];
+        $hasAnswer = (bool)$this->challenge->keyType;
+
+        if ($hasAnswer) {
+            $form['key'] = $this->controlFactory->create('appTreasureHunt.challenge.answer',
+                $this->challenge->keyType,
+                $this->challenge->keyTypeOptions,
+            );
+            $form->addSubmit('send', 'appTreasureHunt.tryAnswer');
+        } else {
+            $form->addSubmit('send', 'appTreasureHunt.continue');
+        }
+
+
+        $form->onSuccess[] = function ($form, $values) use ($hasAnswer) {
+            $answer = $hasAnswer ? $values['key'] : null;
 
             $this->onAnswerSubmit($this->challenge, $answer);
         };
