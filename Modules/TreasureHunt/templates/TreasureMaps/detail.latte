@@ -4,8 +4,8 @@
 {form treasureMapForm}
     <div class="card">
         <div class="card-body">
-            <div class="alert alert-warning" n:if="$form->errors">
-                <p n:foreach="$form->errors as $error">{$error}</p>
+            <div class="alert alert-warning" n:if="$form->ownErrors">
+                <p n:foreach="$form->ownErrors as $error">{$error}</p>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -24,6 +24,7 @@
                     <div class="form-group">
                         {label filename/}
                         {input filename, class => 'form-control-file'}
+                        <p class="text-danger" n:if="$form['filename']->error">{$form['filename']->error}</p>
                     </div>
                 </div>
                 <div class="col-md-6">

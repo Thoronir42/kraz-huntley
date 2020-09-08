@@ -2,6 +2,7 @@
 
 namespace CP\TreasureHunt\Presenters;
 
+use App\Grid\DecoratorDataSource;
 use App\LeanMapper\Exceptions\ValidationException;
 use CP\TreasureHunt\Model\Entity\Attributes\TreasureMapFileAttributes;
 use CP\TreasureHunt\Model\Entity\TreasureMap;
@@ -63,7 +64,13 @@ class TreasureMapsPresenter extends Presenter
         /** @var Form $treasureMapForm */
         $treasureMapForm = $this['treasureMapForm'];
 
-        $treasureMapForm['filename']->setRequired(false);
+        $treasureMapForm['filename']->setRequired($map->fileAttributes === null);
+        if (!$map->fileAttributes) {
+            if (!$treasureMapForm->isSubmitted()) {
+                $treasureMapForm['filename']->addError('messages.invalidFile');
+            }
+        }
+
 
         $treasureMapForm->onSuccess[] = function (Form $form, $values) use ($map) {
             unset($values['id']);
@@ -98,16 +105,21 @@ class TreasureMapsPresenter extends Presenter
 
         $grid->addColumnText('filename', 'appTreasureHunt.treasureMap.filename')
             ->setRenderer(function (TreasureMap $map) {
+                if (!$map->fileAttributes) {
+                    return Html::fromHtml('<p class="text-danger">' . $this->translator->translate('messages.invalidFile') . '</p>');
+                }
                 // todo: Provide lazy file attributes
-                $fileAttributes = $map->fileAttributes ?? new TreasureMapFileAttributes();
+                $fileAttributes = $map->fileAttributes;
                 return Html::fromHtml(<<<HTML
 <div>
   <span>{$map->filename}</span> <span class="dimensions">{$fileAttributes->width}px*{$fileAttributes->height}px</span>
 </div>
-HTML);
+HTML
+                );
             });
-        $grid->setDataSource($this->treasureMapsService->getDataSource());
 
+        $grid->setDataSource($this->treasureMapsService->getDataSource(true));
+        
         $grid->setPagination(false);
         $grid->addAction('detail', 'messages.edit', 'detail');
 

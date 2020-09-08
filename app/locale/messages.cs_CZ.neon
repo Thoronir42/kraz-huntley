@@ -3,3 +3,5 @@ update: Upravit
 edit: Upravit
 set: Nastavit
 save: Uložit
+
+invalidFile: Neplatný soubor

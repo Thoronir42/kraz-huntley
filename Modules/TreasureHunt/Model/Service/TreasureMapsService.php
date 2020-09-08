@@ -2,6 +2,9 @@
 
 namespace CP\TreasureHunt\Model\Service;
 
+use App\Grid\DecoratorDataSource;
+use ArrayAccess;
+use Closure;
 use CP\TreasureHunt\Model\Entity\Attributes\TreasureMapFileAttributes;
 use CP\TreasureHunt\Model\Entity\TreasureMap;
 use CP\TreasureHunt\Model\Repository\TreasureMapRepository;
@@ -38,22 +41,30 @@ class TreasureMapsService
             return null;
         }
 
-        if (!$this->sources->fileExists($map->filename)) {
-            throw new InvalidStateException("Invalid filename for map '$id'");
+        if ($this->sources->fileExists($map->filename)) {
+            $map->fileAttributes = $this->initializeFileAttributes($map, $shuffleFiles);
         }
-
-        $map->fileAttributes = $this->initializeFileAttributes($map, $shuffleFiles);
 
         return $map;
     }
 
-    public function getDataSource(): IDataSource
+    public function getDataSource(bool $decorateByFileAttributes = false): IDataSource
     {
-        return $this->treasureMapRepository->getEntityDataSource();
+        $dataSource = $this->treasureMapRepository->getEntityDataSource();
+
+        if ($decorateByFileAttributes) {
+            $dataSource = new DecoratorDataSource($dataSource, Closure::fromCallable(function (TreasureMap $map) {
+                if ($this->sources->fileExists($map->filename)) {
+                    $map->fileAttributes = $this->initializeFileAttributes($map, false);
+                }
+            }));
+        }
+
+        return $dataSource;
     }
 
     /**
-     * @param array|\ArrayAccess $values
+     * @param array|ArrayAccess $values
      *
      * @return TreasureMap
      */
@@ -69,9 +80,6 @@ class TreasureMapsService
 
     public function update(TreasureMap $map, $values)
     {
-        if (isset($values['id'])) {
-            unset($values['id']);
-        }
 
         if (isset($values['filename'])) {
             if ($file = $this->saveMapFile($map->id, $values['filename'])) {
