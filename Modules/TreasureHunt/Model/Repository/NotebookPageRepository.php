@@ -6,6 +6,7 @@ use App\LeanMapper\Repository;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\Notebook;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
+use Dibi\Expression;
 
 class NotebookPageRepository extends Repository
 {
@@ -31,5 +32,28 @@ class NotebookPageRepository extends Repository
         $this->persist($page);
 
         return $page;
+    }
+
+    /**
+     * @param Notebook[] $notebooks
+     */
+    public function getActivePages(array $notebooks)
+    {
+        [$notebookColumn, $pageNumberColumn] = $this->columnsByProperties('notebook', 'pageNumber');
+        $expressions = [];
+        foreach ($notebooks as $notebook) {
+            $expressions[] = new Expression("%n = ? AND %n = ?", $notebookColumn, $notebook->id, $pageNumberColumn, $notebook->activePage);
+        }
+
+        $pageRows = $this->select()
+            ->where('%or', $expressions)
+            ->fetchAssoc($notebookColumn);
+
+        $pages = [];
+        foreach ($pageRows as $key => $row) {
+            $pages[$key] = $this->makeEntity($row);
+        }
+
+        return $pages;
     }
 }

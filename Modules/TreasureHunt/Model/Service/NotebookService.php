@@ -10,6 +10,8 @@ use CP\TreasureHunt\Model\Entity\ClueRevelation;
 use CP\TreasureHunt\Model\Entity\InputBan;
 use CP\TreasureHunt\Model\Entity\Notebook;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
+use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
+use CP\TreasureHunt\Model\Repository\ChallengeRepository;
 use CP\TreasureHunt\Model\Repository\ClueRevelationRepository;
 use CP\TreasureHunt\Model\Repository\InputBanRepository;
 use CP\TreasureHunt\Model\Repository\NotebookPageRepository;
@@ -29,6 +31,8 @@ class NotebookService
     private $clueRevelationRepository;
     /** @var InputBanRepository */
     private $inputBanRepository;
+    /** @var ChallengeRepository */
+    private $challengeRepository;
     /** @var TransactionManager */
     private $transactionManager;
     /** @var ClassnameActionExecutor */
@@ -41,6 +45,7 @@ class NotebookService
         NotebookPageRepository $notebookPageRepository,
         ClueRevelationRepository $clueRevelationRepository,
         InputBanRepository $inputBanRepository,
+        ChallengeRepository $challengeRepository,
         TransactionManager $transactionManager,
         ClassnameActionExecutor $classnameActionExecutor,
         string $firstChallengeId
@@ -49,6 +54,7 @@ class NotebookService
         $this->notebookPageRepository = $notebookPageRepository;
         $this->clueRevelationRepository = $clueRevelationRepository;
         $this->inputBanRepository = $inputBanRepository;
+        $this->challengeRepository = $challengeRepository;
         $this->transactionManager = $transactionManager;
         $this->classnameActionExecutor = $classnameActionExecutor;
         $this->firstChallengeId = $firstChallengeId;
@@ -159,6 +165,66 @@ class NotebookService
             'notebookPage' => $page,
             'activeUntil' => new Expression('> ?', new DateTime()),
         ]);
+    }
+
+    public function getDataSource()
+    {
+        return $this->notebookRepository->getEntityDataSource();
+    }
+
+    public function getActivePages(array $notebooks): array
+    {
+        return $this->notebookPageRepository->getActivePages($notebooks);
+    }
+
+    /**
+     * @param NotebookPage[] $pages
+     * @return Challenge[]
+     */
+    public function getPageChallenges(array $pages)
+    {
+        $challengeIds = [];
+        foreach ($pages as $key => $page) {
+            if ($page instanceof NotebookPageChallenge) {
+                $challengeIds[$key] = $page->getChallengeId();
+            }
+        }
+
+        return $this->challengeRepository->browse($challengeIds);
+    }
+
+    /**
+     * @param NotebookPage[] $pages
+     * @param bool|null $active
+     *
+     * @return InputBan[]
+     */
+    public function getPageInputBans(array $pages, ?bool $active = null): array
+    {
+        $conditions = [
+            'notebookPage' => array_values($pages),
+        ];
+
+        if (is_bool($active)) {
+            $now = new DateTime();
+            $expression = $active ? new Expression('> ?', $now) : new Expression('<= ?', $now);
+            $conditions['activeUntil'] = $expression;
+        }
+
+        $bans = [];
+        /** @var InputBan $ban */
+        foreach ($this->inputBanRepository->findBy($conditions) as $ban) {
+            $bans[$ban->getRowData()['notebook_page_id']] = $ban;
+        }
+
+        $result = [];
+        foreach ($pages as $key => $page) {
+            if (isset($bans[$page->id])) {
+                $result[$key] = $bans[$page->id];
+            }
+        }
+
+        return $result;
     }
 
 }

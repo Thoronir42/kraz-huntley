@@ -77,6 +77,20 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         return null;
     }
 
+    public function browse(array $ids) {
+        $primary = $this->mapper->getPrimaryKey($this->getTable());
+        $entities = $this->findBy([
+            $primary => array_unique(array_values($ids)),
+        ]);
+
+        $result = [];
+        foreach ($ids as $key => $id) {
+            $result[$key] = $entities[$id] ?? null;
+        }
+
+        return $result;
+    }
+
     public function count(array $conditions = []): int
     {
         $table = $this->getTable();

@@ -93,6 +93,11 @@ class TreasureHuntRouterFactory
             ])
         );
 
+        $routeList->add((new RouteList())
+            ->addRoute('/manage/hunters', 'Players:index')
+            ->addRoute('/manage/hunters/<id>', 'Players:detail')
+        );
+
         return $routeList;
     }
 }
