@@ -6,6 +6,7 @@ use App\Security\HasAppUser;
 use App\Security\UserManager;
 use CP\TreasureHunt\Components\RegisterFormFactory;
 use CP\TreasureHunt\Model\Service\NotebookService;
+use CP\TreasureHuntGallery\Model\Services\GalleryService;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Localization\ITranslator;
@@ -24,6 +25,9 @@ class TreasureHuntPresenter extends Presenter
     /** @var NotebookService @inject */
     public $notebookService;
 
+    /** @var GalleryService @inject */
+    public $galleryService;
+
     /** @var ITranslator @inject */
     public $translator;
 
@@ -38,6 +42,8 @@ class TreasureHuntPresenter extends Presenter
             $signForm->setDefaults([
                 'nick' => $this->appUser->nick,
             ]);
+
+            $this->template->galleryUnlocked = $this->galleryService->hasAccess($this->appUser);
         }
     }
 

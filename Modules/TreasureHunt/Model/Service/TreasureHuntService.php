@@ -59,7 +59,7 @@ class TreasureHuntService
         }
 
         return NavigationResultBuilder::redirect(Navigation::TARGET_NOTEBOOK_PAGE)
-            ->withArg('pageNumber', $context->activePage)
+            ->withArg('pageNumber', $context->activePage ?? $context->notebook->activePage)
             ->build();
     }
 }

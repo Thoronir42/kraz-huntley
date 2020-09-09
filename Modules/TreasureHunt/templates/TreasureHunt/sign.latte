@@ -36,9 +36,14 @@
                         </div>
                     {else}
                         <div class="card-footer text-center">
-                            <a n:href="Notebook:page" class="btn btn-primary">Pokračovat v lovu</a>
-                            <a n:href="signOut" class="btn btn-dark">Odhlásit se</a>
+                            <a n:href="Notebook:page" class="btn btn-primary mb-2">Pokračovat v lovu</a>
+                            <a n:href="signOut" class="btn btn-dark mb-2">Odhlásit se</a>
+                            <div n:if="$galleryUnlocked">
+                                <a n:href=":TreasureHuntGallery:Gallery:index" class="btn btn-outline-secondary mb-2">Galerie</a>
+                            </div>
                         </div>
+
+
                     {/if}
                 </div>
             {/form}

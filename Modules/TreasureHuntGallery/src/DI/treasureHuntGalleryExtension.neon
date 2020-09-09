@@ -1,0 +1,13 @@
+services:
+    # Repositories
+    challengeViewRepository: CP\TreasureHuntGallery\Model\Repository\ChallengeViewRepository
+
+    # Services
+    galleryService: CP\TreasureHuntGallery\Model\Services\GalleryService
+
+    # Executives
+    executivesModule:
+        class: CP\TreasureHuntGallery\Executives\GalleryExecutivesModule
+        tags:
+            executivesModule: thg
+

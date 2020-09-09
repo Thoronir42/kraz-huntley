@@ -3,6 +3,7 @@ parameters:
 application:
     mapping:
         TreasureHunt: CP\TreasureHunt\Presenters\*Presenter
+        TreasureHuntGallery: CP\TreasureHuntGallery\Presenters\*Presenter
 
 services:
     authenticator: App\Security\UserManager
@@ -16,6 +17,7 @@ services:
         arguments:
             appRouters:
                 - CP\TreasureHunt\TreasureHuntRouterFactory::create()
+                - CP\TreasureHuntGallery\TreasureHuntGalleryRouterFactory::create()
 
     leanMapper.mapper:
             class: SeStep\ModularLeanMapper\ModularMapper
@@ -25,6 +27,7 @@ services:
                     app__: SeStep\ModularLeanMapper\MapperModule::create('App\Model')
                     exe__: SeStep\ModularLeanMapper\MapperModule::create('SeStep\LeanExecutives')
                     th__: CP\TreasureHunt\Model\TreasureHuntMapperModule()
+                    thg__: SeStep\ModularLeanMapper\MapperModule::create('CP\TreasureHuntGallery\Model')
     transactionManager: App\LeanMapper\TransactionManager
 
     app.userRepository: App\Model\Repository\UserRepository
@@ -46,6 +49,7 @@ extensions:
     repositories: App\LeanMapper\RepositoryExtension
     idsExtension: SeStep\EntityIds\DI\EntityIdsExtension
     appTreasureHunt: CP\TreasureHunt\TreasureHuntExtension
+    appTreasureHuntGallery: CP\TreasureHuntGallery\DI\TreasureHuntGalleryExtension
     executives: SeStep\Executives\DI\ExecutivesExtension
     leanExecutives: SeStep\LeanExecutives\DI\LeanExecutivesExtension
     netteExecutives: SeStep\NetteExecutives\NetteExecutivesExtension
@@ -68,6 +72,8 @@ translation:
         - %modulesDir%/Executives/locale
         - %modulesDir%/NetteExecutives/locale
         - %modulesDir%/TreasureHunt/locale
+        - %modulesDir%/TreasureHuntGallery/locale
+
 
 repositories:
     idGenerator: idsExtensions.idGenerator
@@ -78,6 +84,7 @@ dbCli:
             - %appDir%/database/init.sql
             - %modulesDir%/LeanExecutives/database/init.sql
             - %modulesDir%/TreasureHunt/Model/database/init.sql
+            - %modulesDir%/TreasureHuntGallery/database/init.sql
     wipeCmd:
         schemaName: 'huntley'
 
