@@ -7,14 +7,19 @@ use App\Security\UserManager;
 use CP\TreasureHunt\Components\RegisterFormFactory;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use CP\TreasureHuntGallery\Model\Services\GalleryService;
+use DateTime;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
+use Nette\Http\Response;
 use Nette\Localization\ITranslator;
 use Nette\Security\AuthenticationException;
 
 class TreasureHuntPresenter extends Presenter
 {
     use HasAppUser;
+
+    /** @var bool @persistent */
+    public $debug = false;
 
     /** @var RegisterFormFactory @inject */
     public $registerFormFactory;
@@ -30,6 +35,23 @@ class TreasureHuntPresenter extends Presenter
 
     /** @var ITranslator @inject */
     public $translator;
+
+    public function checkRequirements($element): void
+    {
+        $launchDate = $this->context->parameters['appLaunchDate'];
+        if ($launchDate && new DateTime($launchDate) > new DateTime()) {
+            if ($this->action !== 'countdown' && !$this->debug) {
+                $this->getHttpResponse()->setCode(425);
+                $this->forward('countdown');
+            }
+        }
+    }
+
+    public function renderCountdown()
+    {
+        $this->layout = 'meta';
+        $this->template->appLaunchDate = new DateTime($this->context->parameters['appLaunchDate']);
+    }
 
     public function renderSign()
     {
