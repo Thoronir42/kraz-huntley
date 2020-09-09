@@ -39,7 +39,7 @@ challenge.answer: Odpověď
 
 tryAnswer: Zkusit heslo
 continue: Pokračovat
-inputBanActive: Stále jsem na cestě zpět
+inputBanActive: Stále jsem na cestě zpět. Znovu můžu zkoušet %remainingTime%.
 
 management:
     dashboard: Správa honu za pokladem

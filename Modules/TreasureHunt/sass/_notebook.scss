@@ -40,6 +40,7 @@
       text-decoration: none;
       background-color: rgba(255, 255, 255, 0.25);
     }
+
     .nb-page-link {
       display: inline-flex;
       width: 3em;
@@ -51,6 +52,17 @@
 
     .key {
       order: 2;
+    }
+  }
+
+  em[title] {
+    border-bottom: 1px dotted;
+
+    @media(hover: none) {
+      &:hover:after {
+        content: "( " attr(title) " )";
+        display: inline-block;
+      }
     }
   }
 }

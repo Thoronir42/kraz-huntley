@@ -157,7 +157,7 @@ class NotebookService
     {
         return $this->inputBanRepository->findOneBy([
             'notebookPage' => $page,
-            'activeUntil' => new Expression('>= ?', new DateTime()),
+            'activeUntil' => new Expression('> ?', new DateTime()),
         ]);
     }
 

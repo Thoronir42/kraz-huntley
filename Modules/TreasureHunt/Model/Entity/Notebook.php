@@ -41,6 +41,11 @@ class Notebook extends Entity
         return null;
     }
 
+    public function getCurrentPage(): NotebookPage
+    {
+        return $this->getPage($this->activePage);
+    }
+
     public function countPages(): int
     {
         return count($this->pages);

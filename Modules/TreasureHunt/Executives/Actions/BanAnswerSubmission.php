@@ -27,7 +27,7 @@ class BanAnswerSubmission implements Action, HasParamsSchema, ValidatesParams
     {
         $dateTime = new \DateTime($params['duration']);
 
-        $this->notebookService->addInputBan($context->currentPage, $dateTime);
+        $this->notebookService->addInputBan($context->notebook->currentPage, $dateTime);
 
         return ExecutionResultBuilder::ok()
             ->update('activePage', $context->notebook->activePage)

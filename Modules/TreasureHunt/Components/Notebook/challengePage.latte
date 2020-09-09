@@ -32,7 +32,9 @@
         </p>
     {elseif $inputBan}
         <div class="key">
-            {_'appTreasureHunt.inputBanActive'}
+            {capture $remainingTime}<em title="{$inputBan->activeUntil->format('H:i:s')}">{$inputBan->activeUntil|remainingTimeCzech}</em>{/capture}
+            {_'appTreasureHunt.inputBanActive', ['remainingTime' => $remainingTime]|noescape}
+
         </div>
     {elseif !$activeRevelationExists}
         {form keyForm, class => 'key'}
