@@ -6,6 +6,7 @@ use App\LeanMapper\Exceptions\ValidationException;
 use Dibi\Fluent;
 use Dibi\UniqueConstraintViolationException;
 use LeanMapper\Entity;
+use LeanMapper\Reflection\EntityReflection;
 use SeStep\EntityIds\IdGenerator;
 use SeStep\Typeful\Entity\TypefulEntity;
 use SeStep\Typeful\Validation\TypefulValidator;
@@ -74,6 +75,16 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         }
 
         return null;
+    }
+
+    public function count(array $conditions = []): int
+    {
+        $table = $this->getTable();
+        $primary = $this->mapper->getPrimaryKey($table);
+        $fluent = $this->connection->select('COUNT(%n)', $primary)->from($table);
+        $this->filter->apply($fluent, $conditions, $this->getEntityClass());
+
+        return $fluent->fetchSingle();
     }
 
     protected function select(?string $tableAlias = 't'): Fluent
@@ -220,6 +231,18 @@ class Repository extends \LeanMapper\Repository implements IQueryable
         $this->filter->apply($query, $conditions, $entityClass);
 
         return $query->fetchSingle() + 1;
+    }
+
+    protected function columnsByProperties(string ...$properties)
+    {
+        $columns = [];
+        /** @var EntityReflection $reflection */
+        $reflection = $this->getEntityClass()::getReflection($this->mapper);
+        foreach ($properties as $property) {
+            $columns[] = $reflection->getEntityProperty($property)->getColumn();
+        }
+
+        return $columns;
     }
 
     public function persistMany(array $entities)
