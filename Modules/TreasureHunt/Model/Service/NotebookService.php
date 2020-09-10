@@ -88,6 +88,11 @@ class NotebookService
         });
     }
 
+    public function findNotebook(string $id): ?Notebook
+    {
+        return $this->notebookRepository->find($id);
+    }
+
     public function activateChallengePage(Notebook $notebook, Challenge $challenge): ?int
     {
         return $this->transactionManager->execute(function () use ($notebook, $challenge) {
@@ -225,6 +230,13 @@ class NotebookService
         }
 
         return $result;
+    }
+
+    public function getPagesDataSource(Notebook $notebook)
+    {
+        return $this->notebookPageRepository->getEntityDataSource([
+            'notebook' => $notebook,
+        ]);
     }
 
 }

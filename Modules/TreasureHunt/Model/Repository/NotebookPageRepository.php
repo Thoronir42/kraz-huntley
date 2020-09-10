@@ -6,6 +6,7 @@ use App\LeanMapper\Repository;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\Notebook;
 use CP\TreasureHunt\Model\Entity\NotebookPage;
+use DateTime;
 use Dibi\Expression;
 
 class NotebookPageRepository extends Repository
@@ -28,6 +29,7 @@ class NotebookPageRepository extends Repository
         $page->pageNumber = $this->getNextInSequence('pageNumber', ['notebook' => $notebook], NotebookPage::class);
         $page->type = $type;
         $page->params = $params;
+        $page->discoveredOn = new DateTime();
 
         $this->persist($page);
 

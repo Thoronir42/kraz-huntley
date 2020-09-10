@@ -39,7 +39,6 @@ class InitializeNotebookAction implements Action
         }
 
         $result = $this->activateChallenge($context, $params['challengeId']);
-        bdump($result);
 
         return ExecutionResultBuilder::ok()
             ->create();

@@ -54,11 +54,12 @@ CREATE TABLE th__notebook
 
 CREATE TABLE th__notebook_page
 (
-    id          varchar(6)   NOT NULL,
-    notebook_id varchar(6)   NOT NULL,
-    page_number INT UNSIGNED NOT NULL,
-    type        VARCHAR(24)  NOT NULL,
-    params      TEXT         NOT NULL,
+    id            varchar(6)   NOT NULL,
+    notebook_id   varchar(6)   NOT NULL,
+    page_number   INT UNSIGNED NOT NULL,
+    type          VARCHAR(24)  NOT NULL,
+    params        TEXT         NOT NULL,
+    discovered_on DATETIME     NULL,
 
     CONSTRAINT `th__notebook_page_pk` PRIMARY KEY (id),
     CONSTRAINT `th_notebook_page_to_notebook_fk` FOREIGN KEY

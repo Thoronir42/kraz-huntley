@@ -4,9 +4,13 @@ namespace CP\TreasureHunt\Presenters;
 
 
 use App\Grid\MappingDataSource;
+use CP\TreasureHunt\Components\Notebook\ChallengePage;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\InputBan;
 use CP\TreasureHunt\Model\Entity\Notebook;
+use CP\TreasureHunt\Model\Entity\NotebookPage;
+use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
+use CP\TreasureHunt\Model\Repository\ChallengeRepository;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\Html;
@@ -17,6 +21,9 @@ class PlayersPresenter extends Presenter
 
     /** @var NotebookService @inject */
     public $notebookService;
+
+    /** @var ChallengeRepository @inject */
+    public $challengeRepository;
 
     protected function beforeRender()
     {
@@ -47,10 +54,50 @@ class PlayersPresenter extends Presenter
             ];
         }));
 
+        /** @var DataGrid $notebooksGrid */
         $notebooksGrid = $this['notebooksGrid'];
 
         $notebooksGrid->setDataSource($dataSource);
+        $notebooksGrid->addAction('detail', 'Detail', 'detail');
+    }
 
+    public function renderDetail(string $id)
+    {
+        $notebook = $this->notebookService->findNotebook($id);
+        $hunter = $notebook->user;
+
+        $this->template->hunter = $hunter;
+
+        /** @var DataGrid $playerChallengesGrid */
+        $playerChallengesGrid = $this['playerChallengesGrid'];
+        $pagesDataSource = $this->notebookService->getPagesDataSource($notebook);
+        $mappedDataSource = new MappingDataSource($pagesDataSource,
+            \Closure::fromCallable(function (NotebookPage $page, $id, $related) use ($notebook) {
+                return [
+                    'id' => $id,
+                    'pageNumber' => $page->pageNumber,
+                    'active' => $page->pageNumber === $notebook->activePage,
+                    'page' => $page,
+                    'challenge' => $related['challenges'][$id] ?? null,
+                    'discoverdOn' => $page->discoveredOn,
+                ];
+            }));
+        $mappedDataSource->setLoadRelatedData(function ($pages) {
+            $challengeIds = [];
+            foreach ($pages as $page) {
+                if ($page instanceof NotebookPageChallenge) {
+                    $challengeIds[$page->id] = $page->getChallengeId();
+                }
+            }
+
+            return [
+                'challenges' => $this->challengeRepository->browse($challengeIds),
+            ];
+        });
+
+        $playerChallengesGrid->setDataSource($mappedDataSource);
+
+        $playerChallengesGrid->setPagination(false);
     }
 
     public function createComponentNotebooksGrid()
@@ -90,6 +137,43 @@ class PlayersPresenter extends Presenter
 
             return $content;
         });
+
+        return $grid;
+    }
+
+    public function createComponentPlayerChallengesGrid()
+    {
+        $grid = new DataGrid();
+        $grid->addColumnNumber('number', 'Č. stránky', 'pageNumber')
+            ->setRenderer(function ($row) {
+                $content = Html::el('div', $row['pageNumber']);
+                if ($row['active']) {
+                    $content->addHtml(Html::el('small', " (aktivní)"));
+                }
+                return $content;
+            });
+        $grid->addColumnText('type', 'Typ')->setRenderer(function ($row) {
+            return $row['page']->type;
+        });
+        $grid->addColumnText('details', 'Podrobnosti')->setRenderer(function ($row) {
+            $page = $row['page'];
+            $content = Html::el('div');
+            if ($page instanceof NotebookPageChallenge) {
+                /** @var Challenge $challenge */
+                $challenge = $row['challenge'];
+                $challengeLink = Html::el('a', "({$challenge->code})");
+                $challengeLink->addAttributes([
+                    'class' => 'pr-2',
+                    'href' => $this->link('Challenges:detail', $challenge->id),
+                ]);
+                $content->addHtml($challengeLink);
+                $content->addHtml(Html::el('span', $challenge->title));
+            }
+
+            return $content;
+        });
+        $grid->addColumnDateTime('discoverdOn', 'Odhalena')
+            ->setFormat('d.m. H:i:s');
 
         return $grid;
     }

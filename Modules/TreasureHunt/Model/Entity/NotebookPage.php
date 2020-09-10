@@ -2,6 +2,7 @@
 
 namespace CP\TreasureHunt\Model\Entity;
 
+use DateTime;
 use LeanMapper\Entity;
 
 /**
@@ -12,6 +13,7 @@ use LeanMapper\Entity;
  * @property int $pageNumber
  * @property string $type m:enum(self::TYPE_*)
  * @property array $params
+ * @property DateTime|null $discoveredOn
  *
  * @property InputBan[] $inputBans m:belongsToMany(notebook_page_id)
  */
