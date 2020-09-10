@@ -6,6 +6,8 @@ use Nette\Application\UI\Presenter;
 
 class ManagementPresenter extends Presenter
 {
+    use Traits\ProtectManagement;
+
     public function actionDashboard()
     {
 

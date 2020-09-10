@@ -20,6 +20,7 @@ use Ublaboo\DataGrid\DataGrid;
 
 class PlayersPresenter extends Presenter
 {
+    use Traits\ProtectManagement;
 
     /** @var NotebookService @inject */
     public $notebookService;

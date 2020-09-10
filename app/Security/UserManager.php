@@ -30,6 +30,14 @@ class UserManager implements IAuthenticator
     }
 
     /**
+     * @param string[] $powerUsers
+     */
+    public function setPowerUsers(array $powerUsers): void
+    {
+        $this->powerUsers = $powerUsers;
+    }
+
+    /**
      * @inheritDoc
      */
     public function authenticate(array $credentials): IIdentity

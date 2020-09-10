@@ -13,6 +13,8 @@ use Nette\Application\UI\Presenter;
 
 class NarrativesPresenter extends Presenter
 {
+    use Traits\ProtectManagement;
+
     /** @var NarrativesService @inject */
     public $narrativesService;
     /** @var ChallengesService @inject */

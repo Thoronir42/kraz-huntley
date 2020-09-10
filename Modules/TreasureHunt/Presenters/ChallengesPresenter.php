@@ -18,6 +18,8 @@ use SeStep\NetteTypeful\Forms\PropertyControlFactory;
 
 class ChallengesPresenter extends Presenter
 {
+    use Traits\ProtectManagement;
+
     /** @var ChallengesService @inject */
     public $challengesService;
 

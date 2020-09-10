@@ -1,5 +1,6 @@
 parameters:
     appLaunchDate: '2020-09-10 21:00'
+    powerUsers: []
 
 application:
     mapping:
@@ -7,7 +8,10 @@ application:
         TreasureHuntGallery: CP\TreasureHuntGallery\Presenters\*Presenter
 
 services:
-    authenticator: App\Security\UserManager
+    authenticator:
+        class: App\Security\UserManager
+        setup:
+            - setPowerUsers(%powerUsers%)
     router: @routerFactory::create
     latte.latteFactory:
         setup:

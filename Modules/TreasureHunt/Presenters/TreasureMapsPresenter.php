@@ -17,6 +17,7 @@ use SeStep\NetteTypeful\Forms\EntityFormPopulator;
 
 class TreasureMapsPresenter extends Presenter
 {
+    use Traits\ProtectManagement;
 
     /** @var EntityGridFactory @inject */
     public $entityGridFactory;
