@@ -68,4 +68,10 @@ class UserManager implements IAuthenticator
 
         return true;
     }
+
+    public function updatePassword(User $user, string $pass)
+    {
+        $user->pass = $this->passwords->hash($pass);
+        $this->userRepository->persist($user);
+    }
 }

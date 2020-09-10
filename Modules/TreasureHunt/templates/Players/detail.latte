@@ -3,9 +3,23 @@
 <div class="card">
     <div class="card-header">
         <h1>Lovec '{$hunter->nick}'</h1>
+        <div class="nav nav-tabs card-header-tabs">
+            <a class="nav-item nav-link active" id="nav-notebook-tab" data-toggle="tab" href="#nav-notebook" role="tab">
+                Stránky deníku
+            </a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-settings" role="tab">
+                Nastavení
+            </a>
+        </div>
     </div>
     <div class="card-body">
-        <h2>Stránky deníku</h2>
-        {control playerChallengesGrid}
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-notebook" role="tabpanel" aria-labelledby="nav-notebook-tab">
+                {control playerChallengesGrid}
+            </div>
+            <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                {control setPasswordForm}
+            </div>
+        </div>
     </div>
 </div>

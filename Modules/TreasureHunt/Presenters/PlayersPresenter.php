@@ -4,7 +4,8 @@ namespace CP\TreasureHunt\Presenters;
 
 
 use App\Grid\MappingDataSource;
-use CP\TreasureHunt\Components\Notebook\ChallengePage;
+use App\Security\UserManager;
+use CP\TreasureHunt\Controls\EmojiMatrixControl;
 use CP\TreasureHunt\Model\Entity\Challenge;
 use CP\TreasureHunt\Model\Entity\InputBan;
 use CP\TreasureHunt\Model\Entity\Notebook;
@@ -13,6 +14,7 @@ use CP\TreasureHunt\Model\Entity\NotebookPageChallenge;
 use CP\TreasureHunt\Model\Repository\ChallengeRepository;
 use CP\TreasureHunt\Model\Service\NotebookService;
 use Nette\Application\UI\Presenter;
+use Nette\Application\UI\Form;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -24,6 +26,9 @@ class PlayersPresenter extends Presenter
 
     /** @var ChallengeRepository @inject */
     public $challengeRepository;
+
+    /** @var UserManager @inject */
+    public $userManager;
 
     protected function beforeRender()
     {
@@ -61,7 +66,7 @@ class PlayersPresenter extends Presenter
         $notebooksGrid->addAction('detail', 'Detail', 'detail');
     }
 
-    public function renderDetail(string $id)
+    public function actionDetail(string $id)
     {
         $notebook = $this->notebookService->findNotebook($id);
         $hunter = $notebook->user;
@@ -98,6 +103,15 @@ class PlayersPresenter extends Presenter
         $playerChallengesGrid->setDataSource($mappedDataSource);
 
         $playerChallengesGrid->setPagination(false);
+
+        /** @var Form $setPasswordForm */
+        $setPasswordForm = $this['setPasswordForm'];
+        $setPasswordForm->onSuccess[] = function ($form, $values) use ($hunter) {
+            $pass = implode('-', $values['password']);
+            $this->userManager->updatePassword($hunter, $pass);
+            $this->flashMessage('Heslo nastaveno');
+            $this->redirect('this');
+        };
     }
 
     public function createComponentNotebooksGrid()
@@ -176,5 +190,14 @@ class PlayersPresenter extends Presenter
             ->setFormat('d.m. H:i:s');
 
         return $grid;
+    }
+
+    public function createComponentSetPasswordForm()
+    {
+        $form = new Form();
+        $form['password'] = new EmojiMatrixControl('Nové heslo');
+        $form->addSubmit('save');
+
+        return $form;
     }
 }
