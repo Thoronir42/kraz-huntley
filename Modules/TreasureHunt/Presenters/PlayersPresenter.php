@@ -75,7 +75,12 @@ class PlayersPresenter extends Presenter
             /** @var InputBan $inputBan */
             $inputBan = $row['inputBan'];
             $content = Html::el('div');
-            $content->addHtml(Html::el('small', $challenge->code));
+            $challengeLink = Html::el('a', "({$challenge->code})");
+            $challengeLink->addAttributes([
+                'class' => 'pr-2',
+                'href' => $this->link('Challenges:detail', $challenge->id),
+            ]);
+            $content->addHtml($challengeLink);
             $content->addHtml(Html::el('span', $challenge->title));
             if ($inputBan) {
                 $content->addHtml(Html::el('br'));
