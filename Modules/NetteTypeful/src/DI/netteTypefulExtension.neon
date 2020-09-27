@@ -1,7 +1,0 @@
-typeful:
-    types:
-        file:
-            class: SeStep\NetteTypeful\Types\FileType
-            netteControlFactory: SeStep\NetteTypeful\Forms\StandardControlsFactory::createFile
-
-

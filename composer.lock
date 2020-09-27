@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83bf589ec54654472d105f2bb39dd0b8",
+    "content-hash": "9657010a7174077ad6e41dc7fc7390b2",
     "packages": [
         {
             "name": "contributte/application",
@@ -1768,6 +1768,96 @@
             ],
             "description": "Tharos\\LeanMapper implementation supporting entities in various namespaced modules",
             "time": "2019-06-21T01:05:13+00:00"
+        },
+        {
+            "name": "sestep/nette-typeful",
+            "version": "v0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SeStep/nette-typeful.git",
+                "reference": "624804915e85caace62b4dd97ae058fce7ca213f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SeStep/nette-typeful/zipball/624804915e85caace62b4dd97ae058fce7ca213f",
+                "reference": "624804915e85caace62b4dd97ae058fce7ca213f",
+                "shasum": ""
+            },
+            "require": {
+                "nette/forms": "^3.0",
+                "php": "^7.3",
+                "sestep/typeful": "^0.5.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "suggest": {
+                "nette/di": "For simpler integration into Nette DI based applications",
+                "ublaboo/datagrid": "To generate grids from typeful information"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeStep\\NetteTypeful\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Štěpán Śevčík",
+                    "email": "Thoronir42@Gmail.com"
+                }
+            ],
+            "description": "Extension of Typeful package for Nette framework",
+            "time": "2020-09-27T12:58:40+00:00"
+        },
+        {
+            "name": "sestep/typeful",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SeStep/typeful.git",
+                "reference": "41b28db6d3f28d59701bb4456e2740e380629e54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SeStep/typeful/zipball/41b28db6d3f28d59701bb4456e2740e380629e54",
+                "reference": "41b28db6d3f28d59701bb4456e2740e380629e54",
+                "shasum": ""
+            },
+            "require": {
+                "nette/schema": "^1.0.2",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "contributte/console": "^0.8.0",
+                "phpunit/phpunit": "^9"
+            },
+            "suggest": {
+                "contributte/console": "CLI commands for interaction with Typeful",
+                "nette/di": "Straightforward integration to Nette DI based applications"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeStep\\Typeful\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Štěpán Śevčík",
+                    "email": "Thoronir42@Gmail.com"
+                }
+            ],
+            "description": "Generic approach to entity and property description",
+            "time": "2020-09-27T12:42:05+00:00"
         },
         {
             "name": "symfony/config",

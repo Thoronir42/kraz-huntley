@@ -73,7 +73,7 @@ translation:
         default: cs
     dirs:
         - %appDir%/locale
-        - %modulesDir%/Typeful/locale
+        - %vendorDir%/SeStep/Typeful/locale
         - %modulesDir%/Executives/locale
         - %modulesDir%/NetteExecutives/locale
         - %modulesDir%/TreasureHunt/locale

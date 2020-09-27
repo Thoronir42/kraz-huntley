@@ -29,6 +29,8 @@
         "nette/security": "^3.0",
         "sestep/entity-ids": "^0.9",
         "sestep/modular-lean-mapper": "dev-master",
+        "sestep/nette-typeful": "^0.5",
+        "sestep/typeful": "^0.5.1",
         "tharos/leanmapper": "^3.4",
         "tracy/tracy": "^2.7",
         "ublaboo/datagrid": "6.2.26"
@@ -45,8 +47,6 @@
             "SeStep\\Executives\\": "Modules/Executives/src/",
             "SeStep\\LeanExecutives\\": "Modules/LeanExecutives/src/",
             "SeStep\\NetteExecutives\\": "Modules/NetteExecutives/src/",
-            "SeStep\\Typeful\\": "Modules/Typeful/src/",
-            "SeStep\\NetteTypeful\\": "Modules/NetteTypeful/src/",
 
             "Data\\Huntley\\": "data/huntley/"
         }
@@ -54,9 +54,7 @@
     "autoload-dev": {
         "psr-4": {
             "CP\\TreasureHunt\\": "tests/Modules/TreasureHunt",
-            "SeStep\\Executives\\": "Modules/Executives/test/",
-            "SeStep\\Typeful\\": "Modules/Typeful/test/",
-            "SeStep\\NetteTypeful\\": "Modules/NetteTypeful/test/"
+            "SeStep\\Executives\\": "Modules/Executives/test/"
         }
     },
     "config": {
